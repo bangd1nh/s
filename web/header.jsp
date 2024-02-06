@@ -28,18 +28,17 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="productServlet">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="trangchu.jsp">Home</a></li>
                         <c:choose>
-                            <c:when test="${empty sessionScope.username}">
+                            <c:when test="${empty sessionScope.loggedInUser}">
                                 <li class="nav-item"><a class="nav-link" href="loginform.jsp">login</a></li>
                                 <li class="nav-item"><a class="nav-link" href="register.jsp">register</a></li>
                             </c:when>
                             <c:otherwise>
-                                
-                                <li class="nav-item"><a class="nav-link">Welcome ${sessionScope.username}</a></li>
-                                <li class="nav-item"><a class="nav-link">$${sessionScope.credit}</a></li>
+                                <li class="nav-item"><a class="nav-link">Welcome ${sessionScope.loggedInUser.getUserName()}</a></li>
+                                <li class="nav-item"><a class="nav-link">$${sessionScope.loggedInUser.getBalance()}</a></li>
                                 <li class="nav-item"><a class="nav-link" href="logoutServlet">logout</a></li>
-                                <c:if test="${sessionScope.role == 'a'}">
+                                <c:if test="${sessionScope.LoggedInUser.getUserType == 'LandLord'}">
                                 <li class="nav-item"><a class="nav-link" href="managerPageServlet">manager page</a></li>
                                 </c:if>
                             </c:otherwise>

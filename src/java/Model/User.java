@@ -16,8 +16,9 @@ public class User {
     private String fristName;
     private String lastName;
     private String userType;
+    private double balance;
 
-    public User(int userID, String userName, String password, String email, String fristName, String lastName, String userType) {
+    public User(int userID, String userName, String password, String email, String fristName, String lastName, String userType, double balance) {
         this.userID = userID;
         this.userName = userName;
         this.password = password;
@@ -25,8 +26,8 @@ public class User {
         this.fristName = fristName;
         this.lastName = lastName;
         this.userType = userType;
+        this.balance = balance;
     }
-
     public User() {
     }
 
@@ -85,5 +86,19 @@ public class User {
     public void setUserType(String userType) {
         this.userType = userType;
     }
-    
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "userID=" + userID + ", userName=" + userName + ", password=" + password + ", email=" + email + ", fristName=" + fristName + ", lastName=" + lastName + ", userType=" + userType + ", balance=" + balance + '}';
+    }
+
+   
 }

@@ -27,7 +27,7 @@
                                     <label for="floatingInput">Email address</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                                    <input type="password" class="form-control" id="floatingPassword" placeholder="password" name ="pass">
                                     <label for="floatingPassword">Password</label>
                                 </div>
 
@@ -47,7 +47,7 @@
                                         <i class="fab fa-google me-2"></i> Sign in with Google
                                     </button>
                                 </div>
-                                
+                                ${requestScope.loginMessage}
                             </form>
                         </div>
                     </div>
