@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 public class UserDAL {
 
     private static final String LOGIN = "SELECT * FROM.[Users] where Email=? and Password=?";
+    private static final String GETUSERNAMEBYID="SELECT Username FROM.[Users] Where UserID=?";
 
     public static User userLogin(String email, String password) {
         PreparedStatement ptm = null;
@@ -40,15 +41,35 @@ public class UserDAL {
                 }
             }
         } catch (Exception e) {
-             e.printStackTrace();
+            e.printStackTrace();
         }
         return user;
     }
 
+    public static String getUserByID(int userID) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        String userName = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETUSERNAMEBYID);
+                ptm.setInt(1, userID);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    userName = rs.getString("Username");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userName;
+    }
     public static void main(String[] args) {
-        User user = userLogin("dinhbang121@gmail.com","123");
-        if(user==null){
+        User user = userLogin("dinhbang121@gmail.com", "123");
+        if (user == null) {
             System.out.println("null");
-        }else System.out.println("not null");
+        } else {
+            System.out.println("not null");
+        }
     }
 }

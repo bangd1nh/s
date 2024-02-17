@@ -11,6 +11,7 @@ import java.sql.Timestamp;
  * @author admin
  */
 public class Listings {
+
     private int listingID;
     private int landlordID;
     private String contactEmail;
@@ -19,16 +20,37 @@ public class Listings {
     private String title;
     private String imgsrc;
     private String location;
+    private String description;
 
     public Listings() {
     }
 
+    public Listings(int listingID, int landlordID, String contactEmail, String contactPhone, Timestamp createAt, String title, String imgsrc, String location, String description) {
+        this.listingID = listingID;
+        this.landlordID = landlordID;
+        this.contactEmail = contactEmail;
+        this.contactPhone = contactPhone;
+        this.createAt = createAt;
+        this.title = title;
+        this.imgsrc = imgsrc;
+        this.location = location;
+        this.description = description;
+    }
+
     @Override
     public String toString() {
-        return "Listings{" + "listingID=" + listingID + ", landlordID=" + landlordID + ", contactEmail=" + contactEmail + ", contactPhone=" + contactPhone + ", createAt=" + createAt + ", title=" + title + ", imgsrc=" + imgsrc + '}';
+        return "Listings{" + "listingID=" + listingID + ", landlordID=" + landlordID + ", contactEmail=" + contactEmail + ", contactPhone=" + contactPhone + ", createAt=" + createAt + ", title=" + title + ", imgsrc=" + imgsrc + ", location=" + location + ", description=" + description + '}';
     }
 
 
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getTitle() {
         return title;
@@ -43,17 +65,6 @@ public class Listings {
     }
 
     public void setImgsrc(String imgsrc) {
-        this.imgsrc = imgsrc;
-    }
-
-
-    public Listings(int listingID, int landlordID, String contactEmail, String contactPhone, Timestamp createAt, String title, String imgsrc) {
-        this.listingID = listingID;
-        this.landlordID = landlordID;
-        this.contactEmail = contactEmail;
-        this.contactPhone = contactPhone;
-        this.createAt = createAt;
-        this.title = title;
         this.imgsrc = imgsrc;
     }
 
@@ -104,5 +115,5 @@ public class Listings {
     public void setLocation(String location) {
         this.location = location;
     }
-    
+
 }
