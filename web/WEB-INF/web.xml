@@ -12,6 +12,14 @@
         <servlet-name>logoutServlet</servlet-name>
         <servlet-class>Controller.logoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListingsServlet</servlet-name>
+        <servlet-class>Controller.ListingsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewdetailServlet</servlet-name>
+        <servlet-class>Controller.ViewdetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -24,12 +32,20 @@
         <servlet-name>logoutServlet</servlet-name>
         <url-pattern>/logoutServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListingsServlet</servlet-name>
+        <url-pattern>/ListingsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewdetailServlet</servlet-name>
+        <url-pattern>/ViewdetailServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>trangchu.jsp</welcome-file>
+        <welcome-file>ListingsServlet</welcome-file>
     </welcome-file-list>
 </web-app>
