@@ -5,6 +5,7 @@
 package Controller;
 
 import Model.ApartmentInfo;
+import Model.Comment;
 import Model.Listings;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,6 +64,8 @@ public class Listingdetail extends HttpServlet {
             request.setAttribute("listingDetail", l);
             ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
             request.setAttribute("appList", appList);
+            ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID);
+            request.setAttribute("commentList", commentList);
             request.getRequestDispatcher("detail.jsp").forward(request, response);
     }
 

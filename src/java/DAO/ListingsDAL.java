@@ -17,7 +17,7 @@ import java.sql.Connection;
  */
 public class ListingsDAL {
 
-    private static final String GETALLLISTINGS = "SELECT ListingID,Title,CreatedAt,imgsrc,Location From.[Listings]";
+    private static final String GETALLLISTINGS = "SELECT ListingID,Title,CreatedAt,imgsrc,Location,LandlordID From.[Listings]";
     private static final String GETLISTINGSBYID = "SELECT * From.[Listings] Where ListingID=?";
 
     public static ArrayList<Listings> getAllListings() {
@@ -35,6 +35,7 @@ public class ListingsDAL {
                     l.setTitle(rs.getString("Title"));
                     l.setImgsrc(rs.getString("imgsrc"));
                     l.setLocation(rs.getString("Location"));
+                    l.setLandlordID(rs.getInt("LandlordID"));
                     list.add(l);
                 }
             }

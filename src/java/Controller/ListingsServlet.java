@@ -58,7 +58,13 @@ public class ListingsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
-        request.setAttribute("list", list);
+        request.setAttribute("listingsList", list);
+//        ArrayList<String> userNameList = new ArrayList<>();
+//        for(Listings l : list){
+//            String uname = DAO.UserDAL.getUserByID(l.getLandlordID());
+//            userNameList.add(uname);
+//        }
+//        request.setAttribute("userNameList", userNameList);
         request.getRequestDispatcher("trangchu.jsp").forward(request, response);
     }
 
