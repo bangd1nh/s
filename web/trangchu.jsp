@@ -4,9 +4,6 @@
     Author     : admin
 --%>
 
-<%@page import="java.util.List"%>
-<%@page import="Model.User"%>
-<%@page import="Model.User"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Model.Listings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -52,18 +49,18 @@
             </div>
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-5">
-                    <c:if test="${empty listingsList}">
+                    <c:if test="${empty list}">
                         <p>empty</p>
                     </c:if>
-                    <c:if test="${not empty listingsList}">
-                        <c:forEach var="i" begin="0" end="${listingsList.size()-1}" varStatus="loop">
+                    <c:if test="${not empty list}">
+                        <c:forEach var="i" begin="0" end="${list.size()-1}" varStatus="loop">
                             <div class="col-lg-4 mb-5">
                                 <div class="card h-100 shadow border-0">
-                                    <img class=" custom-size img-fluid" src="${listingsList.get(i).getImgsrc()}" alt="..." />
+                                    <img class=" custom-size img-fluid" src="${list.get(i).getImgsrc()}" alt="..." />
                                     <div class="card-body p-4">
-                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">${listingsList.get(i).getCreateAt()}</div>
-                                        <a class="text-decoration-none link-dark stretched-link" href="Listingdetail?listingID=${listingsList.get(i).getListingID()}"><h5 class="card-title mb-3">${list.get(i).getTitle()}</h5></a>
-                                        <p class="card-text mb-0">${listingsList.get(i).getLocation()}</p>
+                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">${list.get(i).getListingID()}</div>
+                                        <a class="text-decoration-none link-dark stretched-link" href="Listingdetail?listingID=${list.get(i).getListingID()}"><h5 class="card-title mb-3">${list.get(i).getTitle()}</h5></a>
+                                        <p class="card-text mb-0">${list.get(i).getLocation()}</p>
                                     </div>
                                     <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                                         <div class="d-flex align-items-end justify-content-between">
@@ -71,17 +68,7 @@
                                                 <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
                                                 <div class="small">
                                                     <div class="fw-bold">
-                                                        <%
-//                                                            int userID = listingsList.get(i).getLandlordID();
-//                                                            String userName = ""; // Đặt tên mặc định nếu không tìm thấy User
-//                                                            List<String> userList = (List<String>) request.getAttribute("userNameList"); // Lấy danh sách User từ Servlet
-//                                                            for (String user : userList) {
-//                                                                if (user.getUserID() == userID) {
-//                                                                    userName = user.getUserName();
-//                                                                    break;
-//                                                                }
-//                                                            }
-                                                        %>
+                                                        user Name
                                                     </div>
                                                     <div class="text-muted">${list.get(i).getCreateAt()}</div>
                                                 </div>
