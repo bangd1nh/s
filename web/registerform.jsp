@@ -50,24 +50,21 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-4 d-flex align-items-center">
                                             <div class="form-outline datepicker w-100">
-                                                <input type="date" class="form-control form-control-lg" id="birthdayDate" name="dob"/>
-                                                <label for="birthdayDate" class="form-label">Birthday</label>
+                                                <input type="text" class="form-control form-control-lg" id="birthdayDate" name="username"/>
+                                                <label for="birthdayDate" class="form-label">User Name</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-4">
-
                                             <h6 class="mb-2 pb-1">USER TYPE: </h6>
-
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="usertype" id="landlord"
-                                                       value="landlord" required="required" />
-                                                <label class="form-check-label" for="landlord">Landlord</label>
+                                                       value="Landlord" required="required" />
+                                                <label class="form-check-label" for="Landlord">Landlord</label>
                                             </div>
-
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="usertype" id="maleGender"
-                                                       value="tenant" />
-                                                <label class="form-check-label" for="tenant">Tenant</label>
+                                                       value="Tenant" />
+                                                <label class="form-check-label" for="Tenant">Tenant</label>
                                             </div>
                                         </div>
                                     </div>
@@ -93,7 +90,6 @@
                                     <div class="mt-4 pt-2">
                                         <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
                                     </div>
-
                                 </form>
                             </div>
                         </div>

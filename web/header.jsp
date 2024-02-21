@@ -27,7 +27,7 @@
                         <c:choose>
                             <c:when test="${empty sessionScope.loggedInUser}">
                                 <li class="nav-item"><a class="nav-link" href="loginform.jsp">login</a></li>
-                                <li class="nav-item"><a class="nav-link" href="register.jsp">register</a></li>
+                                <li class="nav-item"><a class="nav-link" href="registerform.jsp">register</a></li>
                             </c:when>
                             <c:otherwise>
                                 <li class="nav-item"><a class="nav-link">Welcome ${sessionScope.loggedInUser.getUserName()}</a></li>
@@ -39,7 +39,7 @@
                             </c:otherwise>
                         </c:choose>
                     </ul>
-                        <button class="btn btn-outline-dark" type="submit">
+                        <button class="btn btn-outline-dark bi-plus" type="submit">
                             <i class=" me-1"></i>
                             Dang bai viet
                             <span class="badge bg-dark text-white ms-1 rounded-pill"></span>

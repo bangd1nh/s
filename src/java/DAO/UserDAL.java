@@ -18,6 +18,7 @@ public class UserDAL {
 
     private static final String LOGIN = "SELECT * FROM.[Users] where Email=? and Password=?";
     private static final String GETUSERNAMEBYID="SELECT Username FROM.[Users] Where UserID=?";
+    private static final String INSERTUSER="INSERT INTO Users (Username, Email, FirstName, LastName, Password, UserType) VALUES (?,?,?,?,?,?);";
 
     public static User userLogin(String email, String password) {
         PreparedStatement ptm = null;
@@ -64,12 +65,37 @@ public class UserDAL {
         }
         return userName;
     }
-    public static void main(String[] args) {
-        User user = userLogin("dinhbang121@gmail.com", "123");
-        if (user == null) {
-            System.out.println("null");
-        } else {
-            System.out.println("not null");
+    
+    public static boolean InsertUser(User user) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(INSERTUSER);
+                ptm.setString(1, user.getUserName());
+                ptm.setString(2, user.getEmail());
+                ptm.setString(3, user.getFristName());
+                ptm.setString(4, user.getLastName());
+                ptm.setString(5, user.getPassword());
+                ptm.setString(6, user.getUserType());
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
+    }
+    public static void main(String[] args) {
+        User u = new User();
+        u.setEmail("bang@gmail.com");
+        u.setFristName("bang");
+        u.setLastName("dinh");
+        u.setPassword("123");
+        u.setUserType("Landlord");
+        u.setUserName("bang123");
+        if(InsertUser(u)){
+            System.out.println("true");
+        }else System.out.println("flase");
     }
 }

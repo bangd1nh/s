@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author admin
  */
-public class ResigterServlet extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,19 +29,26 @@ public class ResigterServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Resigter</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Resigter at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String firstName = request.getParameter("firstname");
+        String lastName = request.getParameter("lastname");
+        String userType = request.getParameter("usertype");
+        String email = request.getParameter("email");
+        String userName = request.getParameter("username");
+        String password = request.getParameter("password");
+        User u = new User();
+        u.setFristName(firstName);
+        u.setLastName(lastName);
+        u.setUserType(userType);
+        u.setEmail(email);
+        u.setUserName(userName);
+        u.setPassword(password);
+        request.setAttribute("tk", u);
+        if(DAO.UserDAL.InsertUser(u)){
+            request.setAttribute("message", "dang ky thanh cong");
+        }else{
+            request.setAttribute("message", "dang ky that bai");
         }
+        request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -74,11 +81,22 @@ public class ResigterServlet extends HttpServlet {
         String lastName = request.getParameter("lastname");
         String userType = request.getParameter("usertype");
         String email = request.getParameter("email");
+        String userName = request.getParameter("username");
+        String password = request.getParameter("password");
         User u = new User();
-        u.setUserName(firstName);
+        u.setFristName(firstName);
         u.setLastName(lastName);
         u.setUserType(userType);
         u.setEmail(email);
+        u.setUserName(userName);
+        u.setPassword(password);
+        request.setAttribute("tk", u);
+        if(DAO.UserDAL.InsertUser(u)){
+            request.setAttribute("message", "dang ky thanh cong");
+        }else{
+            request.setAttribute("message", "dang ky that bai");
+        }
+        request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 
     /**

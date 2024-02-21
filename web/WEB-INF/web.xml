@@ -25,8 +25,8 @@
         <servlet-class>Controller.Listingdetail</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Resigter</servlet-name>
-        <servlet-class>Controller.ResigterServlet</servlet-class>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>Controller.RegisterServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
@@ -53,8 +53,8 @@
         <url-pattern>/Listingdetail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Resigter</servlet-name>
-        <url-pattern>/Resigter</url-pattern>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/RegisterServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

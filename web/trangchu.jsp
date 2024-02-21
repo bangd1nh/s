@@ -28,6 +28,20 @@
                 object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
             }
         </style>
+        <script type="text/javascript">
+            // Hàm kiểm tra và hiển thị popup
+            function showPopup() {
+                var message = '<%= request.getAttribute("message")%>';
+                if (message && message !== 'null') {
+                    alert(message);
+                }
+            }
+
+            // Gọi hàm showPopup khi trang JSP được tải
+            window.onload = function () {
+                showPopup();
+            };
+        </script>
     </head>
     <body>
         <header> <%@include file="header.jsp"%></header>
@@ -45,7 +59,7 @@
                 </div>
             </div>
             <div>
-                ${requestScope.message}
+                ${requestScope.tk.toString()}
             </div>
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-5">
