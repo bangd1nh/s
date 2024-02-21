@@ -39,13 +39,11 @@
                             </c:otherwise>
                         </c:choose>
                     </ul>
-<!--                    <form class="d-flex" action="cartServlet">
                         <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
+                            <i class=" me-1"></i>
+                            Dang bai viet
                             <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
                         </button>
-                    </form>-->
                 </div>
             </div>
         </nav>
@@ -59,7 +57,7 @@
             </div>
         </header>
         <script>
-            function redirectToCart(){
+            function redirectToCreateList(){
                 window.location.href ="cartform.jsp";
             }
         </script>

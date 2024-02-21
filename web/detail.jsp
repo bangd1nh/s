@@ -32,7 +32,7 @@
                             <span>location: ${requestScope.listingDetail.getLocation()}</span><br>
                             <span>contact phone: ${requestScope.listingDetail.getContactPhone()}</span><br>
                             <span>contact email: ${requestScope.listingDetail.getContactEmail()}</span><br>
-                            <span>contact phone: ${requestScope.listingDetail.getContactPhone()}</span><br>
+                            <span>Landlord Name: ${requestScope.listingDetail.getUsername()}</span><br>
                         </div>
                         <p class="lead">${requestScope.listingDetail.getDescription()}</p>
                         <div class="d-flex">

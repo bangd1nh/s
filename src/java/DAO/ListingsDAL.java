@@ -17,8 +17,8 @@ import java.sql.Connection;
  */
 public class ListingsDAL {
 
-    private static final String GETALLLISTINGS = "SELECT ListingID,Title,CreatedAt,imgsrc,Location,LandlordID From.[Listings]";
-    private static final String GETLISTINGSBYID = "SELECT * From.[Listings] Where ListingID=?";
+    private static final String GETALLLISTINGS = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID";
+    private static final String GETLISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where ListingID=?";
 
     public static ArrayList<Listings> getAllListings() {
         PreparedStatement ptm = null;
@@ -36,6 +36,7 @@ public class ListingsDAL {
                     l.setImgsrc(rs.getString("imgsrc"));
                     l.setLocation(rs.getString("Location"));
                     l.setLandlordID(rs.getInt("LandlordID"));
+                    l.setUsername(rs.getString("UserName"));
                     list.add(l);
                 }
             }
@@ -64,6 +65,7 @@ public class ListingsDAL {
                     l.setImgsrc(rs.getString("imgsrc"));
                     l.setLocation(rs.getString("Location"));
                     l.setDescription(rs.getString("Descriptions"));
+                    l.setUsername(rs.getString("UserName"));
                 }
             }
         } catch (Exception e) {

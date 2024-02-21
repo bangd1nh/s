@@ -21,11 +21,12 @@ public class Listings {
     private String imgsrc;
     private String location;
     private String description;
+    private String username;
 
     public Listings() {
     }
 
-    public Listings(int listingID, int landlordID, String contactEmail, String contactPhone, Timestamp createAt, String title, String imgsrc, String location, String description) {
+    public Listings(int listingID, int landlordID, String contactEmail, String contactPhone, Timestamp createAt, String title, String imgsrc, String location, String description, String username) {
         this.listingID = listingID;
         this.landlordID = landlordID;
         this.contactEmail = contactEmail;
@@ -35,6 +36,7 @@ public class Listings {
         this.imgsrc = imgsrc;
         this.location = location;
         this.description = description;
+        this.username = username;
     }
 
     @Override
@@ -42,7 +44,13 @@ public class Listings {
         return "Listings{" + "listingID=" + listingID + ", landlordID=" + landlordID + ", contactEmail=" + contactEmail + ", contactPhone=" + contactPhone + ", createAt=" + createAt + ", title=" + title + ", imgsrc=" + imgsrc + ", location=" + location + ", description=" + description + '}';
     }
 
+    public String getUsername() {
+        return username;
+    }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getDescription() {
         return description;

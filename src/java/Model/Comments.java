@@ -11,21 +11,32 @@ import java.sql.Timestamp;
  * @author admin
  */
 public class Comments {
+
     private int commentID;
     private int userID;
     private int listingID;
     private String comment;
     private Timestamp commentAt;
+    private String username;
 
     public Comments() {
     }
 
-    public Comments(int commentID, int userID, int listingID, String comment, Timestamp commentAt) {
+    public Comments(int commentID, int userID, int listingID, String comment, Timestamp commentAt, String username) {
         this.commentID = commentID;
         this.userID = userID;
         this.listingID = listingID;
         this.comment = comment;
         this.commentAt = commentAt;
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getCommentID() {
@@ -67,5 +78,5 @@ public class Comments {
     public void setCommentAt(Timestamp commentAt) {
         this.commentAt = commentAt;
     }
-    
+
 }

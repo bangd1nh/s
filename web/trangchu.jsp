@@ -58,7 +58,7 @@
                                 <div class="card h-100 shadow border-0">
                                     <img class=" custom-size img-fluid" src="${list.get(i).getImgsrc()}" alt="..." />
                                     <div class="card-body p-4">
-                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">${list.get(i).getListingID()}</div>
+                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">Listing ID:${list.get(i).getListingID()}</div>
                                         <a class="text-decoration-none link-dark stretched-link" href="Listingdetail?listingID=${list.get(i).getListingID()}"><h5 class="card-title mb-3">${list.get(i).getTitle()}</h5></a>
                                         <p class="card-text mb-0">${list.get(i).getLocation()}</p>
                                     </div>
@@ -68,7 +68,7 @@
                                                 <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
                                                 <div class="small">
                                                     <div class="fw-bold">
-                                                        user Name
+                                                        ${list.get(i).getUsername()}
                                                     </div>
                                                     <div class="text-muted">${list.get(i).getCreateAt()}</div>
                                                 </div>

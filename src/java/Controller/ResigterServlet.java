@@ -4,7 +4,6 @@
  */
 package Controller;
 
-import DAO.UserDAL;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,13 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author admin
  */
-public class LoginServlet extends HttpServlet {
+public class ResigterServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +35,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
+            out.println("<title>Servlet Resigter</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Resigter at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -72,18 +70,15 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        String firstName = request.getParameter("firstname");
+        String lastName = request.getParameter("lastname");
+        String userType = request.getParameter("usertype");
         String email = request.getParameter("email");
-        String password = request.getParameter("pass");
-        User loggedInUser = UserDAL.userLogin(email, password);
-        if (loggedInUser != null) {
-            session.setAttribute("loggedInUser", loggedInUser);
-            response.sendRedirect("ListingsServlet");
-        } else{
-            request.setAttribute("loginMessage", "sai tai khoang");
-            request.getRequestDispatcher("loginform.jsp").forward(request, response);
-        }
-
+        User u = new User();
+        u.setUserName(firstName);
+        u.setLastName(lastName);
+        u.setUserType(userType);
+        u.setEmail(email);
     }
 
     /**
