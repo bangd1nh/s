@@ -32,7 +32,7 @@ public class logoutServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session.invalidate();
-        response.sendRedirect("listingsServlet");
+        response.sendRedirect("ListingsServlet");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

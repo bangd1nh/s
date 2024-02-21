@@ -19,6 +19,7 @@ public class UserDAL {
     private static final String LOGIN = "SELECT * FROM.[Users] where Email=? and Password=?";
     private static final String GETUSERNAMEBYID="SELECT Username FROM.[Users] Where UserID=?";
     private static final String INSERTUSER="INSERT INTO Users (Username, Email, FirstName, LastName, Password, UserType) VALUES (?,?,?,?,?,?);";
+    private static final String GETUSERIDBYNAME="SELECT UserID From.[Users] where Username=?";
 
     public static User userLogin(String email, String password) {
         PreparedStatement ptm = null;
@@ -86,6 +87,26 @@ public class UserDAL {
         }
         return false;
     }
+    
+    public static int getUserIDByname(String userName) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        int userID = 0;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETUSERIDBYNAME);
+                ptm.setString(1, userName);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    userID = rs.getInt("UserID");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userID;
+    }
+    
     public static void main(String[] args) {
         User u = new User();
         u.setEmail("bang@gmail.com");

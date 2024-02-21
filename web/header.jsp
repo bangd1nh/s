@@ -24,26 +24,26 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="ListingsServlet">Home</a></li>
-                        <c:choose>
-                            <c:when test="${empty sessionScope.loggedInUser}">
+                            <c:choose>
+                                <c:when test="${empty sessionScope.loggedInUser}">
                                 <li class="nav-item"><a class="nav-link" href="loginform.jsp">login</a></li>
                                 <li class="nav-item"><a class="nav-link" href="registerform.jsp">register</a></li>
-                            </c:when>
-                            <c:otherwise>
+                                </c:when>
+                                <c:otherwise>
                                 <li class="nav-item"><a class="nav-link">Welcome ${sessionScope.loggedInUser.getUserName()}</a></li>
                                 <li class="nav-item"><a class="nav-link">$${sessionScope.loggedInUser.getBalance()}</a></li>
                                 <li class="nav-item"><a class="nav-link" href="logoutServlet">logout</a></li>
-                                <c:if test="${sessionScope.LoggedInUser.getUserType == 'LandLord'}">
-                                <li class="nav-item"><a class="nav-link" href="managerPageServlet">manager page</a></li>
-                                </c:if>
-                            </c:otherwise>
-                        </c:choose>
+                                    <c:if test="${sessionScope.LoggedInUser.getUserType() == 'Landlord'}">
+                                    <li class="nav-item"><a class="nav-link" href="managerPageServlet">manager page</a></li>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
                     </ul>
-                        <button class="btn btn-outline-dark bi-plus" type="submit">
-                            <i class=" me-1"></i>
-                            Dang bai viet
-                            <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
-                        </button>
+                    <button class="btn btn-outline-dark bi-plus" type="submit" onclick="redirectToCreateListings()">
+                        <i class=" me-1"></i>
+                        Dang bai viet
+                        <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
+                    </button>
                 </div>
             </div>
         </nav>
@@ -57,8 +57,8 @@
             </div>
         </header>
         <script>
-            function redirectToCreateList(){
-                window.location.href ="cartform.jsp";
+            function redirectToCreateListings() {
+                window.location.href = "createlistings.jsp";
             }
         </script>
     </body>

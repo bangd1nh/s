@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Connection;
+import java.sql.Timestamp;
 
 /**
  *
@@ -19,6 +20,7 @@ public class ListingsDAL {
 
     private static final String GETALLLISTINGS = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID";
     private static final String GETLISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where ListingID=?";
+    private static final String UPLOADLISTING = "INSERT INTO Listings (LandlordID,ContactEmail,ContactPhone,CreatedAt,Title,imgsrc,Location,Descriptions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     public static ArrayList<Listings> getAllListings() {
         PreparedStatement ptm = null;
@@ -74,8 +76,28 @@ public class ListingsDAL {
         return l;
     }
 
+    public static boolean saveToDatabase(String imagePath, String title, String location, String contactPhone,String contactEmail, int landlordID, String description, Timestamp createdAt){
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                System.out.println("CreatedAt value: " + createdAt);
+                ptm = con.prepareStatement(UPLOADLISTING);
+                ptm.setInt(1, landlordID);
+                ptm.setString(2, contactEmail);
+                ptm.setString(3, contactPhone);
+                ptm.setTimestamp(4, createdAt);
+                ptm.setString(5, title);
+                ptm.setString(6, imagePath);
+                ptm.setString(7, location);
+                ptm.setString(8, description);
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0 ;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public static void main(String[] args) {
-        Listings listtest = getListingsByID(1);
-        System.out.println(listtest.toString());
     }
 }

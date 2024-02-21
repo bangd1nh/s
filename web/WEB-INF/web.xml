@@ -28,6 +28,10 @@
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>Controller.RegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateListingServlet</servlet-name>
+        <servlet-class>Controller.CreateListingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateListingServlet</servlet-name>
+        <url-pattern>/CreateListingServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -24,7 +24,49 @@
     <body>
         <header> <%@include file="header.jsp"%></header>
         <section class="py-5">
-            
+            <form action="CreateListingServlet" method="post" enctype="multipart/form-data">
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="row gx-4 gx-lg-5 align-items-center">
+                        <div class="col-md-6">
+                            <label for="image">Select Image:</label>
+                            <input type="file" class="form-control" name="image" accept="image/*" required="required" onchange="previewImage(event)">
+                            <!-- Thêm thẻ img để hiển thị trước ảnh -->
+                            <img id="imagePreview" class="mt-2" style="max-width: 100%; max-height: 300px;">
+                        </div>
+                        <div class="col-md-6">
+                            <h1 class="display-5 fw-bolder">Title: <input type="text" class="form-control" name="title"></h1>
+                            <div class="fs-5 mb-5">
+                                <span>Location: <input type="text" class="form-control" name="location"></span><br>
+                                <span>Contact Phone: <input type="text" class="form-control" name="contactPhone"></span><br>
+                                <span>Contact Email: <input type="text" class="form-control" name="contactEmail" value="${sessionScope.loggedInUser.getEmail()}"></span><br>
+                                <span>Landlord Name: <input type="text" class="form-control" name="landlordName" value="${sessionScope.loggedInUser.getUserName()}"></span><br>
+                            </div>
+                            <div class="fs-5 mb-5">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea class="form-control" name="description" rows="4"></textarea>
+                            </div>
+                            <input type="submit" class="btn btn-primary" value="Create Listing">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <script>
+                function previewImage(event) {
+                    var input = event.target;
+                    var preview = document.getElementById('imagePreview');
+
+                    var file = input.files[0];
+                    if (file) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            preview.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        preview.src = "";
+                    }
+                }
+            </script>
         </section>
         <footer><%@include file="footer.jsp" %></footer>
     </body>
