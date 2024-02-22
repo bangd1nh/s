@@ -33,18 +33,20 @@
                                 <li class="nav-item"><a class="nav-link">Welcome ${sessionScope.loggedInUser.getUserName()}</a></li>
                                 <li class="nav-item"><a class="nav-link">$${sessionScope.loggedInUser.getBalance()}</a></li>
                                 <li class="nav-item"><a class="nav-link" href="logoutServlet">logout</a></li>
-                                    <c:if test="${sessionScope.LoggedInUser.getUserType() == 'Landlord'}">
-                                    <li class="nav-item"><a class="nav-link" href="managerPageServlet">manager page</a></li>
+                                    <c:if test="${sessionScope.loggedInUser.getUserType() == 'Landlord'}">
+                                    <li class="nav-item"><a class="nav-link" href="ManagerPageServlet">manager page</a></li>
                                     </c:if>
                                 </c:otherwise>
                             </c:choose>
                     </ul>
-                    <button class="btn btn-outline-dark bi-plus" type="submit" onclick="redirectToCreateListings()">
+                    <c:if test="${sessionScope.loggedInUser.getUserType() == 'Landlord'}"><button class="btn btn-outline-dark bi-plus" type="submit" onclick="redirectToCreateListings()">
                         <i class=" me-1"></i>
                         Dang bai viet
                         <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
                     </button>
+                    </c:if>
                 </div>
+                
             </div>
         </nav>
         <!-- Header-->

@@ -108,15 +108,7 @@ public class UserDAL {
     }
     
     public static void main(String[] args) {
-        User u = new User();
-        u.setEmail("bang@gmail.com");
-        u.setFristName("bang");
-        u.setLastName("dinh");
-        u.setPassword("123");
-        u.setUserType("Landlord");
-        u.setUserName("bang123");
-        if(InsertUser(u)){
-            System.out.println("true");
-        }else System.out.println("flase");
+        User u = userLogin("nhat123@gmail.com", "123");
+        System.out.println(u.toString());
     }
 }

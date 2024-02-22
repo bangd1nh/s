@@ -32,6 +32,18 @@
         <servlet-name>CreateListingServlet</servlet-name>
         <servlet-class>Controller.CreateListingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManagerPageServlet</servlet-name>
+        <servlet-class>Controller.ManagerPageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AppointmentServlet</servlet-name>
+        <servlet-class>Controller.AppointmentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditServlet</servlet-name>
+        <servlet-class>Controller.EditServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -63,6 +75,18 @@
     <servlet-mapping>
         <servlet-name>CreateListingServlet</servlet-name>
         <url-pattern>/CreateListingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerPageServlet</servlet-name>
+        <url-pattern>/ManagerPageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AppointmentServlet</servlet-name>
+        <url-pattern>/AppointmentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditServlet</servlet-name>
+        <url-pattern>/EditServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

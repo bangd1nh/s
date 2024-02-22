@@ -21,7 +21,9 @@ public class ListingsDAL {
     private static final String GETALLLISTINGS = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID";
     private static final String GETLISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where ListingID=?";
     private static final String UPLOADLISTING = "INSERT INTO Listings (LandlordID,ContactEmail,ContactPhone,CreatedAt,Title,imgsrc,Location,Descriptions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
+    private static final String GETALLLISTINGSBYUSERID="SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where UserID=?";
+    private static final String UPDATELISTING="UPDATE Listings SET Title = ?,Location = ?,ContactPhone = ?,ContactEmail = ?,Descriptions = ? WHERE ListingID = ?";
+    
     public static ArrayList<Listings> getAllListings() {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -98,6 +100,58 @@ public class ListingsDAL {
         }
         return false;
     }
+    
+    public static ArrayList<Listings> getAllListingsByUserID(int userID) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        ArrayList<Listings> list = new ArrayList<>();
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETALLLISTINGSBYUSERID);
+                ptm.setInt(1, userID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    Listings l = new Listings();
+                    l.setListingID(rs.getInt("ListingID"));
+                    l.setCreateAt(rs.getTimestamp("CreatedAt"));
+                    l.setTitle(rs.getString("Title"));
+                    l.setImgsrc(rs.getString("imgsrc"));
+                    l.setLocation(rs.getString("Location"));
+                    l.setLandlordID(rs.getInt("LandlordID"));
+                    l.setUsername(rs.getString("UserName"));
+                    list.add(l);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public static boolean UpdateListing(String title, String location, String contactPhone,String contactEmail, String description,int listingsID){
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(UPDATELISTING);
+                ptm.setString(1, title);
+                ptm.setString(2, location);
+                ptm.setString(3, contactPhone);
+                ptm.setString(4, contactEmail);
+                ptm.setString(5, description);
+                ptm.setInt(6, listingsID);
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0 ;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public static void main(String[] args) {
+        ArrayList<Listings> list = getAllListingsByUserID(8);
+        for(Listings l : list){
+            System.out.println(l.toString());
+        }
     }
 }

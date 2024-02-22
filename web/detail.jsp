@@ -36,7 +36,7 @@
                         </div>
                         <p class="lead">${requestScope.listingDetail.getDescription()}</p>
                         <div class="d-flex">
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="addToCart()">
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="redirectToAppointment()">
                                 <i class="me-1"></i>
                                 Dat lich ngay
                             </button>
@@ -149,16 +149,9 @@
                 </div>
             </div>
         </section>
-
         <footer><%@include file="footer.jsp" %></footer>
     </body>
     <script>
-        function addToCart() {
-            var productId = "${requestScope.productDetail.getProductId()}"; // Lấy ID của sản phẩm
-            var quantity = document.getElementById("inputQuantity").value; // Lấy số lượng từ ô input
-            // Gửi yêu cầu đến Servlet "AddToCart"
-            window.location.href = "addtocartServlet?productId=" + productId + "&quantity=" + quantity;
-        }
         $(document).ready(function () {
             $("#myModal").on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget); // Nút mà bạn bấm để hiển thị modal
@@ -171,6 +164,9 @@
                 // Các thông tin khác có thể lấy từ các thuộc tính data khác tương tự nếu cần
             });
         });
+        function redirectToAppointment() {
+                window.location.href = "AppointmentServlet?listingID=${requestScope.listingDetail.getListingID()}";
+            }
     </script>
 </html>
 
