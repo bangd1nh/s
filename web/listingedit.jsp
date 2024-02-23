@@ -58,7 +58,7 @@
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><button type="button" class="btn btn-outline-dark mt-auto" data-toggle="modal" data-target="#myModal${i}" data-imgsrc="duong-dan-anh.jpg">
+                                <div class="text-center"><button type="button" class="btn btn-outline-dark mt-auto" data-toggle="modal" data-target="#addroominfoModal" data-imgsrc="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
                                         add room information
                                     </button>
                                 </div>
@@ -67,8 +67,106 @@
                     </div>
                 </div>
             </div>
-        </section>               
+            <!--add roominfo modal-->
+            <div class="modal fade" id="addroominfoModal" tabindex="-1" role="dialog" aria-labelledby="addroominfoModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form action="AddRoomInfoServlet" method="post" enctype="multipart/form-data">
+                            <!--bien an-->
+                            <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
+                            <input type="hidden" name="username" value="${requestScope.listingDetail.getUsername()}">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">
+                                    <div class="form-group">
+                                        <label for="Title">Title</label>
+                                        <input type="text" name="title" value="${requestScope.listingDetail.getTitle()}" class="form-control">
+                                    </div>
+                                </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <!-- Image Upload on the left -->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="image">Select Image:</label>
+                                                <input type="file" class="form-control" name="image" accept="image/*" required="required" onchange="previewImage(event)">
+                                                <!-- Image preview -->
+                                                <img id="imagePreview" class="mt-2" style="max-width: 100%; max-height: 300px;">
+                                            </div>
+                                        </div>
+                                        <!-- Additional Information on the right -->
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label for="description">Room no:</label>
+                                                <input type="text" name="description" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="location">Location:</label>
+                                                <input type="text" name="location" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Price">Price:</label>
+                                                <input type="text" name="price" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="bedrooms">Bed rooms:</label>
+                                                <input type="number" name="bedrooms" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="bathrooms">Bath rooms:</label>
+                                                <input type="number" name="bathrooms" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="bathrooms">Area:</label>
+                                                <input type="number" name="area" class="form-control">
+                                            </div>
+                                            <!-- Add additional input fields as needed -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                <input type="submit" value="submit" class="btn btn-secondary">
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>     
+        </section>
+
         <footer><%@include file="footer.jsp" %></footer>
     </body>
-    
+    <script>
+        $(document).ready(function () {
+            $("#addroominfoModal").on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Nút mà bạn bấm để hiển thị modal
+                var imgSrc = button.data('imgsrc'); // Lấy đường dẫn ảnh từ thuộc tính data-imgsrc
+                var modal = $(this);
+
+                // Đặt đường dẫn ảnh vào thẻ img trong modal
+                modal.find('.modal-body .col-md-4 img').attr('src', imgSrc);
+
+                // Các thông tin khác có thể lấy từ các thuộc tính data khác tương tự nếu cần
+            });
+        });
+        function previewImage(event) {
+            var input = event.target;
+            var reader = new FileReader();
+
+            reader.onload = function () {
+                var img = document.getElementById('imagePreview');
+                img.src = reader.result;
+                img.style.objectFit = 'cover'; // Maintain cover aspect ratio
+                img.style.width = '300px'; // Set width to 100%
+                img.style.height = '100%'; // Set fixed height
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
 </html>

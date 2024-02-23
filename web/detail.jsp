@@ -18,13 +18,25 @@
         <!-- Thư viện Bootstrap CSS (đặt trong thẻ head) -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href="styles.css" rel="stylesheet" />
+        <style>
+            .custom-size {
+                width: 100%;    /* Chiều rộng mong muốn */
+                height: 200px;   /* Chiều cao mong muốn */
+                object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+            }
+/*            .thumnail-size{
+                width:100%;
+                height:500px;
+                object-fit: cover;
+            }*/
+        </style>
     </head>
     <body>
         <header><%@include file="header.jsp" %></header>
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="${requestScope.listingDetail.getImgsrc()}" alt="..." /></div>
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0 thumnail-size" src="${requestScope.listingDetail.getImgsrc()}" alt="..." /></div>
                     <div class="col-md-6">
                         <div class="small mb-1">Listing ID: ${requestScope.listingDetail.getListingID()}</div>
                         <h1 class="display-5 fw-bolder">${requestScope.listingDetail.getTitle()}</h1>
@@ -58,7 +70,7 @@
                             <div class="col mb-5">
                                 <div class="card h-100">
                                     <!-- Product image-->
-                                    <img class="card-img-top" src="${appList.get(i).getImgsrc()}" alt="..." />
+                                    <img class="card-img-top custom-size" src="${appList.get(i).getImgsrc()}" alt="..." />
                                     <!-- Product details-->
                                     <div class="card-body p-4">
                                         <div class="text-center">

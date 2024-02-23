@@ -44,6 +44,10 @@
         <servlet-name>EditServlet</servlet-name>
         <servlet-class>Controller.EditServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddRoomInfoServlet</servlet-name>
+        <servlet-class>Controller.AddRoomInfoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>EditServlet</servlet-name>
         <url-pattern>/EditServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddRoomInfoServlet</servlet-name>
+        <url-pattern>/AddRoomInfoServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

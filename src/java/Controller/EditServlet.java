@@ -80,7 +80,6 @@ public class EditServlet extends HttpServlet {
             e.printStackTrace();
             request.setAttribute("message", "Update thất bại: Exception - " + e.getMessage());
         }
-
         request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 

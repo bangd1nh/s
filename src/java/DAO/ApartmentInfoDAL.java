@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class ApartmentInfoDAL {
     private static final String GETAPARTMENTINFOBYID="SELECT * From[ApartmentInfo] Where ListingID=?;";
+    private static final String UPLOADAPARTMENTINFO = "INSERT INTO Apartmentinfo (Title,Description,Location,Price,Area,Bedrooms,Bathrooms,LandlordID,ListingID,imgsrc,Status) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
     public static ArrayList<ApartmentInfo> getApartmentInfobyID(int listingsID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -48,10 +49,33 @@ public class ApartmentInfoDAL {
         }
         return appList;
     }
-    public static void main(String[] args) {
-        ArrayList<ApartmentInfo> list = getApartmentInfobyID(1);
-        for(ApartmentInfo o : list){
-            System.out.println(o.toString());
+    public static boolean saveToDatabase(String imagePath, String title, String location, int bedrooms,int bathrooms, int landlordID, String description,double price,float area,int listingID){
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(UPLOADAPARTMENTINFO);
+                ptm.setString(1, title);
+                ptm.setString(2, description);
+                ptm.setString(3, location);
+                ptm.setDouble(4, price);
+                ptm.setFloat(5, area);
+                ptm.setInt(6, bedrooms);
+                ptm.setInt(7, bathrooms);
+                ptm.setInt(8, landlordID);
+                ptm.setInt(9, listingID);
+                ptm.setString(10, imagePath);
+                ptm.setString(11, "Renable");
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0 ;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
+    }
+    public static void main(String[] args) {
+        if(saveToDatabase(".\\428616039_2455009161507086_7646541435436616999_n", "nha tro fpt", "123 Nguyen Minh chau", 1, 1, 28, "Phong 201", 3200, 32, 18)){
+            System.out.println("sucess");
+        }else System.out.println("false");
     }
 }

@@ -56,7 +56,7 @@
                                     <img class=" custom-size img-fluid" src="${list.get(i).getImgsrc()}" alt="..." />
                                     <div class="card-body p-4">
                                         <div class="badge bg-primary bg-gradient rounded-pill mb-2">Listing ID:${list.get(i).getListingID()}</div>
-                                        <a class="text-decoration-none link-dark stretched-link" href="EditServlet?listingID=${list.get(i).getListingID()}"><h5 class="card-title mb-3">${list.get(i).getTitle()}</h5></a>
+                                        <a class="text-decoration-none link-dark stretched-link" href="EditServlet?listingID=${list.get(i).getListingID()}&username=${list.get(i).getUsername()}"><h5 class="card-title mb-3">${list.get(i).getTitle()}</h5></a>
                                         <p class="card-text mb-0">${list.get(i).getLocation()}</p>
                                     </div>
                                     <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
