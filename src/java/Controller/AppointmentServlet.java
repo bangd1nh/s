@@ -8,6 +8,9 @@ import Model.ApartmentInfo;
 import Model.Listings;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,12 +34,6 @@ public class AppointmentServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int listingID = Integer.parseInt(request.getParameter("listingID"));
-        Listings l = DAO.ListingsDAL.getListingsByID(listingID);
-        request.setAttribute("listingDetail", l);
-        ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
-        request.setAttribute("appList", appList);
-        request.getRequestDispatcher("apointments.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -70,7 +67,24 @@ public class AppointmentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int listingID =Integer.parseInt(request.getParameter("listingID"));
+        String appointmentDate = request.getParameter("appointmentdate");
+        String appointmentTime = request.getParameter("appointmenttime");
+        String dateTimeString = appointmentDate + " " + appointmentTime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime localDateTime = LocalDateTime.parse(dateTimeString, formatter);
+        Timestamp timestamp = Timestamp.valueOf(localDateTime);
+        String contactPhone = request.getParameter("contactphone");
+        String userName = request.getParameter("username");
+        String roomSelect = request.getParameter("roomSelect");
+        int landLordID = Integer.parseInt(request.getParameter("landlordID"));
+        int userID = DAO.UserDAL.getUserIDByname(userName);
+        if(DAO.AppointmentDAL.insertAppointment(listingID, userID, timestamp, contactPhone,roomSelect,landLordID)){
+            request.setAttribute("message", "dat lich hen thanh cong");
+        }else{
+            request.setAttribute("messagae", "dat lich hen that bai");
+        }
+        request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 
     /**

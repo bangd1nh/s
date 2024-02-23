@@ -108,6 +108,6 @@ public class UserDAL {
     }
     
     public static void main(String[] args) {
-        System.out.println(getUserIDByname("nhat123"));
+        System.out.println(userLogin("nhat123@gmail.com", "123").toString());
     }
 }

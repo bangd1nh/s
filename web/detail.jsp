@@ -68,7 +68,8 @@
                     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                         <c:forEach var="i" begin="0" end="${appList.size()-1}">
                             <div class="col mb-5">
-                                <div class="card h-100">
+                                <div class="card h-100 position-relative">
+                                    <div class="badge position-absolute top-0 start-0 bg-${appList.get(i).getStatus() == 'Rentable' ? 'success' : 'danger'} rounded-pill">${appList.get(i).getStatus()}!!!</div>
                                     <!-- Product image-->
                                     <img class="card-img-top custom-size" src="${appList.get(i).getImgsrc()}" alt="..." />
                                     <!-- Product details-->
@@ -93,6 +94,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title" id="myModalLabel">${appList.get(i).getTitle()}</h4>
+                                            <span class="badge mx-1 p-1 bg-${appList.get(i).getStatus() == 'Rentable' ? 'success' : 'danger'}">${appList.get(i).getStatus()}!</span>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                         </div>
                                         <div class="modal-body">
@@ -109,6 +111,7 @@
                                                         <p>Price: ${appList.get(i).getPrice()}</p>
                                                         <p>Bed rooms: ${appList.get(i).getBedRooms()}</p>
                                                         <p>Bath rooms: ${appList.get(i).getBathRooms()}</p>
+                                                        <p>Area : ${appList.get(i).getArea()}</p>
                                                         <!-- Thêm các dòng thông tin khác tại đây -->
                                                     </div>
                                                 </div>
@@ -177,7 +180,7 @@
             });
         });
         function redirectToAppointment() {
-                window.location.href = "AppointmentServlet?listingID=${requestScope.listingDetail.getListingID()}";
+                window.location.href = "AppointmentServlet?listingID=${requestScope.listingDetail.getListingID()}&landlordID=${requestScope.listingDetail.getLandlordID()}";
             }
     </script>
 </html>

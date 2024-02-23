@@ -9,6 +9,7 @@ package Model;
  * @author admin
  */
 public class ApartmentInfo {
+
     private int apartmentID;
     private String title;
     private String description;
@@ -20,8 +21,9 @@ public class ApartmentInfo {
     private int landLordID;
     private int listtingID;
     private String imgsrc;
+    private String status;
 
-    public ApartmentInfo(int apartmentID, String title, String description, String location, double price, float area, int bedRooms, int bathRooms, int landLordID, int listtingID, String imgsrc) {
+    public ApartmentInfo(int apartmentID, String title, String description, String location, double price, float area, int bedRooms, int bathRooms, int landLordID, int listtingID, String imgsrc, String status) {
         this.apartmentID = apartmentID;
         this.title = title;
         this.description = description;
@@ -33,6 +35,7 @@ public class ApartmentInfo {
         this.landLordID = landLordID;
         this.listtingID = listtingID;
         this.imgsrc = imgsrc;
+        this.status = status;
     }
 
     public String getImgsrc() {
@@ -42,12 +45,17 @@ public class ApartmentInfo {
     public void setImgsrc(String imgsrc) {
         this.imgsrc = imgsrc;
     }
-    
 
     public ApartmentInfo() {
     }
 
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getApartmentID() {
         return apartmentID;
@@ -133,5 +141,5 @@ public class ApartmentInfo {
     public String toString() {
         return "ApartmentInfo{" + "apartmentID=" + apartmentID + ", title=" + title + ", description=" + description + ", location=" + location + ", price=" + price + ", area=" + area + ", bedRooms=" + bedRooms + ", bathRooms=" + bathRooms + ", landLordID=" + landLordID + ", listtingID=" + listtingID + ", imgsrc=" + imgsrc + '}';
     }
-    
+
 }

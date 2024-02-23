@@ -5,7 +5,6 @@
 package Controller;
 
 import Model.Appointments;
-import Model.Listings;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-public class ListingsServlet extends HttpServlet {
+public class NotificationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,18 +32,19 @@ public class ListingsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
-        request.setAttribute("list", list);
-        HttpSession session = request.getSession();
-        try {
-            User u = (User) session.getAttribute("loggedInUser");
-            if (u != null) {
-                ArrayList<Appointments> aList = DAO.AppointmentDAL.getAllApointmentByUserID(u.getUserID());
-                request.setAttribute("aList", aList);
-            }
-        } catch (Exception e) {
+        response.setContentType("text/html;charset=UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet NotificationServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet NotificationServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        request.getRequestDispatcher("trangchu.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -59,18 +59,7 @@ public class ListingsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
-        request.setAttribute("list", list);
-        HttpSession session = request.getSession();
-        try {
-            User u = (User) session.getAttribute("loggedInUser");
-            if (u != null) {
-                ArrayList<Appointments> aList = DAO.AppointmentDAL.getAllApointmentByUserID(u.getUserID());
-                request.setAttribute("aList", aList);
-            }
-        } catch (Exception e) {
-        }
-        request.getRequestDispatcher("trangchu.jsp").forward(request, response);
+        
     }
 
     /**

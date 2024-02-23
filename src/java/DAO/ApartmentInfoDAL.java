@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class ApartmentInfoDAL {
     private static final String GETAPARTMENTINFOBYID="SELECT * From[ApartmentInfo] Where ListingID=?;";
     private static final String UPLOADAPARTMENTINFO = "INSERT INTO Apartmentinfo (Title,Description,Location,Price,Area,Bedrooms,Bathrooms,LandlordID,ListingID,imgsrc,Status) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String GETALLFREEROOMS="";
     public static ArrayList<ApartmentInfo> getApartmentInfobyID(int listingsID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -41,6 +42,7 @@ public class ApartmentInfoDAL {
                     app.setLandLordID(rs.getInt("LandlordID"));
                     app.setListtingID(rs.getInt("ListingID"));
                     app.setImgsrc(rs.getString("imgsrc"));
+                    app.setStatus(rs.getString("Status"));
                     appList.add(app);
                 }
             }
@@ -64,7 +66,7 @@ public class ApartmentInfoDAL {
                 ptm.setInt(8, landlordID);
                 ptm.setInt(9, listingID);
                 ptm.setString(10, imagePath);
-                ptm.setString(11, "Renable");
+                ptm.setString(11, "Rentable");
                 int rowsAffected = ptm.executeUpdate();
                 return rowsAffected > 0 ;
             }
@@ -73,6 +75,8 @@ public class ApartmentInfoDAL {
         }
         return false;
     }
+    
+    
     public static void main(String[] args) {
         if(saveToDatabase(".\\428616039_2455009161507086_7646541435436616999_n", "nha tro fpt", "123 Nguyen Minh chau", 1, 1, 28, "Phong 201", 3200, 32, 18)){
             System.out.println("sucess");

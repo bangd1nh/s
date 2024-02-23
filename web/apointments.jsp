@@ -39,31 +39,66 @@
                     </div>
                 </div>
             </div>
+        </section>
+        <section>
             <div class="container px-4 px-lg-5 my-5">
-                <div class="card">
-                    <div class="container px-4 px-lg-5 my-5">
-                        <h5 class="calendar-container p-3 ">Appointments</h5>
-                        <form action="AppointmentServlet" method="post">
-                        <input type="date" name="appointmentdate" class="">
-                        <input type="time" name="appointmenttime">
-                        <input type="tel" name="contactphone" placeholder="Contact phone">
-                        <input type="text" name="username" placeholder="User name">
-                        <label>Chon phong</label>
-                        <select>
-                            <c:if test="${empty appList}">
-                                <option>No free room left</option>
-                            </c:if>
-                            <c:forEach var="i" begin="0" end="${appList.size()-1}">
-                                <option>${appList.get(i).getDescription()}</option>
-                            </c:forEach>
-                        </select>
-                        <input type="submit" value="submit">
-                        </form>
+                <form action="AppointmentServlet" method="post">
+                    <div class="card">
+                        <div class="row">
+                            <!-- Cột bên trái -->
+                            <input type="hidden" value="${param.listingID}" name="listingID">
+                            <input type="hidden" value="${param.landlordID}" name="landlordID">
+                            <div class="col-lg-6">
+                                <div class="container px-4 px-lg-5 my-5">
+                                    <h5 class="calendar-container p-3 ">Appointments</h5>
+
+                                    <div class="mb-3">
+                                        <label for="appointmentdate" class="form-label">Appointment Date</label>
+                                        <input type="date" id="appointmentdate" name="appointmentdate" class="form-control" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="appointmenttime" class="form-label">Appointment Time</label>
+                                        <input type="time" id="appointmenttime" name="appointmenttime" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cột bên phải -->
+                            <div class="col-lg-6">
+                                <div class="container px-4 px-lg-5 my-5">
+                                    <div class="mb-3">
+                                        <label for="contactphone" class="form-label">Contact Phone</label>
+                                        <input type="tel" id="contactphone" name="contactphone" placeholder="Contact phone" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">User Name</label>
+                                        <input type="text" id="username" name="username" placeholder="User name" value="${sessionScope.loggedInUser.getUserName()}" readonly class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="roomSelect" class="form-label">Choose Room</label>
+                                        <select id="roomSelect" name="roomSelect" class="form-select">
+                                            <c:if test="${empty appList}">
+                                                <option>No rooms left</option>
+                                            </c:if>
+                                            <c:if test="${not empty appList}">
+                                                <c:forEach var="i" begin="0" end="${appList.size()-1}">
+                                                    <c:if test="${appList.get(i).getStatus() =='Rentable'}">
+                                                        <option>${appList.get(i).getDescription()}</option>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </c:if>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="submit" value="Submit" class="btn btn-primary">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
-        </div>
-    </section>
-    <footer><%@include file="footer.jsp" %></footer>
-</body>
+        </section>
+        <footer><%@include file="footer.jsp" %></footer>
+    </body>
 </html>

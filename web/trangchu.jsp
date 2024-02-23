@@ -67,7 +67,7 @@
                         <c:forEach var="i" begin="0" end="${list.size()-1}" varStatus="loop">
                             <div class="col-lg-4 mb-5">
                                 <div class="card h-100 shadow border-0">
-                                    <img class=" custom-size img-fluid" src="${list.get(i).getImgsrc()}" alt="..." />
+                                    <img class="custom-size img-fluid" src="${list.get(i).getImgsrc()}" alt="..." />
                                     <div class="card-body p-4">
                                         <div class="badge bg-primary bg-gradient rounded-pill mb-2">Listing ID:${list.get(i).getListingID()}</div>
                                         <a class="text-decoration-none link-dark stretched-link" href="Listingdetail?listingID=${list.get(i).getListingID()}"><h5 class="card-title mb-3">${list.get(i).getTitle()}</h5></a>

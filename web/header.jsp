@@ -6,6 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +17,8 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Shop Homepage - Start Bootstrap Template</title>
-
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -39,14 +43,59 @@
                                 </c:otherwise>
                             </c:choose>
                     </ul>
-                    <c:if test="${sessionScope.loggedInUser.getUserType() == 'Landlord'}"><button class="btn btn-outline-dark bi-plus" type="submit" onclick="redirectToCreateListings()">
+                    <!-- thong bao -->
+                    <button class="btn btn-outline-dark bi-bell" type="button" data-bs-toggle="modal" data-bs-target="#notificationModal" id="openModalBtn">
                         <i class=" me-1"></i>
-                        Dang bai viet
-                        <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
+                        Thông báo
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">!</span>
                     </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="notificationModalLabel">Thông báo</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Nội dung thông báo sẽ được hiển thị ở đây -->
+                                    <c:if test="${empty requestScope.aList}">
+                                        <p>Không có thông báo mới: ...</p>
+                                    </c:if>
+                                    <c:if test="${not empty requestScope.aList}">
+                                        <c:forEach var="appointment" items="${requestScope.aList}">
+                                            <c:set var="formattedDate">
+                                                <fmt:formatDate value="${appointment.appointmentDate}" pattern="dd-MM-yyyy HH:mm"/>
+                                            </c:set>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p>UserID: ${appointment.getTenantID()}</p>
+                                                </div>
+                                                <div class="col-8">
+                                                    <p>Appointment At: ${formattedDate}</p>
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                        </c:forEach>
+                                    </c:if>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ket thuc modal -->
+                    <c:if test="${sessionScope.loggedInUser.getUserType() == 'Landlord'}"><button class="btn btn-outline-dark bi-plus" type="submit" onclick="redirectToCreateListings()">
+                            <i class=" me-1"></i>
+                            Dang bai viet
+                            <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
+                        </button>
                     </c:if>
                 </div>
-                
             </div>
         </nav>
         <!-- Header-->
@@ -58,10 +107,21 @@
                 </div>
             </div>
         </header>
-        <script>
-            function redirectToCreateListings() {
-                window.location.href = "createlistings.jsp";
-            }
-        </script>
     </body>
+    <script>
+        $(document).ready(function () {
+            $('#openModalBtn').click(function () {
+                // Kích hoạt modal
+                $('#notificationModal').modal('show');
+            });
+            // Thêm sự kiện click cho nút đóng trong modal
+            $('#notificationModal .btn-close').click(function () {
+                // Đóng modal khi nút đóng được nhấp
+                $('#notificationModal').modal('hide');
+            });
+        });
+        function redirectToCreateListings() {
+            window.location.href = "createlistings.jsp";
+        }
+    </script>
 </html>
