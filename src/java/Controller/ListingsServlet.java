@@ -8,7 +8,6 @@ import Model.Appointments;
 import Model.Listings;
 import Model.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,8 +38,14 @@ public class ListingsServlet extends HttpServlet {
         try {
             User u = (User) session.getAttribute("loggedInUser");
             if (u != null) {
-                ArrayList<Appointments> aList = DAO.AppointmentDAL.getAllApointmentByUserID(u.getUserID());
-                request.setAttribute("aList", aList);
+                ArrayList<Appointments> aList = new ArrayList<>();
+                if (u.getUserType().equals("Landlord")) {
+                    aList = DAO.AppointmentDAL.getAllApointmentByLandlordID(u.getUserID());
+                }
+                if (u.getUserType().equals("Tenant")) {
+                    aList = DAO.AppointmentDAL.getAllApointmentByTenantID(u.getUserID());
+                }
+                session.setAttribute("aList", aList);
             }
         } catch (Exception e) {
         }
@@ -65,8 +70,14 @@ public class ListingsServlet extends HttpServlet {
         try {
             User u = (User) session.getAttribute("loggedInUser");
             if (u != null) {
-                ArrayList<Appointments> aList = DAO.AppointmentDAL.getAllApointmentByUserID(u.getUserID());
-                request.setAttribute("aList", aList);
+                ArrayList<Appointments> aList = new ArrayList<>();
+                if (u.getUserType().equals("Landlord")) {
+                    aList = DAO.AppointmentDAL.getAllApointmentByLandlordID(u.getUserID());
+                }
+                if (u.getUserType().equals("Tenant")) {
+                    aList = DAO.AppointmentDAL.getAllApointmentByTenantID(u.getUserID());
+                }
+                session.setAttribute("aList", aList);
             }
         } catch (Exception e) {
         }

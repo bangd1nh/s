@@ -8,6 +8,7 @@ import Model.Appointments;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +39,7 @@ public class NotificationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NotificationServlet</title>");            
+            out.println("<title>Servlet NotificationServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NotificationServlet at " + request.getContextPath() + "</h1>");
@@ -73,7 +74,14 @@ public class NotificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int appointmentID = Integer.parseInt(request.getParameter("appointmentID"));
+        String status = request.getParameter("status");
+        if (DAO.AppointmentDAL.updateAppointment(appointmentID, status)) {
+            request.setAttribute("message", "appointment update sussces");
+        } else {
+            request.setAttribute("message", "appointment update fail");
+        }
+        request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 
     /**

@@ -47,40 +47,73 @@
                     <button class="btn btn-outline-dark bi-bell" type="button" data-bs-toggle="modal" data-bs-target="#notificationModal" id="openModalBtn">
                         <i class=" me-1"></i>
                         Thông báo
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">!</span>
-                    </button>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">
+                            <c:if test="${empty sessionScope.aList}">0</c:if>
+                            <c:if test="${not empty sessionScope.aList}">${sessionScope.aList.size()}</c:if>
+                            </span>
+                        </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="notificationModalLabel">Thông báo</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Nội dung thông báo sẽ được hiển thị ở đây -->
-                                    <c:if test="${empty requestScope.aList}">
+                        <!-- Modal -->
+                        <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl"> <!-- Added 'modal-lg' class for a larger modal -->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="notificationModalLabel">Thông báo</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Nội dung thông báo sẽ được hiển thị ở đây -->
+                                    <c:if test="${empty sessionScope.aList}">
                                         <p>Không có thông báo mới: ...</p>
                                     </c:if>
-                                    <c:if test="${not empty requestScope.aList}">
-                                        <c:forEach var="appointment" items="${requestScope.aList}">
+                                    <c:if test="${not empty sessionScope.aList}">
+                                        <c:forEach var="appointment" items="${sessionScope.aList}">
                                             <c:set var="formattedDate">
                                                 <fmt:formatDate value="${appointment.appointmentDate}" pattern="dd-MM-yyyy HH:mm"/>
                                             </c:set>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <p>UserID: ${appointment.getTenantID()}</p>
+                                            <form action="NotificationServlet" method="post">
+                                                <input type="hidden" name="appointmentID" value="${appointment.getAppointmentID()}">
+                                                <div class="row border-bottom mb-2"> <!-- Added 'border-bottom' and 'mb-3' classes for borders and margin -->
+                                                    <div class="col">
+                                                        <c:choose>
+                                                            <c:when test="${sessionScope.loggedInUser.getUserType() eq 'Landlord'}">
+                                                                <p>Tenant ID: ${appointment.getTenantID()}</p>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <p>Landlord ID: ${appointment.getLandlordID()}</p>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <p>Appointment At: ${formattedDate}</p>
+                                                    </div>
+                                                    <div class="col">
+                                                        <p>Listing ID: ${appointment.getListingID()}</p>
+                                                    </div>
+                                                    <div class="col">
+                                                        <p>Room no: ${appointment.getRoomSelected()}</p>
+                                                    </div>
+                                                    <div class="col">
+                                                        <c:choose>
+                                                            <c:when test="${sessionScope.loggedInUser.getUserType() eq 'Landlord'}">
+                                                                <c:choose>
+                                                                    <c:when test="${appointment.getStatus() eq 'Pending'}">
+                                                                        <button name="status" class="btn btn-outline-dark" type="submit" value="Cancelled">Cancel</button>
+                                                                        <button name="status" class="btn btn-outline-dark" type="submit" value="Approved">Approve</button>
+                                                                    </c:when>
+                                                                    <c:otherwise><p>Status: ${appointment.getStatus()}</p></c:otherwise>
+                                                                </c:choose>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <p>Status: ${appointment.getStatus()}</p>
+                                                            </c:otherwise>
+                                                        </c:choose>
+
+                                                    </div>
                                                 </div>
-                                                <div class="col-8">
-                                                    <p>Appointment At: ${formattedDate}</p>
-                                                </div>
-                                                
-                                            </div>
-                                            
+                                            </form>
                                         </c:forEach>
                                     </c:if>
-
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
