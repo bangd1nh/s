@@ -1,1 +1,1 @@
-hợp đồng,comment,đánh giá,thanh toán theo hợp đồng, login bằng google, nạp tiền momo, chat box
+hợp đồng(1),comment(1),đánh giá(1),thanh toán theo hợp đồng(2), login bằng google(3), nạp tiền vào tải khoảng bằng momo(2), chat box(có cũng được),
