@@ -52,6 +52,10 @@
         <servlet-name>NotificationServlet</servlet-name>
         <servlet-class>Controller.NotificationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateContactServlet</servlet-name>
+        <servlet-class>Controller.CreateContactServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>NotificationServlet</servlet-name>
         <url-pattern>/NotificationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateContactServlet</servlet-name>
+        <url-pattern>/CreateContactServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

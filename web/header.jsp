@@ -42,6 +42,7 @@
                                     </c:if>
                                 </c:otherwise>
                             </c:choose>
+                        <li class="nav-item"><a class="nav-link" href="contract.jsp">Contract</a></li>
                     </ul>
                     <!-- thong bao -->
                     <button class="btn btn-outline-dark bi-bell" type="button" data-bs-toggle="modal" data-bs-target="#notificationModal" id="openModalBtn">
@@ -99,7 +100,7 @@
                                                                 <c:choose>
                                                                     <c:when test="${appointment.getStatus() eq 'Pending'}">
                                                                         <button name="status" class="btn btn-outline-dark" type="submit" value="Cancelled">Cancel</button>
-                                                                        <button name="status" class="btn btn-outline-dark" type="submit" value="Approved">Approve</button>
+                                                                        <button name="status" class="btn btn-outline-dark btn-primary" type="submit" value="Approved">Approve</button>
                                                                     </c:when>
                                                                     <c:otherwise><p>Status: ${appointment.getStatus()}</p></c:otherwise>
                                                                 </c:choose>

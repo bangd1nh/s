@@ -5,20 +5,24 @@
 package Controller;
 
 import Model.ApartmentInfo;
+import Model.Appointments;
 import Model.Listings;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author admin
  */
-public class EditServlet extends HttpServlet {
+public class CreateContactServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,7 +35,19 @@ public class EditServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        response.setContentType("text/html;charset=UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CreateContactServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CreateContactServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,9 +65,9 @@ public class EditServlet extends HttpServlet {
         int listingID = Integer.parseInt(request.getParameter("listingID"));
         Listings l = DAO.ListingsDAL.getListingsByID(listingID);
         ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
+        request.setAttribute("listing", l);
         request.setAttribute("appList", appList);
-        request.setAttribute("listingDetail", l);
-        request.getRequestDispatcher("listingedit.jsp").forward(request, response);
+        request.getRequestDispatcher("createcontact.jsp").forward(request, response);
     }
 
     /**
@@ -65,24 +81,9 @@ public class EditServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String listingIDString = request.getParameter("listingID");
-        try {
-            int listingID = Integer.parseInt(listingIDString);
-            String title = request.getParameter("title");
-            String location = request.getParameter("location");
-            String contactphone = request.getParameter("contactphone");
-            String contactemail = request.getParameter("contactemail");
-            String description = request.getParameter("description");
-            if (DAO.ListingsDAL.UpdateListing(title, location, contactphone, contactemail, description, listingID)) {
-                request.setAttribute("message", "update thanh cong");
-            } else {
-                request.setAttribute("message", "Update thất bại: DAO method returned false");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("message", "Update thất bại: Exception - " + e.getMessage());
-        }
-        request.getRequestDispatcher("ListingsServlet").forward(request, response);
+        int listingID = Integer.parseInt(request.getParameter("listingID"));
+        int tenantID = Integer.parseInt(request.getParameter("tennantID"));
+        
     }
 
     /**
