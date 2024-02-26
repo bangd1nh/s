@@ -24,11 +24,11 @@
                 height: 200px;   /* Chiều cao mong muốn */
                 object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
             }
-/*            .thumnail-size{
-                width:100%;
-                height:500px;
-                object-fit: cover;
-            }*/
+            /*            .thumnail-size{
+                            width:100%;
+                            height:500px;
+                            object-fit: cover;
+                        }*/
         </style>
     </head>
     <body>
@@ -139,8 +139,8 @@
                             <c:if test="${not empty commentList}">
                                 <c:forEach var="i" begin="0" end="${commentList.size()-1}">
                                     <div class="bg-white p-2">
-                                        <div class="d-flex flex-row user-info"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
-                                            <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">${commentList.get(i).getUserID()}</span><span class="date text-black-50">${commentList.get(i).getCommentedAt()}</span></div>
+                                        <div class="d-flex flex-row user-info"><img class="rounded-circle" src="${commentList.get(i).getUserImgsrc()}" width="40">
+                                            <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">${commentList.get(i).getUserName()}</span><span class="date text-black-50">${commentList.get(i).getCommentedAt()}</span></div>
                                         </div>
                                         <div class="mt-2">
                                             <p class="comment-text">${commentList.get(i).getComment()}</p>
@@ -148,17 +148,14 @@
                                     </div>
                                 </c:forEach>
                             </c:if>
-                            <div class="bg-white">
-                                <div class="d-flex flex-row fs-12">
-                                    <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
-                                    <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div>
-                                    <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
+                            <form action="CreateCommentServlet" method="post">
+                                <div class="bg-light p-2">
+                                    <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="${sessionScope.loggedInUser.getImgsrc()}" width="40"><textarea class="form-control ml-1 shadow-none textarea" name="comment"></textarea></div>
+                                    <input type="hidden" name="userID" value="${sessionScope.loggedInUser.getUserID()}">
+                                    <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
+                                    <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button></div>
                                 </div>
-                            </div>
-                            <div class="bg-light p-2">
-                                <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"><textarea class="form-control ml-1 shadow-none textarea"></textarea></div>
-                                <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="button">Post comment</button><button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button">Cancel</button></div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -180,8 +177,8 @@
             });
         });
         function redirectToAppointment() {
-                window.location.href = "AppointmentServlet?listingID=${requestScope.listingDetail.getListingID()}&landlordID=${requestScope.listingDetail.getLandlordID()}";
-            }
+            window.location.href = "AppointmentServlet?listingID=${requestScope.listingDetail.getListingID()}&landlordID=${requestScope.listingDetail.getLandlordID()}";
+        }
     </script>
 </html>
 

@@ -10,6 +10,7 @@ import Model.Comment;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +18,8 @@ import java.util.ArrayList;
  * @author admin
  */
 public class CommentDAL {
-    private static final String GETCOMMENTBYLISTINGID="SELECT * From[Comments] Where ListingID=?;";
+    private static final String GETCOMMENTBYLISTINGID="SELECT Comments.*,Users.Username,Users.imgsrc from Comments join Users on Users.UserID = Comments.UserID Where ListingID=?;";
+    private static final String INSERTCOMMENT="INSERT INTO Comments (UserID,ListingID,Comment,CommentedAt) Values(?,?,?,?)";
     public static ArrayList<Comment> getCommentbyID(int listingsID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -34,6 +36,8 @@ public class CommentDAL {
                     c.setUserID(rs.getInt("UserID"));
                     c.setComment(rs.getString("Comment"));
                     c.setCommentedAt(rs.getTimestamp("CommentedAt"));
+                    c.setUserName(rs.getString("Username"));
+                    c.setUserImgsrc(rs.getString("imgsrc"));
                     commentList.add(c);
                 }
             }
@@ -42,10 +46,29 @@ public class CommentDAL {
         }
         return commentList;
     }
+    public static boolean createComment(int listingID,int userID,String comment,Timestamp createAt){
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()){
+            if (con != null) {
+                ptm = con.prepareStatement(INSERTCOMMENT);
+                ptm.setInt(1, userID);
+                ptm.setInt(2, listingID);
+                ptm.setString(3, comment);
+                ptm.setTimestamp(4, createAt);
+                int rowAffected = ptm.executeUpdate();
+                return rowAffected > 1;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
     public static void main(String[] args) {
-        ArrayList<Comment> commentList = getCommentbyID(6);
-        for(Comment c : commentList){
-            System.out.println(c.toString());
+        long createdAt = System.currentTimeMillis();
+        Timestamp timestamp = new Timestamp(createdAt);
+        if(createComment(1,8,"aa",timestamp)){
+            System.out.println("succes");
+        }else{
+            System.out.println("false");
         }
     }
 }

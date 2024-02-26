@@ -49,10 +49,10 @@
             <div>
                 <div class="container px-md-5">
                     <div>
-                        <form action="searchServlet" method="get">
+                        <form action="SearchServlet" method="post">
                             <div class="input-group">
-                                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                                <button type="button" class="btn btn btn-outline-dark mt-auto" data-mdb-ripple-init>search</button>
+                                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="searchTerm"/>
+                                <button type="submit" class="btn btn btn-outline-dark mt-auto" data-mdb-ripple-init>search</button>
                             </div>
                         </form>
                     </div>

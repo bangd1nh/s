@@ -68,6 +68,10 @@
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>Controller.SearchServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateCommentServlet</servlet-name>
+        <servlet-class>Controller.CreateCommentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
         <url-pattern>/SearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateCommentServlet</servlet-name>
+        <url-pattern>/CreateCommentServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

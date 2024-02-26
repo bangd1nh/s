@@ -7,16 +7,18 @@ package Controller;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author admin
  */
-public class RegisterServlet extends HttpServlet {
+public class CreateCommentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,27 +31,19 @@ public class RegisterServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String firstName = request.getParameter("firstname");
-        String lastName = request.getParameter("lastname");
-        String userType = request.getParameter("usertype");
-        String email = request.getParameter("email");
-        String userName = request.getParameter("username");
-        String password = request.getParameter("password");
-        User u = new User();
-        u.setFristName(firstName);
-        u.setLastName(lastName);
-        u.setUserType(userType);
-        u.setEmail(email);
-        u.setUserName(userName);
-        u.setPassword(password);
-        u.setImgsrc("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqFtKyMtqhbt99_lrslqSydPDSxT3otYmGdG-rYRefbg&s");
-        request.setAttribute("tk", u);
-        if(DAO.UserDAL.InsertUser(u)){
-            request.setAttribute("message", "dang ky thanh cong");
-        }else{
-            request.setAttribute("message", "dang ky that bai");
+        response.setContentType("text/html;charset=UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CreateCommentServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CreateCommentServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,7 +58,6 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
@@ -78,26 +71,19 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String firstName = request.getParameter("firstname");
-        String lastName = request.getParameter("lastname");
-        String userType = request.getParameter("usertype");
-        String email = request.getParameter("email");
-        String userName = request.getParameter("username");
-        String password = request.getParameter("password");
-        User u = new User();
-        u.setFristName(firstName);
-        u.setLastName(lastName);
-        u.setUserType(userType);
-        u.setEmail(email);
-        u.setUserName(userName);
-        u.setPassword(password);
-        request.setAttribute("tk", u);
-        if(DAO.UserDAL.InsertUser(u)){
-            request.setAttribute("message", "dang ky thanh cong");
+        HttpSession session = request.getSession();
+        String comment = request.getParameter("comment");
+        User u = (User)session.getAttribute("loggedInUser");
+        int userID = u.getUserID();
+        int listingID = Integer.parseInt(request.getParameter("listingID"));
+        long createdAt = System.currentTimeMillis();
+        Timestamp timestamp = new Timestamp(createdAt);
+        if(DAO.CommentDAL.createComment(listingID, userID, comment, timestamp)){
+            request.setAttribute("message", "tao binh luan thanh cong");
         }else{
-            request.setAttribute("message", "dang ky that bai");
+            request.setAttribute("message", "tao binh luan that bai");
         }
-        request.getRequestDispatcher("ListingsServlet").forward(request, response);
+        request.getRequestDispatcher("Listingdetail?listingID="+listingID).forward(request, response);
     }
 
     /**

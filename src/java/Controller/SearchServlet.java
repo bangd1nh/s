@@ -4,8 +4,11 @@
  */
 package Controller;
 
+import Model.Listings;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.function.Predicate;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -69,7 +72,9 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
+        String searchTerm = request.getParameter("searchTerm");
+        ArrayList<Listings> searchResult = new ArrayList<>();
     }
 
     /**
@@ -81,5 +86,5 @@ public class SearchServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }
