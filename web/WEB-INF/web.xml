@@ -76,6 +76,10 @@
         <servlet-name>SaveListingServlet</servlet-name>
         <servlet-class>Controller.SaveListingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateRatingServlet</servlet-name>
+        <servlet-class>Controller.CreateRatingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -151,6 +155,10 @@
     <servlet-mapping>
         <servlet-name>SaveListingServlet</servlet-name>
         <url-pattern>/SaveListingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateRatingServlet</servlet-name>
+        <url-pattern>/CreateRatingServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
