@@ -100,6 +100,7 @@
                 <p>Nội dung của modal...</p>
                 <button onclick="closeModal()">Đóng</button>
             </div>
-            <footer><%@include file="footer.jsp" %></footer>
+        </div>
+        <footer><%@include file="footer.jsp" %></footer>
     </body>
 </html>

@@ -34,8 +34,8 @@
                                 <li class="nav-item"><a class="nav-link" href="registerform.jsp">register</a></li>
                                 </c:when>
                                 <c:otherwise>
-                                <li class="nav-item"><a class="nav-link">Welcome ${sessionScope.loggedInUser.getUserName()}</a></li>
-                                <li class="nav-item"><a class="nav-link">$${sessionScope.loggedInUser.getBalance()}</a></li>
+                                <li class="nav-item"><a class="nav-link" href="profile.jsp">Welcome ${sessionScope.loggedInUser.getUserName()}</a></li>
+                                <li class="nav-item"><a class="nav-link" href="">$${sessionScope.loggedInUser.getBalance()}</a></li>
                                 <li class="nav-item"><a class="nav-link" href="logoutServlet">logout</a></li>
                                     <c:if test="${sessionScope.loggedInUser.getUserType() == 'Landlord'}">
                                     <li class="nav-item"><a class="nav-link" href="ManagerPageServlet">manager page</a></li>
@@ -78,7 +78,7 @@
                                                     <div class="col">
                                                         <c:choose>
                                                             <c:when test="${sessionScope.loggedInUser.getUserType() eq 'Landlord'}">
-                                                                <p>Tenant ID: ${appointment.getTenantID()}</p>
+                                                                <p>Tenant ID: <a href="ViewUserProfile?userID=${appointment.getTenantID()}">${appointment.getTenantID()}</a></p>
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <p>Landlord ID: ${appointment.getLandlordID()}</p>
@@ -89,7 +89,7 @@
                                                         <p>Appointment At: ${formattedDate}</p>
                                                     </div>
                                                     <div class="col">
-                                                        <p>Listing ID: ${appointment.getListingID()}</p>
+                                                        <p>Listing ID: <a href="Listingdetail?listingID=${appointment.getListingID()}">${appointment.getListingID()}</a></p>
                                                     </div>
                                                     <div class="col">
                                                         <p>Room no: ${appointment.getRoomSelected()}</p>

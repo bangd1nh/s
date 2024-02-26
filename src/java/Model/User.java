@@ -9,6 +9,7 @@ package Model;
  * @author admin
  */
 public class User {
+
     private int userID;
     private String userName;
     private String password;
@@ -17,6 +18,8 @@ public class User {
     private String lastName;
     private String userType;
     private double balance;
+    private String contactPhone;
+    private String imgsrc;
 
     public User(int userID, String userName, String password, String email, String fristName, String lastName, String userType, double balance) {
         this.userID = userID;
@@ -28,7 +31,24 @@ public class User {
         this.userType = userType;
         this.balance = balance;
     }
+
     public User() {
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public String getImgsrc() {
+        return imgsrc;
+    }
+
+    public void setImgsrc(String imgsrc) {
+        this.imgsrc = imgsrc;
     }
 
     public int getUserID() {
@@ -100,5 +120,4 @@ public class User {
         return "User{" + "userID=" + userID + ", userName=" + userName + ", password=" + password + ", email=" + email + ", fristName=" + fristName + ", lastName=" + lastName + ", userType=" + userType + ", balance=" + balance + '}';
     }
 
-   
 }
