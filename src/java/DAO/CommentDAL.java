@@ -56,7 +56,7 @@ public class CommentDAL {
                 ptm.setString(3, comment);
                 ptm.setTimestamp(4, createAt);
                 int rowAffected = ptm.executeUpdate();
-                return rowAffected > 1;
+                return rowAffected > 0;
             }
         } catch (Exception e) {
         }

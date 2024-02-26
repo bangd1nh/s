@@ -52,6 +52,7 @@
                                 <i class="me-1"></i>
                                 Dat lich ngay
                             </button>
+                            <button class="btn btn-outline-dark flex-shrink-0" onclick="saveListingID()">save post</button>
                         </div>
                     </div>
                 </div>
@@ -132,7 +133,7 @@
             <div class="container mt-5">
                 <div class="d-flex justify-content-center row">
                     <div class="col-md-8">
-                        <div class="d-flex flex-column comment-section">
+                        <div class="d-flex flex-column comment-section border rounded border-dark">
                             <c:if test="empty commentList">
                                 NO COMMENT!
                             </c:if>
@@ -178,6 +179,12 @@
         });
         function redirectToAppointment() {
             window.location.href = "AppointmentServlet?listingID=${requestScope.listingDetail.getListingID()}&landlordID=${requestScope.listingDetail.getLandlordID()}";
+        }
+        function saveListingID() {
+            var listingID = "${requestScope.listingDetail.getListingID()}";
+
+            // Gọi servlet để lưu cookie
+            window.location.href = "SaveListingServlet?listingID=" + listingID + "&userID=" + ${sessionScope.loggedInUser.getUserID()};
         }
     </script>
 </html>

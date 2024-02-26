@@ -72,6 +72,10 @@
         <servlet-name>CreateCommentServlet</servlet-name>
         <servlet-class>Controller.CreateCommentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SaveListingServlet</servlet-name>
+        <servlet-class>Controller.SaveListingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>CreateCommentServlet</servlet-name>
         <url-pattern>/CreateCommentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveListingServlet</servlet-name>
+        <url-pattern>/SaveListingServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

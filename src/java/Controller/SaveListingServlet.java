@@ -4,21 +4,21 @@
  */
 package Controller;
 
-import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author admin
  */
-public class CreateCommentServlet extends HttpServlet {
+public class SaveListingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class CreateCommentServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateCommentServlet</title>");            
+            out.println("<title>Servlet SaveListingServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateCommentServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SaveListingServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,7 +58,16 @@ public class CreateCommentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("Listingdetail").forward(request, response);
+        int listingID = Integer.parseInt(request.getParameter("listingID"));
+        int userID = Integer.parseInt(request.getParameter("userID"));
+        Cookie[] cookies = null;
+        // Get an array of Cookies associated with this domain
+        cookies = request.getCookies();
+        if(cookies != null){
+        }
+
+        // Chuyển hướng đến trang đích 
+        response.sendRedirect("Listingdetail?listingID=" + listingID);
     }
 
     /**
@@ -72,19 +81,7 @@ public class CreateCommentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String comment = request.getParameter("comment");
-        User u = (User)session.getAttribute("loggedInUser");
-        int userID = u.getUserID();
-        int listingID = Integer.parseInt(request.getParameter("listingID"));
-        long createdAt = System.currentTimeMillis();
-        Timestamp timestamp = new Timestamp(createdAt);
-        if(DAO.CommentDAL.createComment(listingID, userID, comment, timestamp)){
-            response.sendRedirect("Listingdetail?listingID=" + listingID);
-        }else{
-            request.setAttribute("message", "tao binh luan that bai");
-            request.getRequestDispatcher("ListingsServlet").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -96,5 +93,4 @@ public class CreateCommentServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
