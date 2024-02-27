@@ -15,9 +15,9 @@ import java.sql.SQLException;
 public class DBconnection {
     public static Connection getConnection() throws ClassNotFoundException, SQLException{
     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    String dbURL = "jdbc:sqlserver://localhost\\QUANGQUYEN\\QUYENTQ:1433;databaseName=test;";
+    String dbURL = "jdbc:sqlserver://localhost:1433;databaseName=test;";
     String user = "sa";
-    String pw = "123456";
+    String pw = "sa";
     Connection con = DriverManager.getConnection(dbURL,user,pw);
     return con;
     }

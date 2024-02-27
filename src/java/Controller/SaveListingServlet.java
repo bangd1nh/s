@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,22 +33,44 @@ public class SaveListingServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SaveListingServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SaveListingServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        // Lấy thông tin từ request
+        String listingID = request.getParameter("listingID");
+        String userID = request.getParameter("userID");
+
+        // Kiểm tra xem có cookie nào đã được lưu trữ chưa
+        Cookie[] cookies = request.getCookies();
+        boolean isListingSaved = false;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("savedListings")) {
+                    String[] savedListings = cookie.getValue().split(",");
+                    for (String savedListing : savedListings) {
+                        String[] values = savedListing.split(":");
+                        if (values.length == 2 && values[0].equals(listingID) && values[1].equals(userID)) {
+                            isListingSaved = true;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
         }
+
+        // Nếu cặp listingID và userID chưa được lưu, thêm nó vào cookie
+        if (!isListingSaved) {
+            String savedListingsValue = listingID + ":" + userID;
+
+            Cookie savedListingsCookie = new Cookie("savedListings", savedListingsValue);
+            savedListingsCookie.setMaxAge(30 * 24 * 60 * 60); // Thời gian sống của cookie: 1 năm
+            request.setAttribute("message", "them vao bai viet yeu thich thanh cong");
+            response.addCookie(savedListingsCookie);
+        }
+        // Chuyển hướng đến trang Listingdetail
+        request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -58,16 +82,7 @@ public class SaveListingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int listingID = Integer.parseInt(request.getParameter("listingID"));
-        int userID = Integer.parseInt(request.getParameter("userID"));
-        Cookie[] cookies = null;
-        // Get an array of Cookies associated with this domain
-        cookies = request.getCookies();
-        if(cookies != null){
-        }
-
-        // Chuyển hướng đến trang đích 
-        response.sendRedirect("Listingdetail?listingID=" + listingID);
+        processRequest(request, response);
     }
 
     /**

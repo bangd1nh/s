@@ -18,12 +18,13 @@ import java.sql.Timestamp;
  */
 public class ListingsDAL {
 
+    private static final String GETSAVELISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where Listings.ListingID=?";
     private static final String GETALLLISTINGS = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID";
     private static final String GETLISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where ListingID=?";
     private static final String UPLOADLISTING = "INSERT INTO Listings (LandlordID,ContactEmail,ContactPhone,CreatedAt,Title,imgsrc,Location,Descriptions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String GETALLLISTINGSBYUSERID="SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where UserID=?";
-    private static final String UPDATELISTING="UPDATE Listings SET Title = ?,Location = ?,ContactPhone = ?,ContactEmail = ?,Descriptions = ? WHERE ListingID = ?";
-    
+    private static final String GETALLLISTINGSBYUSERID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where UserID=?";
+    private static final String UPDATELISTING = "UPDATE Listings SET Title = ?,Location = ?,ContactPhone = ?,ContactEmail = ?,Descriptions = ? WHERE ListingID = ?";
+
     public static ArrayList<Listings> getAllListings() {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -78,7 +79,7 @@ public class ListingsDAL {
         return l;
     }
 
-    public static boolean saveToDatabase(String imagePath, String title, String location, String contactPhone,String contactEmail, int landlordID, String description, Timestamp createdAt){
+    public static boolean saveToDatabase(String imagePath, String title, String location, String contactPhone, String contactEmail, int landlordID, String description, Timestamp createdAt) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -93,14 +94,14 @@ public class ListingsDAL {
                 ptm.setString(7, location);
                 ptm.setString(8, description);
                 int rowsAffected = ptm.executeUpdate();
-                return rowsAffected > 0 ;
+                return rowsAffected > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
-    
+
     public static ArrayList<Listings> getAllListingsByUserID(int userID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -127,8 +128,8 @@ public class ListingsDAL {
         }
         return list;
     }
-    
-    public static boolean UpdateListing(String title, String location, String contactPhone,String contactEmail, String description,int listingsID){
+
+    public static boolean UpdateListing(String title, String location, String contactPhone, String contactEmail, String description, int listingsID) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -140,18 +141,45 @@ public class ListingsDAL {
                 ptm.setString(5, description);
                 ptm.setInt(6, listingsID);
                 int rowsAffected = ptm.executeUpdate();
-                return rowsAffected > 0 ;
+                return rowsAffected > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
-    
+
     public static void main(String[] args) {
         ArrayList<Listings> list = getAllListingsByUserID(8);
-        for(Listings l : list){
+        for (Listings l : list) {
             System.out.println(l.toString());
         }
+    }
+
+    public static ArrayList<Listings> getSavedListingsByID(int listingID) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        ArrayList<Listings> list = new ArrayList<>();
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETSAVELISTINGSBYID);
+                ptm.setInt(1, listingID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    Listings l = new Listings();
+                    l.setListingID(rs.getInt("ListingID"));
+                    l.setCreateAt(rs.getTimestamp("CreatedAt"));
+                    l.setTitle(rs.getString("Title"));
+                    l.setImgsrc(rs.getString("imgsrc"));
+                    l.setLocation(rs.getString("Location"));
+                    l.setLandlordID(rs.getInt("LandlordID"));
+                    l.setUsername(rs.getString("UserName"));
+                    list.add(l);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

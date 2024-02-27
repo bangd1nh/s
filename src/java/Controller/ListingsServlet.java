@@ -32,8 +32,13 @@ public class ListingsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
-        request.setAttribute("list", list);
+        if (request.getAttribute("list") == null) {
+            ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
+            request.setAttribute("list", list);
+        } else {
+            ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
+            request.setAttribute("list", list);
+        }
         HttpSession session = request.getSession();
         try {
             User u = (User) session.getAttribute("loggedInUser");

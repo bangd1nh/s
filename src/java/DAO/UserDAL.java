@@ -17,11 +17,12 @@ import java.sql.ResultSet;
 public class UserDAL {
 
     private static final String LOGIN = "SELECT * FROM.[Users] where Email=? and Password=?";
-    private static final String GETUSERNAMEBYID="SELECT Username FROM.[Users] Where UserID=?";
-    private static final String INSERTUSER="INSERT INTO Users (Username, Email, FirstName, LastName, Password, UserType) VALUES (?,?,?,?,?,?);";
-    private static final String GETUSERIDBYNAME="SELECT UserID From.[Users] where Username=?";
-    private static final String UPDATEUSERINFO="UPDATE Users Set Email=?,FirstName=?,LastName=?,ContactPhone=?,imgsrc=? where UserID=?";
-    private static final String GETUSER="SELECT * FROM.[Users] where UserID =?";
+    private static final String GETUSERNAMEBYID = "SELECT Username FROM.[Users] Where UserID=?";
+    private static final String INSERTUSER = "INSERT INTO Users (Username, Email, FirstName, LastName, Password, UserType) VALUES (?,?,?,?,?,?);";
+    private static final String GETUSERIDBYNAME = "SELECT UserID From.[Users] where Username=?";
+    private static final String UPDATEUSERINFO = "UPDATE Users Set Email=?,FirstName=?,LastName=?,ContactPhone=?,imgsrc=? where UserID=?";
+    private static final String GETUSER = "SELECT * FROM.[Users] where UserID =?";
+    private static final String GETINFORBYID = "SELECT FirstName,LastName,Email,ContactPhone FROM.[Users] Where UserID=?";
 
     public static User userLogin(String email, String password) {
         PreparedStatement ptm = null;
@@ -70,6 +71,7 @@ public class UserDAL {
         }
         return userName;
     }
+
     public static boolean InsertUser(User user) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -90,7 +92,7 @@ public class UserDAL {
         }
         return false;
     }
-    
+
     public static int getUserIDByname(String userName) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -109,8 +111,8 @@ public class UserDAL {
         }
         return userID;
     }
-    
-    public static boolean UpdateUser(int userID,String email,String firstName, String lastName,String imgsrc,String contactPhone) {
+
+    public static boolean UpdateUser(int userID, String email, String firstName, String lastName, String imgsrc, String contactPhone) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -129,8 +131,8 @@ public class UserDAL {
         }
         return false;
     }
-    
-    public static User getUser(int userID){
+
+    public static User getUser(int userID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         User u = new User();
@@ -157,9 +159,32 @@ public class UserDAL {
         }
         return u;
     }
-   public static void main(String[] args) {
-       User resultList = getUser(31);
-System.out.println("failed" + resultList.toString());
-        
-}
+
+    public static User getInforByID(int userID) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        User inforUser = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETINFORBYID);
+                ptm.setInt(1, userID);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    inforUser.setFristName(rs.getString("FirstName"));
+                    inforUser.setLastName(rs.getString("LastName"));
+                    inforUser.setEmail(rs.getString("Email"));
+                    inforUser.setContactPhone(rs.getString("ContactPhone"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inforUser;
+    }
+
+    public static void main(String[] args) {
+        User resultList = getUser(31);
+        System.out.println("failed" + resultList.toString());
+
+    }
 }
