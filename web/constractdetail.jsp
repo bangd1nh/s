@@ -5,8 +5,12 @@
 --%>
 <%@page import="Model.Constract"%>
 <%@page import="Model.ConstractInfor"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.Date" %>
+<%@page import="java.util.Calendar" %>
+<%@page import="java.text.SimpleDateFormat" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +36,7 @@
     align-items: center;
     height: 100vh;
     overflow: auto;
-    padding-top: 400px; /* Thêm khoảng cách 100px từ phía trên */
+    padding-top: 100px; /* Thêm khoảng cách 100px từ phía trên */
   }
 
   .content {
@@ -70,6 +74,7 @@
         <div class="content">
   <h1 class="heading" style="text-align: center;">HỢP ĐỒNG THUÊ NHÀ</h1>
   <br><!-- comment -->
+  <form action="/WebApplication1/vnpayajax" id="frmCreateOrder" method="post">
   <div class="section" >
     <div class="section-title">BÊN CHO THUÊ (Gọi tắt là bên A)</div>
     <div class="section-content">
@@ -84,50 +89,102 @@
     </div>
   </div>
 
+
   <div class="section">
     <div class="section-title">BÊN THUÊ (Gọi tắt là bên B)</div>
     <div class="section-content">
-      <p>Bà: ...........................................................Sinh năm:</p>
-      <p>HKTT:</p>
-      <p>CMND số: ...........................Cấp ngày: ................. tại CA Tp Hà Nội</p>
-      <p>Địa chỉ:</p>
-      <p>Điện thoại:</p>
+      <p>Ông/Bà:<strong>${requestScope.user.getFristName()} ${requestScope.user.getLastName()}</strong></p>
+      <p>Điện thoại:<strong>${requestScope.user.getContactPhone()}</strong></p>
+      <p>Email: <strong>${requestScope.user.getEmail()}</strong></p>
     </div>
   </div>
 
   <div class="section">
     <div class="section-title">ĐIỀU 1: NHÀ CHO THUÊ</div>
     <div class="section-content">
-      <p>Bên A đồng ý cho Bên B thuê nhà số ......., Phố .............., Phường ..............., Quận ........., thành phố Hà Nội; theo Giấy chứng nhận quyền sở hữu nhà ở và quyền sử dụng đất số ........... do Ủy ban nhân dân thành phố Hà Nội cấp ngày ........</p>
-      <p>Vị trí và diện tích thuê: ............. mặt đường, .........m2 x ........T, MT ........m.</p>
-    </div>
+        <c:forEach var="i" begin="0" end="${constractList.size()-1}">
+      <p>Bên A đồng ý cho Bên B thuê nhà <strong>${constractList.get(i).getLocation()}</strong>, thành phố Đà Nẵng; theo Giấy chứng nhận quyền sở hữu nhà ở và quyền sử dụng đất số 1258 do Ủy ban nhân dân thành phố Đà Nẵng cấp ngày 20/10/2008</p>
+      <p>Vị trí và diện tích thuê: <strong>${constractList.get(i).getArea()}</strong>m2 bao gồm <strong>${constractList.get(i).getBedrooms()}</strong> phòng ngủ và <strong>${constractList.get(i).getBathrooms()}</strong> phòng tắm</p>
+     
+        </div>
   </div>
 
   <div class="section">
     <div class="section-title">ĐIỀU 2: THỜI HẠN CHO THUÊ VÀ TIỀN ĐẶT CỌC</div>
     <div class="section-content">
-      <p>2.1 Thời hạn cho thuê nhà nêu tại điều 1 của hợp đồng này là: ...... năm, kể từ ngày ...... tháng ...... năm .... đến ngày .... tháng .... năm ......</p>
-      <p>2.2 Bên B đặt cọc cho bên A một khoản tiền là: ................................... khoản tiền đặt cọc này được bên A trả lại cho bên B khi hết thời hạn hợp đồng này.</p>
-    </div>
+      <p>2.1 Thời hạn cho thuê nhà nêu tại điều 1 của hợp đồng này là: 6 tháng, kể từ  <strong>ngày <% 
+    Date currentDate = new Date();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd 'tháng' MM 'năm' yyyy");
+    String formattedDate = dateFormat.format(currentDate);
+    out.print(formattedDate);
+  %> </strong>  
+    đến <strong>ngày 
+    <% Calendar calendar = Calendar.getInstance();
+    calendar.setTime(new Date());
+    calendar.add(Calendar.MONTH, 6);
+    Date newDate = calendar.getTime();
+    SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd 'tháng' MM 'năm' yyyy");
+    String formattedDate1 = dateFormat1.format(newDate);
+    out.print(formattedDate1);
+  %></strong></p>
+<p>2.2 Bên B đặt cọc cho bên A một khoản tiền là: <strong>
+        ${constractList.get(i).getPrice()} VNĐ
+</strong> khoản tiền đặt cọc này được bên A trả lại cho bên B khi hết thời hạn hợp đồng này.</p>    </div>
   </div>
-
+ </c:forEach>
   <div class="section">
-    <div class="sectionTiếp tục phần còn lại của mã HTML:
-
-```html
--title">ĐIỀU 3: GIÁ THUÊ VÀ PHƯƠNG THỨC THANH TOÁN</div>
+<div class="section-title">ĐIỀU 3: GIÁ THUÊ VÀ PHƯƠNG THỨC THANH TOÁN</div>
     <div class="section-content">
       <p>Giá thuê nhà tại điều 1 của hợp đồng này như sau:</p>
-      <p>Giá thuê nhà hàng tháng là ............................./01 tháng (..................................................)</p>
-      <p>Bên B thanh toán cho Bên A theo định kỳ ......... tháng/lần. Và sẽ được thực hiện trong suốt thời hạn cho thuê.</p>
-      <p>Tiền thuế cho thuê nhà theo quy định của pháp luật, khoản thuế này do bên ............ trả.</p>
+      <p>Giá thuê nhà hàng tháng là ${constractList.get(i).getPrice()} VNĐ /01 tháng</p>
+      <p>Bên B thanh toán cho Bên A theo định kỳ 1 tháng/lần. Và sẽ được thực hiện trong suốt thời hạn cho thuê.</p>
+      <p>Tiền thuế cho thuê nhà theo quy định của pháp luật, khoản thuế này do bên A trả.</p>
       <p>Giá thuê nhà chưa bao gồm các chi phí sử dụng như: tiền điện, nước, điện thoại, internet, vv… các chi phí này sẽ được bên B( bên thuê nhà) trả riêng, theo mức tiêu thụ thực tế.</p>
-      <p>Trong ........ năm đầu tiên, từ ngày ...../…./… đến hết ngày …../…../…., tiền nhà cố định hàng tháng là ………………….. /01 tháng (………………………………………………………….………………………)</p>
-      <p>Giá thuê nhà trên được giữ ổn định trong ………….. năm đầu tiên của hợp đồng, từ năm thứ ....... trở đi giá thuê nhà sẽ tăng không quá ……..%.</p>
-      <p>Các kỳ thanh toán tiếp theo chậm nhất sẽ là 05 ngày đầu kỳ của kỳ thanh toán tiếp theo.</p>
     </div>
   </div>
+      <div style="text-align: center;">
+      <button class="btn btn-success" type="submit" style="margin-right: 40px; font-size: 20px;" href>Kí Hợp Đồng</button>
+      <button type="button" class="btn btn-secondary"onclick="dongclick()"  style="font-size: 20px;">Đóng</button>
+      </div>
+      </form>
   </div> 
+      
         </div>
+      
+       <footer><%@include file="footer.jsp" %></footer>
 </body>
+<script type="text/javascript">
+    $("#frmCreateOrder").submit(function () {
+//                var price = "${constractList.get(i).getPrice()}";
+              var amount = parseInt("${constractList.get(i).getPrice()}");
+                var listingId = "${constractList.get(i).getListingid()}";
+                var postData = "amount=" + amount + "&listingId=" + listingId;
+                var submitUrl = $("#frmCreateOrder").attr("action");
+                $.ajax({
+                    type: "POST",
+                    url: submitUrl,
+                    data: postData,
+                    dataType: 'JSON',
+                    success: function (x) {
+                        if (x.code === '00') {
+                            if (window.vnpay) {
+                                vnpay.open({width: 768, height: 600, url: x.data});
+                            } else {
+                                location.href = x.data;
+                            }
+                            return false;
+                        } else {
+                            alert(x.Message);
+                        }
+                    }
+                });
+                return false;
+            });
+</script> 
+    <script>
+        
+        function dongclick() {
+     window.location.href= "ListingsServlet";
+  }
+    </script>
 </html>

@@ -5,6 +5,7 @@
 package DAO;
 
 import DBConnect.DBconnection;
+import Model.Constract;
 import Model.ConstractInfor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,11 +19,13 @@ import java.util.ArrayList;
 public class ConstractDAL {
     
     
-    private static final String GETINFORLANDLORD = "select Listings.Location, Users.Firstname,Users.ContactPhone, Users.Lastname,ApartmentInfo.Price,ApartmentInfo.area,ApartmentInfo.bedrooms  \n" +
+    private static final String GETINFORLANDLORD = "select Listings.Listingid,Listings.Location, Users.Firstname,Users.ContactPhone, Users.Lastname,ApartmentInfo.Price,ApartmentInfo.area,ApartmentInfo.bedrooms,ApartmentInfo.bathrooms  \n" +
 "from Listings INNER JOIN Users ON Users.UserID = Listings.LandlordID\n" +
 "INNER JOIN Apartmentinfo on Apartmentinfo.Listingid = Listings.Listingid\n"+
- "WHERE Listings.ListingID =?;";    
-
+ "WHERE Listings.ListingID =?;";
+     private static final String GETINFOR = "select Listings.LandlordID,ApartmentInfo.ApartmentID From Listings INNER JOIN Apartmentinfo on Apartmentinfo.Listingid = Listings.Listingid\n"+
+ "WHERE Listings.ListingID =?;";
+    
     public static ArrayList<ConstractInfor> getInforLandLord(int listingid) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -34,6 +37,7 @@ public class ConstractDAL {
         rs = ptm.executeQuery();
         while (rs.next()) {
             ConstractInfor app = new ConstractInfor();
+            app.setListingid(rs.getInt("Listingid"));
             app.setLocation(rs.getString("Location"));
             app.setFirstName(rs.getString("Firstname"));
             app.setLastName(rs.getString("Lastname"));
@@ -41,7 +45,7 @@ public class ConstractDAL {
             app.setContactPhone(rs.getString("ContactPhone"));
             app.setArea(rs.getInt("area"));
             app.setBedrooms(rs.getInt("bedrooms"));
-            
+            app.setBathrooms(rs.getInt("bathrooms"));
             constractList.add(app);
         }
     }
@@ -50,12 +54,23 @@ public class ConstractDAL {
 }
         return constractList;
     }
-   public static void main(String[] args) {
-       ArrayList<ConstractInfor> resultList = getInforLandLord(5);
-        if (resultList.isEmpty()) {
-            System.out.println("success");
+    public static Constract getInfor(int listingID) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        Constract constractList1 = new Constract();
+        try (Connection con = DBconnection.getConnection()) {
+    if (con != null) {
+        ptm = con.prepareStatement(GETINFOR);
+        ptm.setInt(1, listingID);
+        rs = ptm.executeQuery();
+        while (rs.next()) {
+            constractList1.setLandLordId(rs.getInt("LandlordId"));
+            constractList1.setPropertyId(rs.getInt("ApartmentId"));
+        }
+    }
+} catch (Exception e) {
+    e.printStackTrace();
 }
-        else System.out.println("failed" + resultList.toString());
-        
-}
+        return constractList1;
+    }
 }

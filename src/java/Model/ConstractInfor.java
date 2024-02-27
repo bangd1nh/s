@@ -11,6 +11,9 @@ import java.sql.Timestamp;
  * @author Admin
  */
 public class ConstractInfor {
+    private int Listingid;
+    private int LandlordId;
+    private int AparmentId;
     private String Location;
     private String Price;
     private String FirstName;
@@ -18,18 +21,47 @@ public class ConstractInfor {
     private String ContactPhone;
     private int area;
     private int bedrooms;
+    private int bathrooms;
 
     public ConstractInfor() {
     }
 
-    public ConstractInfor(String Location, String Price, String FirstName, String LastName, int area, int bedrooms,String ContactPhone) {
+    public ConstractInfor(int Listingid, int LandlordId, int AparmentId, String Location, String Price, String FirstName, String LastName, String ContactPhone, int area, int bedrooms, int bathrooms) {
+        this.Listingid = Listingid;
+        this.LandlordId = LandlordId;
+        this.AparmentId = AparmentId;
         this.Location = Location;
         this.Price = Price;
         this.FirstName = FirstName;
         this.LastName = LastName;
+        this.ContactPhone = ContactPhone;
         this.area = area;
         this.bedrooms = bedrooms;
-        this.ContactPhone = ContactPhone;
+        this.bathrooms = bathrooms;
+    }
+
+    public int getListingid() {
+        return Listingid;
+    }
+
+    public void setListingid(int Listingid) {
+        this.Listingid = Listingid;
+    }
+
+    public int getLandlordId() {
+        return LandlordId;
+    }
+
+    public void setLandlordId(int LandlordId) {
+        this.LandlordId = LandlordId;
+    }
+
+    public int getAparmentId() {
+        return AparmentId;
+    }
+
+    public void setAparmentId(int AparmentId) {
+        this.AparmentId = AparmentId;
     }
 
     public String getLocation() {
@@ -64,6 +96,14 @@ public class ConstractInfor {
         this.LastName = LastName;
     }
 
+    public String getContactPhone() {
+        return ContactPhone;
+    }
+
+    public void setContactPhone(String ContactPhone) {
+        this.ContactPhone = ContactPhone;
+    }
+
     public int getArea() {
         return area;
     }
@@ -80,17 +120,19 @@ public class ConstractInfor {
         this.bedrooms = bedrooms;
     }
 
-    public String getContactPhone() {
-        return ContactPhone;
+    public int getBathrooms() {
+        return bathrooms;
     }
 
-    public void setContactPhone(String ContactPhone) {
-        this.ContactPhone = ContactPhone;
+    public void setBathrooms(int bathrooms) {
+        this.bathrooms = bathrooms;
     }
 
     @Override
     public String toString() {
-        return "ConstractInfor{" + "Location=" + Location + ", Price=" + Price + ", FirstName=" + FirstName + ", LastName=" + LastName + ", area=" + area + ", bedrooms=" + bedrooms + '}';
+        return "ConstractInfor{" + "Listingid=" + Listingid + ", LandlordId=" + LandlordId + ", AparmentId=" + AparmentId + ", Location=" + Location + ", Price=" + Price + ", FirstName=" + FirstName + ", LastName=" + LastName + ", ContactPhone=" + ContactPhone + ", area=" + area + ", bedrooms=" + bedrooms + ", bathrooms=" + bathrooms + '}';
     }
+
+    
     
 }

@@ -15,17 +15,17 @@ public class Constract {
     private int propertyId;
     private int tenantId;
     private Timestamp startDate;
-    private Timestamp sendDate;
+    private Timestamp EndDate;
     private String status;
     private int landLordId;
-    
-    
-    public Constract(int constractId, int propertyId, int tenantId, Timestamp startDate, Timestamp sendDate, String status, int landLordId) {
+  public Constract() {
+    }
+    public Constract(int constractId, int propertyId, int tenantId, Timestamp startDate, Timestamp EndDate, String status, int landLordId) {
         this.constractId = constractId;
         this.propertyId = propertyId;
         this.tenantId = tenantId;
         this.startDate = startDate;
-        this.sendDate = sendDate;
+        this.EndDate = EndDate;
         this.status = status;
         this.landLordId = landLordId;
     }
@@ -62,12 +62,12 @@ public class Constract {
         this.startDate = startDate;
     }
 
-    public Timestamp getSendDate() {
-        return sendDate;
+    public Timestamp getEndDate() {
+        return EndDate;
     }
 
-    public void setSendDate(Timestamp sendDate) {
-        this.sendDate = sendDate;
+    public void setEndDate(Timestamp EndDate) {
+        this.EndDate = EndDate;
     }
 
     public String getStatus() {
@@ -85,5 +85,12 @@ public class Constract {
     public void setLandLordId(int landLordId) {
         this.landLordId = landLordId;
     }
+
+    @Override
+    public String toString() {
+        return "Constract{" + "constractId=" + constractId + ", propertyId=" + propertyId + ", tenantId=" + tenantId + ", startDate=" + startDate + ", EndDate=" + EndDate + ", status=" + status + ", landLordId=" + landLordId + '}';
+    }
+    
+    
     
 }

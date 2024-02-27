@@ -77,8 +77,20 @@
         <servlet-class>Controller.SaveListingServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SearchListingsServlet</servlet-name>
+        <servlet-class>Controller.SearchListingsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewSavedListingsServlet</servlet-name>
+        <servlet-class>Controller.ViewSavedListingsServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ConstractServlet</servlet-name>
         <servlet-class>Controller.ConstractServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckPayment</servlet-name>
+        <servlet-class>Controller.CheckPayment</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
@@ -160,6 +172,18 @@
         <servlet-name>ConstractServlet</servlet-name>
         <url-pattern>/ConstractServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckPayment</servlet-name>
+        <url-pattern>/CheckPayment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchListingsServlet</servlet-name>
+        <url-pattern>/SearchListingsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewSavedListingsServlet</servlet-name>
+        <url-pattern>/ViewSavedListingsServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -168,4 +192,28 @@
     <welcome-file-list>
         <welcome-file>ListingsServlet</welcome-file>
     </welcome-file-list>
+    <servlet>
+        <servlet-name>ajaxServlet</servlet-name>
+        <servlet-class>com.vnpay.common.ajaxServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>vnpayQuery</servlet-name>
+        <servlet-class>com.vnpay.common.vnpayQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>vnpayRefund</servlet-name>
+        <servlet-class>com.vnpay.common.vnpayRefund</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ajaxServlet</servlet-name>
+        <url-pattern>/vnpayajax/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>vnpayQuery</servlet-name>
+        <url-pattern>/vnpayquery/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>vnpayRefund</servlet-name>
+        <url-pattern>/vnpayrefund/*</url-pattern>
+    </servlet-mapping>
 </web-app>

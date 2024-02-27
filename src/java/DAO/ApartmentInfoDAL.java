@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class ApartmentInfoDAL {
     private static final String GETAPARTMENTINFOBYID="SELECT * From[ApartmentInfo] Where ListingID=?;";
+    private static final String UPDATESTATUS="UPDATE Apartmentinfo SET Status = ? where ListingID=? and ApartmentID=?;";
     private static final String UPLOADAPARTMENTINFO = "INSERT INTO Apartmentinfo (Title,Description,Location,Price,Area,Bedrooms,Bathrooms,LandlordID,ListingID,imgsrc,Status) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
     private static final String GETALLFREEROOMS="";
     public static ArrayList<ApartmentInfo> getApartmentInfobyID(int listingsID) {
@@ -75,7 +76,22 @@ public class ApartmentInfoDAL {
         }
         return false;
     }
-    
+    public static boolean updatestatus(int listingID,int Apartment){
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(UPDATESTATUS);
+                ptm.setString(1, "Rented");
+                ptm.setInt(2, listingID);
+                ptm.setInt(3, Apartment);
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0 ;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     
     public static void main(String[] args) {
         if(saveToDatabase(".\\428616039_2455009161507086_7646541435436616999_n", "nha tro fpt", "123 Nguyen Minh chau", 1, 1, 28, "Phong 201", 3200, 32, 18)){

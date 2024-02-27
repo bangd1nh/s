@@ -49,12 +49,15 @@
             <div>
                 <div class="container px-md-5">
                     <div>
-                        <form action="SearchServlet" method="post">
+                        <form action="SearchListingsServlet" method="post">
                             <div class="input-group">
                                 <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="searchTerm"/>
                                 <button type="submit" class="btn btn btn-outline-dark mt-auto" data-mdb-ripple-init>search</button>
                             </div>
                         </form>
+                    </div>
+                    <div class="justify-content-end d-flex mt-3">
+                        <button class="btn btn-outline-dark" onclick="redirectBaivietyeuthich()">bai viet yeu thich</button>
                     </div>
                 </div>
             </div>
@@ -103,4 +106,9 @@
         </div>
         <footer><%@include file="footer.jsp" %></footer>
     </body>
+    <script>
+        function redirectBaivietyeuthich() {
+            window.location.href = "ViewSavedListingsServlet";
+        }
+    </script>
 </html>

@@ -33,9 +33,7 @@ public class ConstractServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User  users  = (User)session.getAttribute("loggedInUser");
-        DAO.UserDAL.getInforByID(users.getUserID());
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -55,8 +53,15 @@ public class ConstractServlet extends HttpServlet {
         ArrayList<ConstractInfor> constractList = DAO.ConstractDAL.getInforLandLord(listingID);
 //        request.setAttribute("constractList", constractList);
         request.setAttribute("constractList", constractList);
+        
+        
+        
+        HttpSession session = request.getSession();
+        User u = (User)session.getAttribute("loggedInUser");
+        int userID = u.getUserID();
+        User user = DAO.UserDAL.getUser(userID);
+        request.setAttribute("user", user);
         request.getRequestDispatcher("constractdetail.jsp").forward(request, response);
-       
 //        processRequest(request, response);
     }
 
