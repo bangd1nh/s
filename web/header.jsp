@@ -79,9 +79,9 @@
                                                         <c:choose>
                                                             <c:when test="${sessionScope.loggedInUser.getUserType() eq 'Landlord'}">
                                                                 <p>Tenant ID: <a href="ViewUserProfile?userID=${appointment.getTenantID()}">${appointment.getTenantID()}</a></p>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <p>Landlord ID: ${appointment.getLandlordID()}</p>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                <p>Landlord ID:<a href="ViewUserProfile?userID=${appointment.getLandlordID()}"> ${appointment.getLandlordID()} </a></p>
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </div>
