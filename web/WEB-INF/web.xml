@@ -80,6 +80,18 @@
         <servlet-name>CreateRatingServlet</servlet-name>
         <servlet-class>Controller.CreateRatingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConstractServlet</servlet-name>
+        <servlet-class>Controller.ConstractServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchListingsServlet</servlet-name>
+        <servlet-class>Controller.SearchListingsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewSavedListingsServlet</servlet-name>
+        <servlet-class>Controller.ViewSavedListingsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -159,6 +171,18 @@
     <servlet-mapping>
         <servlet-name>CreateRatingServlet</servlet-name>
         <url-pattern>/CreateRatingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConstractServlet</servlet-name>
+        <url-pattern>/ConstractServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchListingsServlet</servlet-name>
+        <url-pattern>/SearchListingsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewSavedListingsServlet</servlet-name>
+        <url-pattern>/ViewSavedListingsServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

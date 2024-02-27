@@ -4,13 +4,12 @@
  */
 package Controller;
 
+import Model.ConstractInfor;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-public class SaveListingServlet extends HttpServlet {
+public class ConstractServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,44 +32,12 @@ public class SaveListingServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Lấy thông tin từ request
-        String listingID = request.getParameter("listingID");
-        String userID = request.getParameter("userID");
-
-        // Kiểm tra xem có cookie nào đã được lưu trữ chưa
-        Cookie[] cookies = request.getCookies();
-        boolean isListingSaved = false;
-
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("savedListings")) {
-                    String[] savedListings = cookie.getValue().split(",");
-                    for (String savedListing : savedListings) {
-                        String[] values = savedListing.split(":");
-                        if (values.length == 2 && values[0].equals(listingID) && values[1].equals(userID)) {
-                            isListingSaved = true;
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-
-        // Nếu cặp listingID và userID chưa được lưu, thêm nó vào cookie
-        if (!isListingSaved) {
-            String savedListingsValue = listingID + ":" + userID;
-
-            Cookie savedListingsCookie = new Cookie("savedListings", savedListingsValue);
-            savedListingsCookie.setMaxAge(30 * 24 * 60 * 60); // Thời gian sống của cookie: 1 năm
-            request.setAttribute("message", "them vao bai viet yeu thich thanh cong");
-            response.addCookie(savedListingsCookie);
-        }
-        // Chuyển hướng đến trang Listingdetail
-        request.getRequestDispatcher("ListingsServlet").forward(request, response);
+        HttpSession session = request.getSession();
+        User  users  = (User)session.getAttribute("loggedInUser");
+        DAO.UserDAL.getInforByID(users.getUserID());
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -82,7 +49,12 @@ public class SaveListingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int listingID = Integer.parseInt(request.getParameter("listingId"));
+         System.out.println("Listing ID: " + listingID);
+        ArrayList<ConstractInfor> constractList = DAO.ConstractDAL.getInforLandLord(listingID);
+//        request.setAttribute("constractList", constractList);
+        request.setAttribute("constractList", constractList);
+        request.getRequestDispatcher("constractdetail.jsp").forward(request, response);
     }
 
     /**
@@ -108,4 +80,5 @@ public class SaveListingServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

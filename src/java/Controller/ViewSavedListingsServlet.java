@@ -5,20 +5,22 @@
 package Controller;
 
 import Model.Listings;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.function.Predicate;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author admin
  */
-public class SearchServlet extends HttpServlet {
+public class ViewSavedListingsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +33,35 @@ public class SearchServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SearchServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SearchServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("loggedInUser");
+        Cookie[] cookies = request.getCookies();
+        int listingID = 0;
+        int userID = 0;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("savedListings")) {
+                    // Parse the value of the "savedListings" cookie
+                    String[] savedListings = cookie.getValue().split(",");
+                    for (String savedListing : savedListings) {
+                        String[] values = savedListing.split(":");
+                        if (values.length == 2) {
+                            listingID = Integer.parseInt(values[0]);
+                            userID = Integer.parseInt(values[1]);
+                        }
+                    }
+                    break;
+                }
+            }
         }
+
+        // Add your logic here for further processing
+        if (u.getUserID() == userID) {
+            ArrayList<Listings> l = DAO.ListingsDAL.getSavedListingsByID(listingID);
+            request.setAttribute("list", l);
+        }
+        // Send a response if needed
+        request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -72,9 +90,7 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
-        String searchTerm = request.getParameter("searchTerm");
-        ArrayList<Listings> searchResult = new ArrayList<>();
+        processRequest(request, response);
     }
 
     /**
@@ -86,5 +102,5 @@ public class SearchServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
+
 }

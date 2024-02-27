@@ -63,6 +63,7 @@
                                 Dat lich ngay
                             </button>
                             <button class="btn btn-outline-dark flex-shrink-0" onclick="saveListingID()">save post</button>
+                            <!--<a href="SaveListingServlet?listingID=${requestScope.listingDetail.getListingID()}&userID=${sessionScope.loggedInUser.getUserID()}">save</a>-->
                         </div>
                         <div class="mt-3">
                             <h5>Rating:</h5>
@@ -140,6 +141,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
+                                            <button type="button" id="thuephong" class="btn btn-success" onclick="thuephongclick()" data-dismiss="modal" >Thuê Phòng</button>
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                         </div>
                                     </div>
@@ -239,6 +241,10 @@
                 }
             };
             xhr.send("rating=" + rating);
+        }
+        function thuephongclick() {
+            window.location.href = "ConstractServlet?listingId=" + ${requestScope.listingDetail.getListingID()};
+//            window.location.href = "constractdetail.jsp?listingId="+${requestScope.listingDetail.getListingID()};
         }
     </script>
 </html>

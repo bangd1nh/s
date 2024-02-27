@@ -22,6 +22,7 @@ public class UserDAL {
     private static final String GETUSERIDBYNAME="SELECT UserID From.[Users] where Username=?";
     private static final String UPDATEUSERINFO="UPDATE Users Set Email=?,FirstName=?,LastName=?,ContactPhone=?,imgsrc=? where UserID=?";
     private static final String GETUSER="SELECT * FROM.[Users] where UserID =?";
+    private static final String GETINFORBYID="SELECT FirstName,LastName,Email,ContactPhone FROM.[Users] Where UserID=?";
 
     public static User userLogin(String email, String password) {
         PreparedStatement ptm = null;
@@ -159,5 +160,26 @@ public class UserDAL {
     }
     public static void main(String[] args) {
         System.out.println(userLogin("nhat123@gmail.com", "123").toString());
+    }
+    public static User getInforByID(int userID) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        User inforUser = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETINFORBYID);
+                ptm.setInt(1, userID);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    inforUser.setFristName(rs.getString("FirstName"));
+                    inforUser.setLastName(rs.getString("LastName"));
+                    inforUser.setEmail(rs.getString("Email"));
+                    inforUser.setContactPhone(rs.getString("ContactPhone"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inforUser;
     }
 }
