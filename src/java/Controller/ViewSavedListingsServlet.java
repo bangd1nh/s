@@ -71,6 +71,7 @@ public class ViewSavedListingsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        if(session.getAttribute("loggedInUser")!=null){
         User u = (User) session.getAttribute("loggedInUser");
         Cookie[] cookies = request.getCookies();
         int userID = u.getUserID();
@@ -90,6 +91,9 @@ public class ViewSavedListingsServlet extends HttpServlet {
                 l.add(DAO.ListingsDAL.getSavedListingsByID(Integer.parseInt(s)));
             }
             request.setAttribute("list", l);
+        }else{
+            request.setAttribute("message", "vui long dang nhap");
+        }
         // Send a response if needed
         request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }

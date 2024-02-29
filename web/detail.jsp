@@ -174,6 +174,7 @@
                             <c:if test="empty commentList">
                                 NO COMMENT!
                             </c:if>
+                                Comment:
                             <c:if test="${not empty commentList}">
                                 <c:forEach var="i" begin="0" end="${commentList.size()-1}">
                                     <div class="bg-white p-2">
@@ -186,6 +187,7 @@
                                     </div>
                                 </c:forEach>
                             </c:if>
+                        <c:if test="${not empty sessionScope.loggedInUser}">
                             <form action="CreateCommentServlet" method="post">
                                 <div class="bg-light p-2">
                                     <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="${sessionScope.loggedInUser.getImgsrc()}" width="40"><textarea class="form-control ml-1 shadow-none textarea" name="comment"></textarea></div>
@@ -194,6 +196,7 @@
                                     <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button></div>
                                 </div>
                             </form>
+                                    </c:if>
                         </div>
                     </div>
                 </div>

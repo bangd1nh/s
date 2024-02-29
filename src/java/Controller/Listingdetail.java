@@ -45,8 +45,10 @@ public class Listingdetail extends HttpServlet {
         double average = averageRating(ratingList);
         request.setAttribute("average", average);
         HttpSession session = request.getSession();
+        if(session.getAttribute("loggedInUser")!=null){
         User u = (User) session.getAttribute("loggedInUser");
         request.setAttribute("userRating", DAO.RatingDAL.getUserRating(u.getUserID(),listingID));
+        }
         request.getRequestDispatcher("detail.jsp").forward(request, response);
     }
 
@@ -73,8 +75,10 @@ public class Listingdetail extends HttpServlet {
         double average = averageRating(ratingList);
         request.setAttribute("average", average);
         HttpSession session = request.getSession();
+        if(session.getAttribute("loggedInUser")!=null){
         User u = (User) session.getAttribute("loggedInUser");
         request.setAttribute("userRating", DAO.RatingDAL.getUserRating(u.getUserID(),listingID));
+        }
         request.getRequestDispatcher("detail.jsp").forward(request, response);
     }
 
