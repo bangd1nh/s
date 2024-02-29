@@ -34,6 +34,20 @@
                             object-fit: cover;
                         }*/
         </style>
+        <script type="text/javascript">
+            // Hàm kiểm tra và hiển thị popup
+            function showPopup() {
+                var message = '<%= request.getAttribute("message")%>';
+                if (message && message !== 'null') {
+                    alert(message);
+                }
+            }
+
+            // Gọi hàm showPopup khi trang JSP được tải
+            window.onload = function () {
+                showPopup();
+            };
+        </script>
     </head>
     <body>
         <header><%@include file="header.jsp" %></header>
@@ -62,6 +76,9 @@
                             <div class="col">
                             <p>Rating: ${requestScope.average}</p>
                             </div>
+                            <div class="col">
+                            <p>Your Rating: ${requestScope.userRating}</p>
+                            </div>
                             <p>Rate this post:</p>
                             <form action="RatingServlet" method="post" id="ratingForm">
                                 <input type="radio" name="rating" value="1" class="star">
@@ -70,7 +87,7 @@
                                 <input type="radio" name="rating" value="4" class="star">
                                 <input type="radio" name="rating" value="5" class="star">
                                 <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
-                                <c:if test="${sessionScope.loggedInUser.getUserID() != null}"><input type="submit" value="Submit Rating"></c:if>
+                                <c:if test="${sessionScope.loggedInUser.getUserID() != null}"><input type="submit" value="Rate" class="btn-sm btn-outline-dark flex-shrink-1"></c:if>
                             </form>
                         </div>
                     </div>

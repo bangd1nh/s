@@ -36,7 +36,7 @@ public class RatingServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RatingServlet</title>");            
+            out.println("<title>Servlet RatingServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet RatingServlet at " + request.getContextPath() + "</h1>");
@@ -73,14 +73,18 @@ public class RatingServlet extends HttpServlet {
             throws ServletException, IOException {
         int rating = Integer.parseInt(request.getParameter("rating"));
         HttpSession session = request.getSession();
-        User u = (User)session.getAttribute("loggedInUser");
-        int userID = u.getUserID();
+        User u = (User) session.getAttribute("loggedInUser");
         int listingID = Integer.parseInt(request.getParameter("listingID"));
-        if(DAO.RatingDAL.insertRating(userID, listingID, rating)){
-            request.setAttribute("message", "danh gia thanh cong");
-            request.setAttribute("listingID", listingID);
+        int userID = u.getUserID();
+        if (!DAO.RatingDAL.checkUser(userID,listingID)) {
+            if (DAO.RatingDAL.insertRating(userID, listingID, rating)) {
+                request.setAttribute("message", "danh gia thanh cong");
+                request.setAttribute("listingID", listingID);
+            } else {
+                request.setAttribute("message", "danh gai that bai");
+            }
         }else{
-            request.setAttribute("message", "danh gai that bai");
+            request.setAttribute("message", "ban da danh gia bai viet nay roi");
         }
         request.getRequestDispatcher("Listingdetail").forward(request, response);
     }

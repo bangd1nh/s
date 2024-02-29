@@ -18,6 +18,8 @@ import java.util.ArrayList;
 public class RatingDAL {
     private static final String INSERTRATING="INSERT INTO Ratings (UserID,ListingID,Rating) Values(?,?,?)";
     private static final String GETRATINGBYLISTINGID="SELECT Rating from Ratings where ListingID=?";
+    private static final String CHECKUSER="SELECT UserID from Ratings where UserID=? AND ListingID=?";
+    private static final String GETRATINGBYUSERID="SELECT Rating from Ratings where UserID=? AND ListingID=?";
     public static boolean insertRating(int userID,int listingID,int rating) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
@@ -51,5 +53,42 @@ public class RatingDAL {
             e.printStackTrace();
         }
         return ratingList;
+    }
+    public static boolean checkUser(int userID,int listingID) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(CHECKUSER);
+                ptm.setInt(1, userID);
+                ptm.setInt(2, listingID);
+                rs = ptm.executeQuery();
+                if(rs.next()){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static int getUserRating(int userID, int listingID) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        int rating = 0;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETRATINGBYUSERID);
+                ptm.setInt(1, userID);
+                ptm.setInt(2, listingID);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    rating = rs.getInt("Rating");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rating;
     }
 }

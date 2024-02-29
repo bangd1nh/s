@@ -7,6 +7,7 @@ package Controller;
 import Model.ApartmentInfo;
 import Model.Comment;
 import Model.Listings;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -42,6 +44,9 @@ public class Listingdetail extends HttpServlet {
         ArrayList<Integer> ratingList = DAO.RatingDAL.getAllRating(listingID);
         double average = averageRating(ratingList);
         request.setAttribute("average", average);
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("loggedInUser");
+        request.setAttribute("userRating", DAO.RatingDAL.getUserRating(u.getUserID(),listingID));
         request.getRequestDispatcher("detail.jsp").forward(request, response);
     }
 
@@ -67,6 +72,9 @@ public class Listingdetail extends HttpServlet {
         ArrayList<Integer> ratingList = DAO.RatingDAL.getAllRating(listingID);
         double average = averageRating(ratingList);
         request.setAttribute("average", average);
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("loggedInUser");
+        request.setAttribute("userRating", DAO.RatingDAL.getUserRating(u.getUserID(),listingID));
         request.getRequestDispatcher("detail.jsp").forward(request, response);
     }
 
