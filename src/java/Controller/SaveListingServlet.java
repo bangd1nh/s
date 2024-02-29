@@ -37,37 +37,48 @@ public class SaveListingServlet extends HttpServlet {
         String listingID = request.getParameter("listingID");
         String userID = request.getParameter("userID");
 
-        // Kiểm tra xem có cookie nào đã được lưu trữ chưa
+// Kiểm tra xem có cookie nào đã được lưu trữ chưa
         Cookie[] cookies = request.getCookies();
         boolean isListingSaved = false;
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("savedListings")) {
-                    String[] savedListings = cookie.getValue().split(",");
-                    for (String savedListing : savedListings) {
-                        String[] values = savedListing.split(":");
-                        if (values.length == 2 && values[0].equals(listingID) && values[1].equals(userID)) {
-                            isListingSaved = true;
-                            break;
-                        }
+                if (cookie.getName().equals("c_" + userID)) {
+                    // Đọc giá trị của cookie
+                    String savedListingsValue = cookie.getValue();
+
+                    // Kiểm tra xem listingID đã được lưu trong cookie chưa
+                    if (!savedListingsValue.contains(listingID + ":")) {
+                        // Nếu chưa, thêm listingID vào giá trị cookie
+                        savedListingsValue += listingID + ":";
+                        cookie.setValue(savedListingsValue);
+
+                        // Cập nhật thời gian sống của cookie (nếu cần)
+                        cookie.setMaxAge(30 * 24 * 60 * 60); // Thời gian sống của cookie: 1 năm
+
+                        // Đặt cờ để báo hiệu rằng listing đã được lưu
+                        isListingSaved = true;
+                        response.addCookie(cookie);
+                        request.setAttribute("message", "them vao bai viet yeu thich thanh cong");
                     }
                     break;
                 }
             }
         }
 
-        // Nếu cặp listingID và userID chưa được lưu, thêm nó vào cookie
+// Nếu cặp listingID và userID chưa được lưu, thêm nó vào cookie
         if (!isListingSaved) {
-            String savedListingsValue = listingID + ":" + userID;
+            String savedListingsValue = listingID + ":";
 
-            Cookie savedListingsCookie = new Cookie("savedListings", savedListingsValue);
+            Cookie savedListingsCookie = new Cookie("c_" + userID, savedListingsValue);
             savedListingsCookie.setMaxAge(30 * 24 * 60 * 60); // Thời gian sống của cookie: 1 năm
             request.setAttribute("message", "them vao bai viet yeu thich thanh cong");
             response.addCookie(savedListingsCookie);
         }
-        // Chuyển hướng đến trang Listingdetail
+
+// Chuyển hướng đến trang Listingdetail
         request.getRequestDispatcher("ListingsServlet").forward(request, response);
+
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

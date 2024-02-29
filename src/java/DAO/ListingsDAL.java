@@ -156,17 +156,17 @@ public class ListingsDAL {
         }
     }
 
-    public static ArrayList<Listings> getSavedListingsByID(int listingID) {
+    public static Listings getSavedListingsByID(int listingID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
-        ArrayList<Listings> list = new ArrayList<>();
+        Listings l = new Listings();
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement(GETSAVELISTINGSBYID);
                 ptm.setInt(1, listingID);
                 rs = ptm.executeQuery();
-                while (rs.next()) {
-                    Listings l = new Listings();
+                if (rs.next()) {
+
                     l.setListingID(rs.getInt("ListingID"));
                     l.setCreateAt(rs.getTimestamp("CreatedAt"));
                     l.setTitle(rs.getString("Title"));
@@ -174,12 +174,11 @@ public class ListingsDAL {
                     l.setLocation(rs.getString("Location"));
                     l.setLandlordID(rs.getInt("LandlordID"));
                     l.setUsername(rs.getString("UserName"));
-                    list.add(l);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return l;
     }
 }

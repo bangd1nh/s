@@ -36,30 +36,24 @@ public class ViewSavedListingsServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User u = (User) session.getAttribute("loggedInUser");
         Cookie[] cookies = request.getCookies();
-        int listingID = 0;
-        int userID = 0;
+        int userID = u.getUserID();
+        String[] savedListings = new String[99];
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("savedListings")) {
+                if (cookie.getName().equals("c_"+userID)) {
                     // Parse the value of the "savedListings" cookie
-                    String[] savedListings = cookie.getValue().split(",");
-                    for (String savedListing : savedListings) {
-                        String[] values = savedListing.split(":");
-                        if (values.length == 2) {
-                            listingID = Integer.parseInt(values[0]);
-                            userID = Integer.parseInt(values[1]);
-                        }
-                    }
-                    break;
+                    savedListings = cookie.getValue().split(":");
                 }
             }
         }
 
         // Add your logic here for further processing
-        if (u.getUserID() == userID) {
-            ArrayList<Listings> l = DAO.ListingsDAL.getSavedListingsByID(listingID);
+            ArrayList<Listings> l = new ArrayList<>();
+            for(String s : savedListings){
+                l.add(DAO.ListingsDAL.getSavedListingsByID(Integer.parseInt(s)));
+            }
             request.setAttribute("list", l);
-        }
+            request.setAttribute("message", l.toString());
         // Send a response if needed
         request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
@@ -76,7 +70,28 @@ public class ViewSavedListingsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("loggedInUser");
+        Cookie[] cookies = request.getCookies();
+        int userID = u.getUserID();
+        String[] savedListings = new String[99];
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("c_"+userID)) {
+                    // Parse the value of the "savedListings" cookie
+                    savedListings = cookie.getValue().split(":");
+                }
+            }
+        }
+
+        // Add your logic here for further processing
+            ArrayList<Listings> l = new ArrayList<>();
+            for(String s : savedListings){
+                l.add(DAO.ListingsDAL.getSavedListingsByID(Integer.parseInt(s)));
+            }
+            request.setAttribute("list", l);
+        // Send a response if needed
+        request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 
     /**

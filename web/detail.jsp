@@ -87,7 +87,7 @@
                                 <input type="radio" name="rating" value="4" class="star">
                                 <input type="radio" name="rating" value="5" class="star">
                                 <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
-                                <c:if test="${sessionScope.loggedInUser.getUserID() != null}"><input type="submit" value="Rate" class="btn-sm btn-outline-dark flex-shrink-1"></c:if>
+                                <c:if test="${sessionScope.loggedInUser.getUserID() != null}"><input type="submit" value="Rate" class="btn btn-outline-dark"></c:if>
                             </form>
                         </div>
                     </div>

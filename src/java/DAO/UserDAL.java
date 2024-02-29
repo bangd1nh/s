@@ -23,6 +23,8 @@ public class UserDAL {
     private static final String UPDATEUSERINFO = "UPDATE Users Set Email=?,FirstName=?,LastName=?,ContactPhone=?,imgsrc=? where UserID=?";
     private static final String GETUSER = "SELECT * FROM.[Users] where UserID =?";
     private static final String GETINFORBYID = "SELECT FirstName,LastName,Email,ContactPhone FROM.[Users] Where UserID=?";
+    private static final String LOGINEMAIL = "INSERT INTO Users (Email,Username) Values(?,?)";
+    private static final String LOGINWITHEMAIL = "SELECT * FROM.[Users] where Email=?";
 
     public static User userLogin(String email, String password) {
         PreparedStatement ptm = null;
@@ -180,6 +182,51 @@ public class UserDAL {
             e.printStackTrace();
         }
         return inforUser;
+    }
+
+    public static boolean InsertUserEmail(String email, String username) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(LOGINEMAIL);
+                ptm.setString(1, email);
+                ptm.setString(2, username);
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static User userLoginWithEmail(String email) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        User user = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(LOGINWITHEMAIL);
+                ptm.setString(1, email);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    user = new User();
+                    user.setUserID(rs.getInt("UserID"));
+                    user.setUserName(rs.getString("Username"));
+                    user.setEmail(rs.getString("Email"));
+                    user.setUserType(rs.getString("UserType"));
+                    user.setBalance(rs.getDouble("Balance"));
+                    user.setFristName(rs.getString("FirstName"));
+                    user.setLastName(rs.getString("LastName"));
+                    user.setContactPhone(rs.getString("ContactPhone"));
+                    user.setImgsrc(rs.getString("imgsrc"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     public static void main(String[] args) {

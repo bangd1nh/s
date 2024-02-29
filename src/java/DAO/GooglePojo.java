@@ -75,6 +75,7 @@ public class GooglePojo {
 		this.picture = picture;
 	}
 
+        @Override
 	public String toString() {
 		return
 
