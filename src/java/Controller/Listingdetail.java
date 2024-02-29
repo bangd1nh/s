@@ -32,19 +32,17 @@ public class Listingdetail extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Listingdetail</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Listingdetail at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        int listingID = Integer.parseInt(request.getParameter("listingID"));
+        Listings l = DAO.ListingsDAL.getListingsByID(listingID);
+        request.setAttribute("listingDetail", l);
+        ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
+        request.setAttribute("appList", appList);
+        ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID);
+        request.setAttribute("commentList", commentList);
+        ArrayList<Integer> ratingList = DAO.RatingDAL.getAllRating(listingID);
+        double average = averageRating(ratingList);
+        request.setAttribute("average", average);
+        request.getRequestDispatcher("detail.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -59,14 +57,17 @@ public class Listingdetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            int listingID = Integer.parseInt(request.getParameter("listingID"));
-            Listings l = DAO.ListingsDAL.getListingsByID(listingID);
-            request.setAttribute("listingDetail", l);
-            ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
-            request.setAttribute("appList", appList);
-            ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID);
-            request.setAttribute("commentList", commentList);
-            request.getRequestDispatcher("detail.jsp").forward(request, response);
+        int listingID = Integer.parseInt(request.getParameter("listingID"));
+        Listings l = DAO.ListingsDAL.getListingsByID(listingID);
+        request.setAttribute("listingDetail", l);
+        ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
+        request.setAttribute("appList", appList);
+        ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID);
+        request.setAttribute("commentList", commentList);
+        ArrayList<Integer> ratingList = DAO.RatingDAL.getAllRating(listingID);
+        double average = averageRating(ratingList);
+        request.setAttribute("average", average);
+        request.getRequestDispatcher("detail.jsp").forward(request, response);
     }
 
     /**
@@ -93,4 +94,15 @@ public class Listingdetail extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private double averageRating(ArrayList<Integer> ratingList) {
+        int sum = 0;
+        double average = 0;
+        if (!ratingList.isEmpty()) {
+            for (int i : ratingList) {
+                sum += i;
+            }
+            average = (double) sum / (ratingList.size());
+        }
+        return average;
+    }
 }

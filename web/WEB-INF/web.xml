@@ -92,6 +92,10 @@
         <servlet-name>CheckPayment</servlet-name>
         <servlet-class>Controller.CheckPayment</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RatingServlet</servlet-name>
+        <servlet-class>Controller.RatingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -183,6 +187,10 @@
     <servlet-mapping>
         <servlet-name>ViewSavedListingsServlet</servlet-name>
         <url-pattern>/ViewSavedListingsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RatingServlet</servlet-name>
+        <url-pattern>/RatingServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

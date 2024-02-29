@@ -13,12 +13,15 @@
         <title>JSP Page</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <!-- Thư viện Bootstrap JS -->
+        <!--Thư viện Bootstrap JS--> 
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <!-- Thư viện Bootstrap CSS (đặt trong thẻ head) -->
+        <!--Thư viện Bootstrap CSS (đặt trong thẻ head)--> 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href="styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="jquery.rating.css">
+        <script src="jquery.js"></script>
+        <script src="jquery.rating.js"></script>
         <style>
             .custom-size {
                 width: 100%;    /* Chiều rộng mong muốn */
@@ -30,13 +33,6 @@
                             height:500px;
                             object-fit: cover;
                         }*/
-            .star{
-                font-size: 20px;
-                cursor: pointer;
-            }
-            .rated{
-                color:gold;
-            }
         </style>
     </head>
     <body>
@@ -62,16 +58,20 @@
                             </button>
                             <button class="btn btn-outline-dark flex-shrink-0" onclick="saveListingID()">save post</button>
                         </div>
-                        <div class="mt-3">
-                            <h5>Rating:</h5>
-                            <div class="rating-container">
-                                <span class="star" id="star1" onclick="rate(1)">&#9733;</span>
-                                <span class="star" id="star2" onclick="rate(2)">&#9733;</span>
-                                <span class="star" id="star3" onclick="rate(3)">&#9733;</span>
-                                <span class="star" id="star4" onclick="rate(4)">&#9733;</span>
-                                <span class="star" id="star5" onclick="rate(5)">&#9733;</span>
+                        <div class="d-flex mt-1 row">
+                            <div class="col">
+                            <p>Rating: ${requestScope.average}</p>
                             </div>
-                            <p>Your Rating: <span id="userRating">0</span></p>
+                            <p>Rate this post:</p>
+                            <form action="RatingServlet" method="post" id="ratingForm">
+                                <input type="radio" name="rating" value="1" class="star">
+                                <input type="radio" name="rating" value="2" class="star">
+                                <input type="radio" name="rating" value="3" class="star">
+                                <input type="radio" name="rating" value="4" class="star">
+                                <input type="radio" name="rating" value="5" class="star">
+                                <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
+                                <c:if test="${sessionScope.loggedInUser.getUserID() != null}"><input type="submit" value="Submit Rating"></c:if>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -206,44 +206,10 @@
             // Gọi servlet để lưu cookie
             window.location.href = "SaveListingServlet?listingID=" + listingID + "&userID=" + ${sessionScope.loggedInUser.getUserID()};
         }
-        function rate(star) {
-            // Cập nhật giao diện người dùng
-            updateStars(star);
-            document.getElementById("userRating").innerText = star;
-
-            // Gửi giá trị rating lên server thông qua Ajax
-            sendRatingToServer(star);
-        }
-
-        function updateStars(rating) {
-            for (let i = 1; i <= 5; i++) {
-                const starElement = document.getElementById("star" + i);
-                if (i <= rating) {
-                    starElement.classList.add("rated");
-                } else {
-                    starElement.classList.remove("rated");
-                }
-            }
-        }
-
-        function sendRatingToServer(rating) {
-            // Sử dụng XMLHttpRequest hoặc Fetch API để gửi dữ liệu lên server
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "CreateRatingServlet", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Xử lý phản hồi từ server (nếu cần)
-                    console.log(xhr.responseText);
-                }
-            };
-            xhr.send("rating=" + rating);
-        }
         function thuephongclick() {
             window.location.href = "ConstractServlet?listingId=" + ${requestScope.listingDetail.getListingID()};
 //            window.location.href = "constractdetail.jsp?listingId="+${requestScope.listingDetail.getListingID()};
         }
-        F
     </script>
 </html>
 
