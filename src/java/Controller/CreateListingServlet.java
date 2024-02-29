@@ -78,7 +78,7 @@ public class CreateListingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String uploadPath = "D:\\swpp\\s\\web\\uploads";
+        String uploadPath = "D:\\swpp\\WebApplication1\\web\\uploads";
 
         // Tạo thư mục lưu trữ nếu nó không tồn tại
         File uploadDir = new File(uploadPath);

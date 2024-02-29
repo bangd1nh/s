@@ -27,11 +27,11 @@
                         <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="${requestScope.listingDetail.getImgsrc()}" alt="..." /></div>
                         <div class="col-md-6">
                             <div class="small mb-1">Listing ID: <input class="hiding" type="number" name="listingID" value="${requestScope.listingDetail.getListingID()}" readonly></div>
-                            <h1 class="display-5 fw-bolder">Title: <input type="text" value="${requestScope.listingDetail.getTitle()}" name="title"></h1>
+                            <h1 class="display-5 fw-bolder">Title: <input class="form-control-lg" type="text" value="${requestScope.listingDetail.getTitle()}" name="title"></h1>
                             <div class="fs-5 mb-5">
-                                <span>location:<input type="text" value=" ${requestScope.listingDetail.getLocation()}" name="location"></span><br>
-                                <span>contact phone:<input type="tel" value=" ${requestScope.listingDetail.getContactPhone()}" name="contactphone"></span><br>
-                                <span>contact email:<input type="text" value="${requestScope.listingDetail.getContactEmail()}" name="contactemail"> </span><br>
+                                <span>location:<input class="form-control" type="text" value=" ${requestScope.listingDetail.getLocation()}" name="location"></span><br>
+                                <span>contact phone:<input class="form-control" type="tel" value=" ${requestScope.listingDetail.getContactPhone()}" name="contactphone"></span><br>
+                                <span>contact email:<input class="form-control" type="text" value="${requestScope.listingDetail.getContactEmail()}" name="contactemail"> </span><br>
                                 <span>Landlord Name: ${requestScope.listingDetail.getUsername()} </span><br>
                             </div>
                             <textarea class="form-control" name="description" rows="4" placeholder="${requestScope.listingDetail.getDescription()}"></textarea>
@@ -40,9 +40,9 @@
                     </div>
                 </div>
             </form>
-                            <button class="btn btn-outline-dark btn-light" onclick="redirectCreateHopdong()">
+<!--                            <button class="btn btn-outline-dark btn-light" onclick="redirectCreateHopdong()">
                 tao hop dong
-            </button>
+            </button>-->
         </section>
         <section class="py-5 bg-light">
             <div class="container px-4 px-lg-5 mt-5">
