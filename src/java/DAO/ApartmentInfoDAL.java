@@ -81,7 +81,7 @@ public class ApartmentInfoDAL {
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement(UPDATESTATUS);
-                ptm.setString(1, "Rented");
+                ptm.setString(1, "Deposited");
                 ptm.setInt(2, listingID);
                 ptm.setInt(3, Apartment);
                 int rowsAffected = ptm.executeUpdate();

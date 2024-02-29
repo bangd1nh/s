@@ -44,7 +44,7 @@
                                 <hr class="my-4">
                                 <div class="d-grid mb-2">
                                     <button class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
-                                        <i class="fab fa-google me-2"></i> Sign in with Google
+                                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/WebApplication1/login-google&response_type=code&client_id=578581362821-kej6i0hgbl4987ff6ip8dkbmlatur1f3.apps.googleusercontent.com&approval_prompt=force"> Sign in with Google </a>
                                     </button>
                                 </div>
                                 ${requestScope.loginMessage}

@@ -72,7 +72,7 @@
     <body >
         <div class="container2">
             <div class="content">
-                <h1 class="heading" style="text-align: center;">HỢP ĐỒNG THUÊ NHÀ</h1>
+                <h1 class="heading" style="text-align: center;">HỢP ĐỒNG ĐẶT CỌC THUÊ NHÀ</h1>
                 <br><!-- comment -->
                 <form action="/WebApplication1/vnpayajax" id="frmCreateOrder" method="post">
                     <div class="section" >
@@ -133,17 +133,42 @@
                         </div>
                     </c:forEach>
                     <div class="section">
-                        <div class="section-title">ĐIỀU 3: GIÁ THUÊ VÀ PHƯƠNG THỨC THANH TOÁN</div>
+                        <div class="section-title">ĐIỀU 3: GIÁ CỌC VÀ PHƯƠNG THỨC THANH TOÁN</div>
                         <div class="section-content">
-                            <p>Giá thuê nhà tại điều 1 của hợp đồng này như sau:</p>
-                            <p>Giá thuê nhà hàng tháng là ${constractList.get(i).getPrice()} VNĐ /01 tháng</p>
-                            <p>Bên B thanh toán cho Bên A theo định kỳ 1 tháng/lần. Và sẽ được thực hiện trong suốt thời hạn cho thuê.</p>
-                            <p>Tiền thuế cho thuê nhà theo quy định của pháp luật, khoản thuế này do bên A trả.</p>
-                            <p>Giá thuê nhà chưa bao gồm các chi phí sử dụng như: tiền điện, nước, điện thoại, internet, vv… các chi phí này sẽ được bên B( bên thuê nhà) trả riêng, theo mức tiêu thụ thực tế.</p>
+                            <p>Giá cọc nhà tại điều 1 của hợp đồng này như sau:</p>
+                            <p>Giá cọc nhà là ${constractList.get(i).getPrice()} VNĐ</p>
+                            <p>Bên B thanh toán cho Bên A tiền cọc. Thời gian đến xem phòng là từ <strong>ngày 
+                                    <%
+                                        Date currentDate2 = new Date();
+                                        SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd 'tháng' MM 'năm' yyyy");
+                                        String formattedDate2 = dateFormat2.format(currentDate2);
+                                        out.print(formattedDate2);
+                                    %>
+                                </strong> đến <strong>ngày 
+                                    <%
+                                        Calendar calendar1 = Calendar.getInstance();
+                                        calendar1.setTime(currentDate2);
+                                        calendar1.add(Calendar.DAY_OF_MONTH, 7);
+                                        Date futureDate1 = calendar1.getTime();
+                                        String formattedFutureDate1 = dateFormat2.format(futureDate1);
+                                        out.print(formattedFutureDate1);
+                                    %>
+                                </strong>.</p>
+                            <p>Nếu đến hạn <strong>ngày 
+                                    <%
+                                        Calendar calendar2 = Calendar.getInstance();
+                                        calendar2.setTime(currentDate2);
+                                        calendar2.add(Calendar.DAY_OF_MONTH, 7);
+                                        Date futureDate2 = calendar2.getTime();
+                                        String formattedFutureDate2 = dateFormat2.format(futureDate1);
+                                        out.print(formattedFutureDate2);
+                                    %>
+                                </strong> mà bên B chưa đến xem phòng và kí hợp đồng thì bên A sẽ được hưởng toàn bộ số tiền cọc.</p>
+                            <p>Bên B sau khi thanh toán sẽ chịu mọi trách nhiệm nếu có việc gì xảy ra.</p>
                         </div>
                     </div>
                     <div style="text-align: center;">
-                        <button class="btn btn-success" type="submit" style="margin-right: 40px; font-size: 20px;" href>Kí Hợp Đồng</button>
+                        <button class="btn btn-success" type="submit" style="margin-right: 40px; font-size: 20px;" href>Đặt Cọc Phòng</button>
                         <button type="button" class="btn btn-secondary"onclick="dongclick()"  style="font-size: 20px;">Đóng</button>
                     </div>
                 </form>
