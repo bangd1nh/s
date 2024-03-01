@@ -227,7 +227,7 @@
             window.location.href = "SaveListingServlet?listingID=" + listingID + "&userID=" + ${sessionScope.loggedInUser.getUserID()};
         }
         function thuephongclick() {
-            window.location.href = "ConstractServlet?listingId=" + ${requestScope.listingDetail.getListingID()};
+            window.location.href = "ConstractServlet?listingId=" + ${requestScope.listingDetail.getListingID()}+"&aprtementID="+${appList.get(i).getApartmentID()};
 //            window.location.href = "constractdetail.jsp?listingId="+${requestScope.listingDetail.getListingID()};
         }
     </script>

@@ -67,6 +67,28 @@
 
 
         </style>
+        <%
+            // Tạo đối tượng Date để lấy ngày hiện tại
+            Date currentDate = new Date();
+
+            // Định dạng ngày thành chuỗi dạng yyyy-MM-dd (định dạng của input type date)
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = dateFormat.format(currentDate);
+        %>
+        <%
+            // Tạo đối tượng Calendar để thực hiện phép cộng ngày
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+
+            // Thêm 7 ngày
+            calendar.add(Calendar.DAY_OF_MONTH, 7);
+
+            // Lấy ngày sau khi thêm 7 ngày
+            Date date7DaysLater = calendar.getTime();
+
+            // Định dạng ngày thành chuỗi dạng yyyy-MM-dd (định dạng của input type date)
+            String formattedDate7DaysLater = dateFormat.format(date7DaysLater);
+        %>
     </head>
     <header><%@include file="header.jsp" %></header>
     <body >
@@ -74,101 +96,69 @@
             <div class="content">
                 <h1 class="heading" style="text-align: center;">HỢP ĐỒNG ĐẶT CỌC THUÊ NHÀ</h1>
                 <br><!-- comment -->
-                <form action="/WebApplication1/vnpayajax" id="frmCreateOrder" method="post">
+                <form action="AddDepositServlet" method="post">
+                    <!-- <form action="/WebApplication1/vnpayajax" id="frmCreateOrder" method="post">-->
                     <div class="section" >
                         <div class="section-title">BÊN CHO THUÊ (Gọi tắt là bên A)</div>
                         <div class="section-content">
-                            <c:forEach var="i" begin="0" end="${constractList.size()-1}">
-
-
-                                <p>Ông/Bà:<strong>${constractList.get(i).getFirstName()} ${constractList.get(i).getLastName()}</strong></p>
-                                <p>HKTT: <strong>${constractList.get(i).getLocation()}</strong></p>
-                                <p>Là chủ sở hữu và sử dụng hợp pháp của căn nhà cho thuê nêu tại Điều 1 hợp đồng này.</p>
-                                <p>Điện thoại: <strong>${constractList.get(i).getContactPhone()}</strong></p>
-                            </c:forEach>
+                            <p>Ông/Bà:<strong>${constractList.getFirstName()} ${constractList.getLastName()}</strong></p>
+                            <p>HKTT: <strong>${constractList.getLocation()}</strong></p>
+                            <p>Là chủ sở hữu và sử dụng hợp pháp của căn nhà cho thuê nêu tại Điều 1 hợp đồng này.</p>
+                            <p>Điện thoại: <strong>${constractList.getContactPhone()}</strong></p>
                         </div>
                     </div>
-
+                    <input type="hidden" value="${constractList.getAparmentId()}" name="apartmentID">
+                    <input type="hidenn" value="${constractList.getListingid()}" name="listingID">
+                    <input type="hidden" value="${sessionScope.loggedInUser.getUserID()}" name="tennantID">
+                    <input type="hidden" value="${constractList.getLandlordId()}" name="landlordID">
 
                     <div class="section">
                         <div class="section-title">BÊN THUÊ (Gọi tắt là bên B)</div>
                         <div class="section-content">
-                            <p>Ông/Bà:<strong>${requestScope.user.getFristName()} ${requestScope.user.getLastName()}</strong></p>
-                            <p>Điện thoại:<strong>${requestScope.user.getContactPhone()}</strong></p>
-                            <p>Email: <strong>${requestScope.user.getEmail()}</strong></p>
+                            <p>Ông/Bà:<strong>${sessionScope.loggedInUser.getFristName()} ${sessionScope.loggedInUser.getLastName()}</strong></p>
+                            <p>Điện thoại:<strong>${sessionScope.loggedInUser.getContactPhone()}</strong></p>
+                            <p>Email: <strong>${sessionScope.loggedInUser.getEmail()}</strong></p>
                         </div>
                     </div>
 
                     <div class="section">
                         <div class="section-title">ĐIỀU 1: NHÀ CHO THUÊ</div>
                         <div class="section-content">
-                            <c:forEach var="i" begin="0" end="${constractList.size()-1}">
-                                <p>Bên A đồng ý cho Bên B thuê nhà <strong>${constractList.get(i).getLocation()}</strong>, thành phố Đà Nẵng; theo Giấy chứng nhận quyền sở hữu nhà ở và quyền sử dụng đất số 1258 do Ủy ban nhân dân thành phố Đà Nẵng cấp ngày 20/10/2008</p>
-                                <p>Vị trí và diện tích thuê: <strong>${constractList.get(i).getArea()}</strong>m2 bao gồm <strong>${constractList.get(i).getBedrooms()}</strong> phòng ngủ và <strong>${constractList.get(i).getBathrooms()}</strong> phòng tắm</p>
+                            <p>Bên A đồng ý cho Bên B thuê nhà <strong>${constractList.getLocation()}</strong>, thành phố Đà Nẵng; theo Giấy chứng nhận quyền sở hữu nhà ở và quyền sử dụng đất số 1258 do Ủy ban nhân dân thành phố Đà Nẵng cấp ngày 20/10/2008</p>
+                            <p>Vị trí và diện tích thuê: <strong>${constractList.getArea()}</strong>m2 bao gồm <strong>${constractList.getBedrooms()}</strong> phòng ngủ và <strong>${constractList.getBathrooms()}</strong> phòng tắm</p>
 
-                            </div>
                         </div>
+                    </div>
 
-                        <div class="section">
-                            <div class="section-title">ĐIỀU 2: THỜI HẠN CHO THUÊ VÀ TIỀN ĐẶT CỌC</div>
-                            <div class="section-content">
-                                <p>2.1 Thời hạn cho thuê nhà nêu tại điều 1 của hợp đồng này là: 6 tháng, kể từ  <strong>ngày <%
-                                    Date currentDate = new Date();
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd 'tháng' MM 'năm' yyyy");
-                                    String formattedDate = dateFormat.format(currentDate);
-                                    out.print(formattedDate);
-                                        %> </strong>  
-                                    đến <strong>ngày 
-                                        <% Calendar calendar = Calendar.getInstance();
-                                            calendar.setTime(new Date());
-                                            calendar.add(Calendar.MONTH, 6);
-                                            Date newDate = calendar.getTime();
-                                            SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd 'tháng' MM 'năm' yyyy");
-                                            String formattedDate1 = dateFormat1.format(newDate);
-                                            out.print(formattedDate1);
-                                        %></strong></p>
-                                <p>2.2 Bên B đặt cọc cho bên A một khoản tiền là: <strong>
-                                        ${constractList.get(i).getPrice()} VNĐ
-                                    </strong> khoản tiền đặt cọc này được bên A trả lại cho bên B khi hết thời hạn hợp đồng này.</p>    </div>
-                        </div>
-                    </c:forEach>
                     <div class="section">
-                        <div class="section-title">ĐIỀU 3: GIÁ CỌC VÀ PHƯƠNG THỨC THANH TOÁN</div>
+                        <div class="section-title">ĐIỀU 2: THỜI HẠN CHO THUÊ VÀ TIỀN ĐẶT CỌC</div>
                         <div class="section-content">
-                            <p>Giá cọc nhà tại điều 1 của hợp đồng này như sau:</p>
-                            <p>Giá cọc nhà là ${constractList.get(i).getPrice()} VNĐ</p>
+                            <p>Sau khi đàm phán, thương lượng, bên A và bên B đồng ý ký giấy biên nhận đặt cọc thuê nhà với nội dung như sau: <br> Bên B có nhận của bên A một số tiền đặt cọc là: <strong> ${constractList.getPrice()} VNĐ </strong>  
+                                Bên B cam kết sẽ giữ nhà cho thuê nêu trên đến ngày <strong>ngày 
+                                    <%= formattedDate7DaysLater%></strong> Trong thời gian đó, bên B và bên A sẽ tiến hành việc ký kết hợp đồng thuê nhà với căn nhà nêu trên</p>
+                            <p>Nếu bên A không tiến hành các thủ tục để hai bên ký hợp đồng thuê nhà cho đến ngày <strong>
+                                    <%= formattedDate7DaysLater%>
+                                </strong> thì coi như bên A phải chịu mất cọc</p>    </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-content">
+                            <p>Nếu bên B cho thuê căn nhà nêu trên cho một đối tác khác hoặc đổi ý không thực hiện việc ký kết hợp đồng thuê nhà với bên A cho đến ngày <strong>
+                                    <%= formattedDate7DaysLater%>
+                                </strong>  thì bên B phải chịu đền bù gấp đôi  số tiền đặt cọc </p> 
+                            <p>Giá cọc nhà là ${constractList.getPrice()} VNĐ</p>
                             <p>Bên B thanh toán cho Bên A tiền cọc. Thời gian đến xem phòng là từ <strong>ngày 
-                                    <%
-                                        Date currentDate2 = new Date();
-                                        SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd 'tháng' MM 'năm' yyyy");
-                                        String formattedDate2 = dateFormat2.format(currentDate2);
-                                        out.print(formattedDate2);
-                                    %>
+                                    <input type="date" name="startdate" value="<%= formattedDate%>" readonly>
                                 </strong> đến <strong>ngày 
-                                    <%
-                                        Calendar calendar1 = Calendar.getInstance();
-                                        calendar1.setTime(currentDate2);
-                                        calendar1.add(Calendar.DAY_OF_MONTH, 7);
-                                        Date futureDate1 = calendar1.getTime();
-                                        String formattedFutureDate1 = dateFormat2.format(futureDate1);
-                                        out.print(formattedFutureDate1);
-                                    %>
+                                    <input type="date" name="enddate" for="endate" value="<%= formattedDate7DaysLater%>" readonly>
                                 </strong>.</p>
                             <p>Nếu đến hạn <strong>ngày 
-                                    <%
-                                        Calendar calendar2 = Calendar.getInstance();
-                                        calendar2.setTime(currentDate2);
-                                        calendar2.add(Calendar.DAY_OF_MONTH, 7);
-                                        Date futureDate2 = calendar2.getTime();
-                                        String formattedFutureDate2 = dateFormat2.format(futureDate1);
-                                        out.print(formattedFutureDate2);
-                                    %>
+                                    <%= formattedDate7DaysLater%>
                                 </strong> mà bên B chưa đến xem phòng và kí hợp đồng thì bên A sẽ được hưởng toàn bộ số tiền cọc.</p>
                             <p>Bên B sau khi thanh toán sẽ chịu mọi trách nhiệm nếu có việc gì xảy ra.</p>
                         </div>
                     </div>
                     <div style="text-align: center;">
-                        <button class="btn btn-success" type="submit" style="margin-right: 40px; font-size: 20px;" href>Đặt Cọc Phòng</button>
+                        <button class="btn btn-success" type="submit" style="margin-right: 40px; font-size: 20px;">Đặt Cọc Phòng</button>
                         <button type="button" class="btn btn-secondary"onclick="dongclick()"  style="font-size: 20px;">Đóng</button>
                     </div>
                 </form>
@@ -180,9 +170,9 @@
     </body>
     <script type="text/javascript">
         $("#frmCreateOrder").submit(function () {
-            //                var price = "${constractList.get(i).getPrice()}";
-            var amount = parseInt("${constractList.get(i).getPrice()}");
-            var listingId = "${constractList.get(i).getListingid()}";
+            //                var price = "${constractList.getPrice()}";
+            var amount = parseInt("${constractList.getPrice()}");
+            var listingId = "${constractList.getListingid()}";
             var postData = "amount=" + amount + "&listingId=" + listingId;
             var submitUrl = $("#frmCreateOrder").attr("action");
             $.ajax({

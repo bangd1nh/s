@@ -96,6 +96,10 @@
         <servlet-name>RatingServlet</servlet-name>
         <servlet-class>Controller.RatingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddDepositServlet</servlet-name>
+        <servlet-class>Controller.AddDepositServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -191,6 +195,10 @@
     <servlet-mapping>
         <servlet-name>RatingServlet</servlet-name>
         <url-pattern>/RatingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddDepositServlet</servlet-name>
+        <url-pattern>/AddDepositServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -86,9 +86,9 @@ public class CheckPayment extends HttpServlet {
                         u.setEndDate(timestamp1);
                         if (DAO.PaymentDAL.InsertContracts(u)) {
                             DAO.ApartmentInfoDAL.updatestatus(listingID, Apartment);
-                            request.setAttribute("message", "dang ky thanh cong");
+                            request.setAttribute("message", "thanh toan thanh cong");
                         } else {
-                            request.setAttribute("message", "dang ky that bai");
+                            request.setAttribute("message", "thanh toan that bai");
                         }
                            request.getRequestDispatcher("ListingsServlet").forward(request, response);
                     } else {

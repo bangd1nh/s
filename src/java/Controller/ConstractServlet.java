@@ -49,18 +49,12 @@ public class ConstractServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          int listingID = Integer.parseInt(request.getParameter("listingId"));
-         System.out.println("Listing ID: " + listingID);
-        ArrayList<ConstractInfor> constractList = DAO.ConstractDAL.getInforLandLord(listingID);
+         
+         int apartmentID = Integer.parseInt(request.getParameter("aprtementID"));
+        ConstractInfor constractList = DAO.ConstractDAL.getInforLandLord(listingID,apartmentID);
 //        request.setAttribute("constractList", constractList);
         request.setAttribute("constractList", constractList);
-        
-        
-        
-        HttpSession session = request.getSession();
-        User u = (User)session.getAttribute("loggedInUser");
-        int userID = u.getUserID();
-        User user = DAO.UserDAL.getUser(userID);
-        request.setAttribute("user", user);
+        System.out.println("constract List: " + constractList.toString());
         request.getRequestDispatcher("constractdetail.jsp").forward(request, response);
 //        processRequest(request, response);
     }
