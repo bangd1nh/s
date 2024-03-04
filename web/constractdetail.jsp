@@ -3,6 +3,10 @@
     Created on : Feb 26, 2024, 9:42:13 PM
     Author     : Admin
 --%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDateTime"%>
 <%@page import="Model.Constract"%>
 <%@page import="Model.ConstractInfor"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -68,26 +72,20 @@
 
         </style>
         <%
-            // Tạo đối tượng Date để lấy ngày hiện tại
-            Date currentDate = new Date();
+            // Lấy ngày hiện tại
+            LocalDate currentDate = LocalDate.now();
 
             // Định dạng ngày thành chuỗi dạng yyyy-MM-dd (định dạng của input type date)
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String formattedDate = dateFormat.format(currentDate);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = currentDate.format(formatter);
         %>
+
         <%
-            // Tạo đối tượng Calendar để thực hiện phép cộng ngày
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(currentDate);
-
             // Thêm 7 ngày
-            calendar.add(Calendar.DAY_OF_MONTH, 7);
-
-            // Lấy ngày sau khi thêm 7 ngày
-            Date date7DaysLater = calendar.getTime();
+            LocalDate date7DaysLater = currentDate.plusDays(7);
 
             // Định dạng ngày thành chuỗi dạng yyyy-MM-dd (định dạng của input type date)
-            String formattedDate7DaysLater = dateFormat.format(date7DaysLater);
+            String formattedDate7DaysLater = date7DaysLater.format(formatter);
         %>
     </head>
     <header><%@include file="header.jsp" %></header>
@@ -146,10 +144,10 @@
                                     <%= formattedDate7DaysLater%>
                                 </strong>  thì bên B phải chịu đền bù gấp đôi  số tiền đặt cọc </p> 
                             <p>Giá cọc nhà là ${constractList.getPrice()} VNĐ</p>
-                            <p>Bên B thanh toán cho Bên A tiền cọc. Thời gian đến xem phòng là từ <strong>ngày 
-                                    <input type="date" name="startdate" value="<%= formattedDate%>" readonly>
-                                </strong> đến <strong>ngày 
-                                    <input type="date" name="enddate" for="endate" value="<%= formattedDate7DaysLater%>" readonly>
+                            <p>Bên B thanh toán cho Bên A tiền cọc. Thời gian đến thuê phòng là từ <strong>ngày 
+                                    <input type="date" name="startdate">
+                                    đến
+                                    <input type="date" name="enddate">
                                 </strong>.</p>
                             <p>Nếu đến hạn <strong>ngày 
                                     <%= formattedDate7DaysLater%>

@@ -20,7 +20,7 @@ public class ApartmentInfoDAL {
     private static final String GETAPARTMENTINFOBYID="SELECT * From[ApartmentInfo] Where ListingID=?;";
     private static final String UPDATESTATUS="UPDATE Apartmentinfo SET Status = ? where ListingID=? and ApartmentID=?;";
     private static final String UPLOADAPARTMENTINFO = "INSERT INTO Apartmentinfo (Title,Description,Location,Price,Area,Bedrooms,Bathrooms,LandlordID,ListingID,imgsrc,Status) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-    private static final String GETALLFREEROOMS="";
+    private static final String UPDATESTATUSBYPID="UPDATE Apartmentinfo SET Status = ? where ApartmentID=?;";
     public static ArrayList<ApartmentInfo> getApartmentInfobyID(int listingsID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -84,6 +84,21 @@ public class ApartmentInfoDAL {
                 ptm.setString(1, "Deposited");
                 ptm.setInt(2, listingID);
                 ptm.setInt(3, Apartment);
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0 ;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static boolean updatestatus(int ApartmentID){
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(UPDATESTATUSBYPID);
+                ptm.setString(1, "Deposited");
+                ptm.setInt(2, ApartmentID);
                 int rowsAffected = ptm.executeUpdate();
                 return rowsAffected > 0 ;
             }

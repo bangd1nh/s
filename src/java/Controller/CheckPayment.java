@@ -42,76 +42,59 @@ public class CheckPayment extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Map fields = new HashMap();
-             for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
-                String fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
-                String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII.toString());
-                if ((fieldValue != null) && (fieldValue.length() > 0)) {
-                    fields.put(fieldName, fieldValue);
-                }
+        for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
+            String fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
+            String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII.toString());
+            if ((fieldValue != null) && (fieldValue.length() > 0)) {
+                fields.put(fieldName, fieldValue);
             }
-    String vnp_SecureHash = request.getParameter("vnp_SecureHash");
-    if (fields.containsKey("vnp_SecureHashType")) {
-        fields.remove("vnp_SecureHashType");
-    }
-    if (fields.containsKey("vnp_SecureHash")) {
-        fields.remove("vnp_SecureHash");
-    }
-    String signValue = Config.hashAllFields(fields);
-    if (signValue.equals(vnp_SecureHash)) {
-        boolean checkOrderId = true; // Giá trị của vnp_TxnRef tồn tại trong CSDL của merchant
-        boolean checkAmount = true; //Kiểm tra số tiền thanh toán do VNPAY phản hồi(vnp_Amount/100) với số tiền của đơn hàng merchant tạo thanh toán: giả sử số tiền kiểm tra là đúng.
-        boolean checkOrderStatus = true; // Giả sử PaymnentStatus = 0 (pending) là trạng thái thanh toán của giao dịch khởi tạo chưa có IPN.
-        if (checkOrderId) {
-            if (checkAmount) {
-                if (checkOrderStatus) {
-                    if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
-                    
-                      int listingID =  Integer.parseInt(request.getParameter("vnp_OrderInfo"));
-                           Constract u = DAO.ConstractDAL.getInfor(listingID);
-                           u.setStatus( "Active");
-                           HttpSession session = request.getSession();
-                        User e = (User) session.getAttribute("loggedInUser");
-                        int userID = e.getUserID();
-                        u.setTenantId(userID);
-//                           int Landlord = u.getLandlordId();
-                           int Apartment = u.getPropertyId();
-                        long createdAt = System.currentTimeMillis();
-                        Timestamp timestamp = new Timestamp(createdAt);
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(createdAt);
-                        calendar.add(Calendar.MONTH, 6);
-                        long createdEnd = calendar.getTimeInMillis();
-                        Timestamp timestamp1 = new Timestamp(createdEnd);
-                        u.setStartDate(timestamp);
-                        u.setEndDate(timestamp1);
-                        if (DAO.PaymentDAL.InsertContracts(u)) {
-                            DAO.ApartmentInfoDAL.updatestatus(listingID, Apartment);
-                            request.setAttribute("message", "thanh toan thanh cong");
+        }
+        String vnp_SecureHash = request.getParameter("vnp_SecureHash");
+        if (fields.containsKey("vnp_SecureHashType")) {
+            fields.remove("vnp_SecureHashType");
+        }
+        if (fields.containsKey("vnp_SecureHash")) {
+            fields.remove("vnp_SecureHash");
+        }
+        String signValue = Config.hashAllFields(fields);
+        if (signValue.equals(vnp_SecureHash)) {
+            boolean checkOrderId = true; // Giá trị của vnp_TxnRef tồn tại trong CSDL của merchant
+            boolean checkAmount = true; //Kiểm tra số tiền thanh toán do VNPAY phản hồi(vnp_Amount/100) với số tiền của đơn hàng merchant tạo thanh toán: giả sử số tiền kiểm tra là đúng.
+            boolean checkOrderStatus = true; // Giả sử PaymnentStatus = 0 (pending) là trạng thái thanh toán của giao dịch khởi tạo chưa có IPN.
+            if (checkOrderId) {
+                if (checkAmount) {
+                    if (checkOrderStatus) {
+                        if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
+
+                            int propertyID = Integer.parseInt(request.getParameter("vnp_OrderInfo"));
+                            if (DAO.ConstractDAL.updateStatusContractByPID("Active", propertyID)) {
+                                DAO.ApartmentInfoDAL.updatestatus(propertyID);
+                                request.setAttribute("message", "thanh toan thanh cong");
+                            } else {
+                                request.setAttribute("message", "thanh toan that bai");
+                            }
+                            request.getRequestDispatcher("ListingsServlet").forward(request, response);
                         } else {
-                            request.setAttribute("message", "thanh toan that bai");
+                            //Xử lý/Cập nhật tình trạng giao dịch thanh toán "Không thành công"
+                            //  out.print("GD Khong thanh cong");
                         }
-                           request.getRequestDispatcher("ListingsServlet").forward(request, response);
                     } else {
-                        //Xử lý/Cập nhật tình trạng giao dịch thanh toán "Không thành công"
-                        //  out.print("GD Khong thanh cong");
+                        //Trạng thái giao dịch đã được cập nhật trước đó
+                        out.print("{\"RspCode\":\"02\",\"Message\":\"Order already confirmed\"}");
                     }
                 } else {
-                    //Trạng thái giao dịch đã được cập nhật trước đó
-                    out.print("{\"RspCode\":\"02\",\"Message\":\"Order already confirmed\"}");
+                    //Số tiền không trùng khớp
+                    out.print("{\"RspCode\":\"04\",\"Message\":\"Invalid Amount\"}");
                 }
             } else {
-                //Số tiền không trùng khớp
-                out.print("{\"RspCode\":\"04\",\"Message\":\"Invalid Amount\"}");
+                //Mã giao dịch không tồn tại
+                out.print("{\"RspCode\":\"01\",\"Message\":\"Order not Found\"}");
             }
-        } else {
-            //Mã giao dịch không tồn tại
-            out.print("{\"RspCode\":\"01\",\"Message\":\"Order not Found\"}");
-        }
 
-    } else {
-        // Sai checksum
-        out.print("{\"RspCode\":\"97\",\"Message\":\"Invalid Checksum\"}");
-    }
+        } else {
+            // Sai checksum
+            out.print("{\"RspCode\":\"97\",\"Message\":\"Invalid Checksum\"}");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

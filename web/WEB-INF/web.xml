@@ -100,6 +100,14 @@
         <servlet-name>AddDepositServlet</servlet-name>
         <servlet-class>Controller.AddDepositServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewDepositServlet</servlet-name>
+        <servlet-class>Controller.ViewDepositServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateDepositStatus</servlet-name>
+        <servlet-class>Controller.UpdateDepositStatus</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -199,6 +207,14 @@
     <servlet-mapping>
         <servlet-name>AddDepositServlet</servlet-name>
         <url-pattern>/AddDepositServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewDepositServlet</servlet-name>
+        <url-pattern>/ViewDepositServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateDepositStatus</servlet-name>
+        <url-pattern>/UpdateDepositStatus</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -17,11 +17,19 @@ import java.util.ArrayList;
  * @author admin
  */
 public class AppointmentDAL {
-    private static final String INSERTAPPOINTMENT="INSERT INTO Appointments (ListingID,TenantID,AppointmentDate,Status,ContactPhone,RoomSelected,LandlordID) VALUES (?,?,?,?,?,?,?)";
-    private static final String GETALLAPOINTMENTBYLANDLORDID="SELECT * FROM [Appointments] where LandlordID=?";
-    private static final String UPDATEAPPOINTMENT="UPDATE Appointments SET Status = ? where AppointmentID=?;";
-    private static final String GETALLAPOINTMENTBYTENNATID="SELECT * FROM [Appointments] where TenantID=?";
-    public static ArrayList<Appointments> getAllApointmentByLandlordID(int userID){
+
+    private static final String INSERTAPPOINTMENT = "INSERT INTO Appointments (ListingID,TenantID,AppointmentDate,Status,ContactPhone,RoomSelected,LandlordID) VALUES (?,?,?,?,?,?,?)";
+    private static final String GETALLAPOINTMENTBYLANDLORDID = "SELECT *\n"
+            + "FROM Appointments\n"
+            + "where LandlordID = ?\n"
+            + "ORDER BY CASE WHEN Status = 'Pending' THEN 0 ELSE 1 END, AppointmentDate DESC;";
+    private static final String UPDATEAPPOINTMENT = "UPDATE Appointments SET Status = ? where AppointmentID=?;";
+    private static final String GETALLAPOINTMENTBYTENNATID = "SELECT *\n"
+            + "FROM Appointments\n"
+            + "where TenantID = ?\n"
+            + "ORDER BY CASE WHEN Status = 'Pending' THEN 0 ELSE 1 END, AppointmentDate DESC;";
+
+    public static ArrayList<Appointments> getAllApointmentByLandlordID(int userID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         ArrayList<Appointments> aList = new ArrayList<>();
@@ -48,7 +56,8 @@ public class AppointmentDAL {
         }
         return aList;
     }
-        public static ArrayList<Appointments> getAllApointmentByTenantID(int userID){
+
+    public static ArrayList<Appointments> getAllApointmentByTenantID(int userID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         ArrayList<Appointments> aList = new ArrayList<>();
@@ -75,7 +84,8 @@ public class AppointmentDAL {
         }
         return aList;
     }
-    public static boolean insertAppointment(int listingID,int TenantID,Timestamp appointmentdate,String contactPhone,String roomSelected,int landlordID){
+
+    public static boolean insertAppointment(int listingID, int TenantID, Timestamp appointmentdate, String contactPhone, String roomSelected, int landlordID) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -83,19 +93,20 @@ public class AppointmentDAL {
                 ptm.setInt(1, listingID);
                 ptm.setInt(2, TenantID);
                 ptm.setTimestamp(3, appointmentdate);
-                ptm.setString(4,"Pending");
+                ptm.setString(4, "Pending");
                 ptm.setString(5, contactPhone);
                 ptm.setString(6, roomSelected);
                 ptm.setInt(7, landlordID);
                 int rowsAffected = ptm.executeUpdate();
-                return rowsAffected > 0 ;
+                return rowsAffected > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
-    public static boolean updateAppointment(int appointmentID,String status){
+
+    public static boolean updateAppointment(int appointmentID, String status) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -103,16 +114,17 @@ public class AppointmentDAL {
                 ptm.setInt(2, appointmentID);
                 ptm.setString(1, status);
                 int rowsAffected = ptm.executeUpdate();
-                return rowsAffected > 0 ;
+                return rowsAffected > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
+
     public static void main(String[] args) {
         ArrayList<Appointments> aList = getAllApointmentByLandlordID(28);
-        for(Appointments a : aList){
+        for (Appointments a : aList) {
             System.out.println(a.toString());
         }
     }

@@ -42,7 +42,7 @@
                                     </c:if>
                                 </c:otherwise>
                             </c:choose>
-                        <li class="nav-item"><a class="nav-link" href="contract.jsp">Contract</a></li>
+                        <li class="nav-item"><a class="nav-link" href="ViewDepositServlet">Deposit</a></li>
                     </ul>
                     <!-- thong bao -->
                     <button class="btn btn-outline-dark bi-bell" type="button" data-bs-toggle="modal" data-bs-target="#notificationModal" id="openModalBtn">

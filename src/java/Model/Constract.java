@@ -18,9 +18,12 @@ public class Constract {
     private Timestamp EndDate;
     private String status;
     private int landLordId;
+    private double price;
+    
   public Constract() {
     }
-    public Constract(int constractId, int propertyId, int tenantId, Timestamp startDate, Timestamp EndDate, String status, int landLordId) {
+
+    public Constract(int constractId, int propertyId, int tenantId, Timestamp startDate, Timestamp EndDate, String status, int landLordId, double price) {
         this.constractId = constractId;
         this.propertyId = propertyId;
         this.tenantId = tenantId;
@@ -28,6 +31,15 @@ public class Constract {
         this.EndDate = EndDate;
         this.status = status;
         this.landLordId = landLordId;
+        this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public int getConstractId() {

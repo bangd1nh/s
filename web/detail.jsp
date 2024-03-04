@@ -74,10 +74,10 @@
                         </div>
                         <div class="d-flex mt-1 row">
                             <div class="col">
-                            <p>Rating: ${requestScope.average}</p>
+                                <p>Rating: ${requestScope.average}</p>
                             </div>
                             <div class="col">
-                            <p>Your Rating: ${requestScope.userRating}</p>
+                                <p>Your Rating: ${requestScope.userRating}</p>
                             </div>
                             <p>Rate this post:</p>
                             <form action="RatingServlet" method="post" id="ratingForm">
@@ -88,15 +88,15 @@
                                 <input type="radio" name="rating" value="5" class="star">
                                 <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
                                 <c:if test="${sessionScope.loggedInUser.getUserID() != null}"><input type="submit" value="Rate" class="btn btn-outline-dark"></c:if>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <section class="py-5 bg-light">
-            <div class="container px-4 px-lg-5 mt-5">
-                <h2 class="fw-bolder mb-4">Danh sach phong</h2>
+            </section>
+            <section class="py-5 bg-light">
+                <div class="container px-4 px-lg-5 mt-5">
+                    <h2 class="fw-bolder mb-4">Danh sach phong</h2>
 
                 <c:if test="${empty appList}">
                     <p>empty</p>
@@ -174,29 +174,42 @@
                             <c:if test="empty commentList">
                                 NO COMMENT!
                             </c:if>
-                                Comment:
+                            Comment:
                             <c:if test="${not empty commentList}">
                                 <c:forEach var="i" begin="0" end="${commentList.size()-1}">
                                     <div class="bg-white p-2">
-                                        <div class="d-flex flex-row user-info"><img class="rounded-circle" src="${commentList.get(i).getUserImgsrc()}" width="40">
-                                            <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">${commentList.get(i).getUserName()}</span><span class="date text-black-50">${commentList.get(i).getCommentedAt()}</span></div>
+                                        <div class="d-flex flex-row user-info">
+                                            <img class="rounded-circle" src="${commentList.get(i).getUserImgsrc()}" width="40" height="40" style="object-fit: cover;">
+                                            <div class="d-flex flex-column justify-content-start ml-2">
+                                                <span class="d-block font-weight-bold name">${commentList.get(i).getUserName()}</span>
+                                                <span class="date text-black-50">${commentList.get(i).getCommentedAt()}</span>
+                                            </div>
                                         </div>
-                                        <div class="mt-2">
-                                            <p class="comment-text">${commentList.get(i).getComment()}</p>
+                                        <div class="mt-2 row">
+                                            <p class="comment-text col-8">${commentList.get(i).getComment()}</p>
+                                            <c:if test="${commentList.get(i).getUserID() eq sessionScope.loggedInUser.getUserID()}">
+                                                <button class="btn btn-outline-dark col" type="submit" value="editcomment">sua binh luan</button>
+                                                <button class="btn btn-danger col" type="submit" value="deletecomment">xoa binh luan</button>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </c:forEach>
                             </c:if>
-                        <c:if test="${not empty sessionScope.loggedInUser}">
-                            <form action="CreateCommentServlet" method="post">
-                                <div class="bg-light p-2">
-                                    <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="${sessionScope.loggedInUser.getImgsrc()}" width="40"><textarea class="form-control ml-1 shadow-none textarea" name="comment"></textarea></div>
-                                    <input type="hidden" name="userID" value="${sessionScope.loggedInUser.getUserID()}">
-                                    <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
-                                    <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button></div>
-                                </div>
-                            </form>
-                                    </c:if>
+                            <c:if test="${not empty sessionScope.loggedInUser}">
+                                <form action="CreateCommentServlet" method="post">
+                                    <div class="bg-light p-2">
+                                        <div class="d-flex flex-row align-items-start">
+                                            <img class="rounded-circle" src="${sessionScope.loggedInUser.getImgsrc()}" width="40" height="40" style="object-fit: cover;">
+                                            <textarea class="form-control ml-1 shadow-none textarea" name="comment"></textarea>
+                                        </div>
+                                        <input type="hidden" name="userID" value="${sessionScope.loggedInUser.getUserID()}">
+                                        <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
+                                        <div class="mt-2 text-right">
+                                            <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -227,7 +240,7 @@
             window.location.href = "SaveListingServlet?listingID=" + listingID + "&userID=" + ${sessionScope.loggedInUser.getUserID()};
         }
         function thuephongclick() {
-            window.location.href = "ConstractServlet?listingId=" + ${requestScope.listingDetail.getListingID()}+"&aprtementID="+${appList.get(i).getApartmentID()};
+            window.location.href = "ConstractServlet?listingId=" + ${requestScope.listingDetail.getListingID()} + "&aprtementID=" +${appList.get(i).getApartmentID()};
 //            window.location.href = "constractdetail.jsp?listingId="+${requestScope.listingDetail.getListingID()};
         }
     </script>

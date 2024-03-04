@@ -36,7 +36,7 @@ public class ajaxServlet extends HttpServlet {
         String vnp_Command = "pay";
         String orderType = "other";
         long amount = Integer.parseInt(req.getParameter("amount"))*100;
-        long listingId = Integer.parseInt(req.getParameter("listingId"));
+        long aprtmentId = Integer.parseInt(req.getParameter("propertyID"));
         String bankCode = req.getParameter("bankCode");
         
         String vnp_TxnRef = Config.getRandomNumber(8);
@@ -56,7 +56,7 @@ public class ajaxServlet extends HttpServlet {
             vnp_Params.put("vnp_BankCode", bankCode);
         }
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", String.valueOf(listingId));
+        vnp_Params.put("vnp_OrderInfo", String.valueOf(aprtmentId));
         vnp_Params.put("vnp_OrderType", "other");
 
         String locate = req.getParameter("language");

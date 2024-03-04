@@ -19,7 +19,9 @@ import java.sql.Timestamp;
 public class ListingsDAL {
 
     private static final String GETSAVELISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where Listings.ListingID=?";
-    private static final String GETALLLISTINGS = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID";
+    private static final String GETALLLISTINGS = "SELECT *\n"
+            + "FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID\n"
+            + "ORDER By CreatedAt DESC;";
     private static final String GETLISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where ListingID=?";
     private static final String UPLOADLISTING = "INSERT INTO Listings (LandlordID,ContactEmail,ContactPhone,CreatedAt,Title,imgsrc,Location,Descriptions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String GETALLLISTINGSBYUSERID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where UserID=?";
