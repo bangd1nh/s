@@ -8,9 +8,9 @@ import DBConnect.DBconnection;
 import Model.Constract;
 import Model.ConstractInfor;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -94,8 +94,8 @@ public class ConstractDAL {
                     app.setConstractId(rs.getInt("ContractID"));
                     app.setPropertyId(rs.getInt("PropertyID"));
                     app.setTenantId(rs.getInt("TennatID"));
-                    app.setStartDate(rs.getTimestamp("StartDate"));
-                    app.setEndDate(rs.getTimestamp("EndDate"));
+                    app.setStartDate(rs.getDate("StartDate"));
+                    app.setEndDate(rs.getDate("EndDate"));
                     app.setStatus(rs.getString("Status"));
                     app.setLandLordId(rs.getInt("LandlordID"));
                     conList.add(app);
@@ -107,15 +107,15 @@ public class ConstractDAL {
         return conList;
     }
 //    chua hoan thanh
-    public static boolean insertContract(int propetyID,int tennantID,Timestamp startDate, Timestamp endDate,int landlordID) {
+    public static boolean insertContract(int propetyID,int tennantID,Date startDate, Date endDate,int landlordID) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement(INSERTDEPOSIT);
                 ptm.setInt(1, propetyID);
                 ptm.setInt(2, tennantID);
-                ptm.setTimestamp(3, startDate);
-                ptm.setTimestamp(4, endDate);
+                ptm.setDate(3, startDate);
+                ptm.setDate(4, endDate);
                 ptm.setString(5, "Pendding");
                 ptm.setInt(6, landlordID);
                 int rowsAffected = ptm.executeUpdate();
@@ -140,8 +140,8 @@ public class ConstractDAL {
                     c.setConstractId(rs.getInt("ContractID"));
                     c.setPropertyId(rs.getInt("PropertyID"));
                     c.setTenantId(rs.getInt("TenantID"));
-                    c.setStartDate(rs.getTimestamp("StartDate"));
-                    c.setEndDate(rs.getTimestamp("EndDate"));
+                    c.setStartDate(rs.getDate("StartDate"));
+                    c.setEndDate(rs.getDate("EndDate"));
                     c.setStatus(rs.getString("Status"));
                     c.setLandLordId(rs.getInt("LandlordID"));
                     c.setPrice(rs.getDouble("Price"));
@@ -168,8 +168,8 @@ public class ConstractDAL {
                     c.setPropertyId(rs.getInt("PropertyID"));
                     c.setTenantId(rs.getInt("TenantID"));
                     c.setStartDate(rs.getTimestamp("StartDate"));
-                    c.setEndDate(rs.getTimestamp("EndDate"));
-                    c.setStatus(rs.getString("Status"));
+                    c.setStartDate(rs.getDate("StartDate"));
+                    c.setEndDate(rs.getDate("EndDate"));
                     c.setLandLordId(rs.getInt("LandlordID"));
                     c.setPrice(rs.getDouble("Price"));
                     conList.add(c);

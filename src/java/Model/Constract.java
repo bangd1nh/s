@@ -5,6 +5,7 @@
 package Model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -14,8 +15,8 @@ public class Constract {
     private int constractId;
     private int propertyId;
     private int tenantId;
-    private Timestamp startDate;
-    private Timestamp EndDate;
+    private Date startDate;
+    private Date EndDate;
     private String status;
     private int landLordId;
     private double price;
@@ -23,7 +24,7 @@ public class Constract {
   public Constract() {
     }
 
-    public Constract(int constractId, int propertyId, int tenantId, Timestamp startDate, Timestamp EndDate, String status, int landLordId, double price) {
+    public Constract(int constractId, int propertyId, int tenantId, Date startDate, Date EndDate, String status, int landLordId, double price) {
         this.constractId = constractId;
         this.propertyId = propertyId;
         this.tenantId = tenantId;
@@ -33,6 +34,23 @@ public class Constract {
         this.landLordId = landLordId;
         this.price = price;
     }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return EndDate;
+    }
+
+    public void setEndDate(Date EndDate) {
+        this.EndDate = EndDate;
+    }
+
 
     public double getPrice() {
         return price;
@@ -66,21 +84,7 @@ public class Constract {
         this.tenantId = tenantId;
     }
 
-    public Timestamp getStartDate() {
-        return startDate;
-    }
 
-    public void setStartDate(Timestamp startDate) {
-        this.startDate = startDate;
-    }
-
-    public Timestamp getEndDate() {
-        return EndDate;
-    }
-
-    public void setEndDate(Timestamp EndDate) {
-        this.EndDate = EndDate;
-    }
 
     public String getStatus() {
         return status;

@@ -63,8 +63,8 @@
                                                         <input type="hidden" name="constractID" value="${l.getConstractId()}">
                                                         <input type="hidden" name="price" value="${l.getPrice()}">
                                                         <input type="hidden" name="propertyID" value="${l.getPropertyId()}">
-                                                        <button type="submit" class="btn btn-success" name="status" value="ByCash">Tien mat</button>
-                                                        <button type="submit" class="btn btn-success" name="status" value="VnPay">VnPay</button>
+                                                        <!--<button type="submit" class="btn btn-success" name="status" value="ByCash">Tien mat</button>-->
+                                                        <button type="submit" class="btn btn-success" name="status" >VnPay</button>
                                                     </form>
                                                 </c:if>
 
@@ -90,10 +90,10 @@
     </body>
     <script type="text/javascript">
         $("#frmCreateOrder").submit(function () {
-            //                var price = "${constractList.getPrice()}";
-            var amount = parseInt("${constractList.getPrice()}");
-            var listingId = "${constractList.getListingid()}";
-            var postData = "amount=" + amount + "&listingId=" + listingId;
+            //var price = "${constractList.getPrice()}";
+            var amount = parseInt("${l.getPrice()}");
+            var listingId = "${l.getPropertyId()}";
+            var postData = "amount=" + amount + "&propertyId=" + listingId;
             var submitUrl = $("#frmCreateOrder").attr("action");
             $.ajax({
                 type: "POST",

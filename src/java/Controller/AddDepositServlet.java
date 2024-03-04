@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -79,17 +79,12 @@ public class AddDepositServlet extends HttpServlet {
         int apartmentID = Integer.parseInt(request.getParameter("apartmentID"));
         String startDate = request.getParameter("startdate");
         String endDate = request.getParameter("enddate");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime localDateTime = LocalDateTime.parse(startDate, formatter);
-        LocalDateTime localDateTime1 = LocalDateTime.parse(endDate, formatter);
-
-// Chuyển đổi LocalDateTime sang Timestamp
-        Timestamp timestamp = Timestamp.valueOf(localDateTime);
-        Timestamp timestamp1 = Timestamp.valueOf(localDateTime1);
 
         try {
+            Date startDated = Date.valueOf(startDate);
+            Date endDated = Date.valueOf(endDate);
             // Thực hiện các thao tác với các đối tượng Timestamp đã chuyển đổi
-            if (DAO.ConstractDAL.insertContract(apartmentID, tennantID, timestamp, timestamp1, landlordID)) {
+            if (DAO.ConstractDAL.insertContract(apartmentID, tennantID, startDated, endDated, landlordID)) {
                 request.setAttribute("message", "Gửi đơn đặt cọc thành công");
             } else {
                 request.setAttribute("message", "Gửi đơn đặt cọc thất bại");
