@@ -71,21 +71,14 @@ public class UpdateDepositStatus extends HttpServlet {
             throws ServletException, IOException {
         int constractID = Integer.parseInt(request.getParameter("constractID"));
         String status = request.getParameter("status");
-        if (!status.equalsIgnoreCase("VnPay")) {
+        if (!status.equalsIgnoreCase("Pendding")) {
             if (DAO.ConstractDAL.updateStatusContract(status, constractID)) {
                 request.setAttribute("message", "da gui phan hoi");
             } else {
                 request.setAttribute("message", "gui phan hoi that bai");
             }
             request.getRequestDispatcher("ViewDepositServlet").forward(request, response);
-        } else {
-            double price = Double.parseDouble(request.getParameter("price"));
-            request.setAttribute("amount", price);
-            int propertyID = Integer.parseInt(request.getParameter("propertyID"));
-            request.setAttribute("propertyID", propertyID);
-//            request.getRequestDispatcher("vnpayajax").forward(request, response);
         }
-        request.getRequestDispatcher("ViewDepositServlet").forward(request, response);
     }
 
     /**
