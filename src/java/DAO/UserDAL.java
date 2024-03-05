@@ -25,6 +25,7 @@ public class UserDAL {
     private static final String GETINFORBYID = "SELECT FirstName,LastName,Email,ContactPhone FROM.[Users] Where UserID=?";
     private static final String LOGINEMAIL = "INSERT INTO Users (Email,Username) Values(?,?)";
     private static final String LOGINWITHEMAIL = "SELECT * FROM.[Users] where Email=?";
+    private static final String UPDATEPASSWORD = "UPDATE Users Set Password=? where Email=?";
 
     public static User userLogin(String email, String password) {
         PreparedStatement ptm = null;
@@ -227,6 +228,21 @@ public class UserDAL {
             e.printStackTrace();
         }
         return user;
+    }
+    public static boolean UpdatePassword(String Password, String Email) {
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(UPDATEPASSWORD);
+                ptm.setString(1, Password);
+                ptm.setString(2, Email);
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static void main(String[] args) {

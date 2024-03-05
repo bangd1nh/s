@@ -36,6 +36,8 @@
                                     <label class="form-check-label" for="rememberPasswordCheck">
                                         Remember password
                                     </label>
+                                    <br>
+                                    <a href="forgotpassword.jsp">forgot password ?</a>
                                 </div>
                                 <div class="d-grid">
                                     <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign
