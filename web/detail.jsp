@@ -170,14 +170,14 @@
             <div class="container mt-5">
                 <div class="d-flex justify-content-center row">
                     <div class="col-md-8">
-                        <div class="d-flex flex-column comment-section border rounded border-dark">
+                        <div class="d-flex flex-column comment-section rounded border-0">
                             <c:if test="empty commentList">
-                                NO COMMENT!
+                                <h4 class="text-center font-weight-bold mb-2">Comment</h4>
                             </c:if>
-                            Comment:
+                            <h4 class="text-center font-weight-bold mb-2">Comment</h4>
                             <c:if test="${not empty commentList}">
                                 <c:forEach var="i" begin="0" end="${commentList.size()-1}">
-                                    <div class="bg-white p-2">
+                                    <div class="bg-white border-top-1 border-bottom-1">
                                         <div class="d-flex flex-row user-info">
                                             <img class="rounded-circle" src="${commentList.get(i).getUserImgsrc()}" width="40" height="40" style="object-fit: cover;">
                                             <div class="d-flex flex-column justify-content-start ml-2">
@@ -194,6 +194,11 @@
                                         </div>
                                     </div>
                                 </c:forEach>
+                                <div class="pagination justify-content-center">
+                                    <c:forEach var="index" end="${requestScope.endP}" begin="1">
+                                        <a class="page-link" href="Listingdetail?index=${index}&listingID=${requestScope.listingDetail.getListingID()}">${index}</a>
+                                    </c:forEach>
+                                </div>
                             </c:if>
                             <c:if test="${not empty sessionScope.loggedInUser}">
                                 <form action="CreateCommentServlet" method="post">
@@ -215,6 +220,7 @@
                 </div>
             </div>
         </section>
+
         <footer><%@include file="footer.jsp" %></footer>
     </body>
     <script>

@@ -39,8 +39,20 @@ public class Listingdetail extends HttpServlet {
         request.setAttribute("listingDetail", l);
         ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
         request.setAttribute("appList", appList);
-        ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID);
-        request.setAttribute("commentList", commentList);
+        String index = request.getParameter("index");
+        int count = DAO.CommentDAL.getTotalListings(listingID);
+        int endPage = count / 3;
+        if (count % 3 != 0) {
+            endPage++;
+        }
+        if(index == null){
+            index = "1";
+            ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID,Integer.parseInt(index));
+            request.setAttribute("commentList", commentList);
+        }else{
+            ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID,Integer.parseInt(index));
+            request.setAttribute("commentList", commentList);
+        }
         ArrayList<Integer> ratingList = DAO.RatingDAL.getAllRating(listingID);
         double average = averageRating(ratingList);
         request.setAttribute("average", average);
@@ -69,8 +81,21 @@ public class Listingdetail extends HttpServlet {
         request.setAttribute("listingDetail", l);
         ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
         request.setAttribute("appList", appList);
-        ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID);
-        request.setAttribute("commentList", commentList);
+        String index = request.getParameter("index");
+        int count = DAO.CommentDAL.getTotalListings(listingID);
+        int endPage = count / 3;
+        if (count % 3 != 0) {
+            endPage++;
+        }
+        if(index == null){
+            index = "1";
+            ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID,Integer.parseInt(index));
+            request.setAttribute("commentList", commentList);
+        }else{
+            ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID,Integer.parseInt(index));
+            request.setAttribute("commentList", commentList);
+        }
+        request.setAttribute("endP", endPage);
         ArrayList<Integer> ratingList = DAO.RatingDAL.getAllRating(listingID);
         double average = averageRating(ratingList);
         request.setAttribute("average", average);

@@ -19,21 +19,21 @@ import java.sql.Timestamp;
 public class ListingsDAL {
 
     private static final String GETSAVELISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where Listings.ListingID=?";
-    private static final String GETALLLISTINGS = "SELECT *\n"
-            + "FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID\n"
-            + "ORDER By CreatedAt DESC;";
+    private static final String GETALLLISTINGS = "SELECT * from Listings JOIN Users ON Listings.LandlordID = Users.UserID order by CreatedAt desc offset ? rows fetch next 9 rows only;";
     private static final String GETLISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where ListingID=?";
     private static final String UPLOADLISTING = "INSERT INTO Listings (LandlordID,ContactEmail,ContactPhone,CreatedAt,Title,imgsrc,Location,Descriptions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String GETALLLISTINGSBYUSERID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where UserID=?";
     private static final String UPDATELISTING = "UPDATE Listings SET Title = ?,Location = ?,ContactPhone = ?,ContactEmail = ?,Descriptions = ? WHERE ListingID = ?";
+    private static final String GETTOTALLISTINGS="SELECT count(*) from Listings";
 
-    public static ArrayList<Listings> getAllListings() {
+    public static ArrayList<Listings> getAllListings(int index) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         ArrayList<Listings> list = new ArrayList<>();
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement(GETALLLISTINGS);
+                ptm.setInt(1, (index-1)*9);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     Listings l = new Listings();
@@ -182,5 +182,21 @@ public class ListingsDAL {
             e.printStackTrace();
         }
         return l;
+    }
+    public static int getTotalListings() {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETTOTALLISTINGS);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

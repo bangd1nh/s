@@ -51,6 +51,7 @@
                                                 <c:if test="${l.getStatus() eq 'ByCash' or l.getStatus()eq 'VnPay'}">
                                                     <form action="UpdateDepositStatus" method="post">
                                                         <input type="hidden" name="constractID" value="${l.getConstractId()}">
+                                                        <input type="hidden" name="propertyID" value="${l.getPropertyId()}">
                                                         <button type="submit" class="btn btn-success" name="status" value="Active">da nhan tien</button>
                                                         <button type="submit" class="btn btn-danger" name="status" value="Cancelled">chua nhan tien</button>
                                                     </form>

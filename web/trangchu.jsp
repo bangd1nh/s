@@ -94,16 +94,14 @@
                         </c:forEach>
                     </c:if>
                 </div>
+                <div class="pagination justify-content-center">
+                    <c:forEach var="index" end="${requestScope.endP}" begin="1">
+                        <a class="page-link" href="ListingsServlet?index=${index}">${index}</a>
+                    </c:forEach>
+                </div>
             </div>
         </section>
-        <div id="myModal" class="overlay">
-            <div class="modal">
-                <!-- Nội dung của modal -->
-                <h2>Modal Title</h2>
-                <p>Nội dung của modal...</p>
-                <button onclick="closeModal()">Đóng</button>
-            </div>
-        </div>
+
         <footer><%@include file="footer.jsp" %></footer>
     </body>
     <script>

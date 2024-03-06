@@ -71,14 +71,19 @@ public class UpdateDepositStatus extends HttpServlet {
             throws ServletException, IOException {
         int constractID = Integer.parseInt(request.getParameter("constractID"));
         String status = request.getParameter("status");
+        String appartmentID = request.getParameter("propertyID");
         if (!status.equalsIgnoreCase("Pendding")) {
+            if (status.equalsIgnoreCase("active") && appartmentID != null) {
+                DAO.ApartmentInfoDAL.updatestatus(Integer.parseInt(appartmentID));
+            }
             if (DAO.ConstractDAL.updateStatusContract(status, constractID)) {
                 request.setAttribute("message", "da gui phan hoi");
+
             } else {
                 request.setAttribute("message", "gui phan hoi that bai");
             }
-            request.getRequestDispatcher("ViewDepositServlet").forward(request, response);
         }
+        request.getRequestDispatcher("ViewDepositServlet").forward(request, response);
     }
 
     /**
