@@ -73,9 +73,9 @@ public class SearchListingsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        list = DAO.ListingsDAL.getAllListings(1);
+        list = DAO.ListingsDAL.getAllListings();
         String searchTerm = request.getParameter("searchTerm");
-        ArrayList<Listings> rs = search(l->l.getLocation().contains(searchTerm));
+        ArrayList<Listings> rs = search(l->l.getLocation().startsWith(searchTerm));
         request.setAttribute("list", rs);
         request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }

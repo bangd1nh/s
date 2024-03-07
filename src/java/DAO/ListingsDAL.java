@@ -19,21 +19,100 @@ import java.sql.Timestamp;
 public class ListingsDAL {
 
     private static final String GETSAVELISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where Listings.ListingID=?";
-    private static final String GETALLLISTINGS = "SELECT * from Listings JOIN Users ON Listings.LandlordID = Users.UserID order by CreatedAt desc offset ? rows fetch next 9 rows only;";
+    private static final String GETALLLISTINGS = "SELECT *\n"
+            + "FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID\n"
+            + "ORDER By CreatedAt DESC;";
     private static final String GETLISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where ListingID=?";
     private static final String UPLOADLISTING = "INSERT INTO Listings (LandlordID,ContactEmail,ContactPhone,CreatedAt,Title,imgsrc,Location,Descriptions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String GETALLLISTINGSBYUSERID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where UserID=?";
     private static final String UPDATELISTING = "UPDATE Listings SET Title = ?,Location = ?,ContactPhone = ?,ContactEmail = ?,Descriptions = ? WHERE ListingID = ?";
-    private static final String GETTOTALLISTINGS="SELECT count(*) from Listings";
-
-    public static ArrayList<Listings> getAllListings(int index) {
+    private static final String TOTALLISTING = "SELECT COUNT(*) AS total_listings FROM listings";
+    private static final String TOTALUSER = "SELECT COUNT(*) AS total_users FROM Users";
+    private static final String TOTALLOARD= "SELECT COUNT(*) AS total_loard FROM Users WHERE UserType = 'Landlord'";
+    private static final String TOTALTENNANT= "SELECT COUNT(*) AS total_tenant FROM Users WHERE UserType = 'Tenant'";
+    public static int getTotalListings(){
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        int totalListings = 0;
+        try ( Connection con = DBconnection.getConnection()) {
+         if (con != null) {
+                ptm = con.prepareStatement(TOTALLISTING);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    totalListings = rs.getInt("total_listings");
+                }
+            }
+        }
+        
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalListings;
+    }
+    public static int getTotalUsers(){
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        int totalUsers = 0;
+        try ( Connection con = DBconnection.getConnection()) {
+         if (con != null) {
+                ptm = con.prepareStatement(TOTALUSER);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    totalUsers = rs.getInt("total_users");
+                }
+            }
+        }
+        
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalUsers;
+    }
+    public static int getTotalLoard(){
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        int totalLoard = 0;
+        try ( Connection con = DBconnection.getConnection()) {
+         if (con != null) {
+                ptm = con.prepareStatement(TOTALLOARD);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    totalLoard = rs.getInt("total_loard");
+                }
+            }
+        }
+        
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalLoard;
+    }
+    public static int getTotalTenant(){
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        int totalTenant = 0;
+        try ( Connection con = DBconnection.getConnection()) {
+         if (con != null) {
+                ptm = con.prepareStatement(TOTALTENNANT);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    totalTenant = rs.getInt("total_tenant");
+                }
+            }
+        }
+        
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalTenant;
+    }
+    public static ArrayList<Listings> getAllListings() {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         ArrayList<Listings> list = new ArrayList<>();
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement(GETALLLISTINGS);
-                ptm.setInt(1, (index-1)*9);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     Listings l = new Listings();
@@ -182,21 +261,5 @@ public class ListingsDAL {
             e.printStackTrace();
         }
         return l;
-    }
-    public static int getTotalListings() {
-        PreparedStatement ptm = null;
-        ResultSet rs = null;
-        try ( Connection con = DBconnection.getConnection()) {
-            if (con != null) {
-                ptm = con.prepareStatement(GETTOTALLISTINGS);
-                rs = ptm.executeQuery();
-                while (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 }

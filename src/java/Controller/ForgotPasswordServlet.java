@@ -102,7 +102,7 @@ public class ForgotPasswordServlet extends HttpServlet {
 			props.put("mail.smtp.port", "465");
 			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("swpsevermail@gmail.com", "rwap ojqn vnck hvin");// Put your email
+					return new PasswordAuthentication("dinhngocson465@gmail.com", "potv nnho xsjc kbli");// Put your email
 																									// id and
 																									// password here
 				}
@@ -112,7 +112,7 @@ public class ForgotPasswordServlet extends HttpServlet {
 				MimeMessage message = new MimeMessage(session);
 				message.setFrom(new InternetAddress(email));// change accordingly
 				message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-				message.setSubject("OTP");
+				message.setSubject("Hello");
 				message.setText("your OTP is: " + otpvalue);
 				// send message
 				Transport.send(message);

@@ -32,38 +32,13 @@ public class ListingsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String index = request.getParameter("index");
-        int count = DAO.ListingsDAL.getTotalListings();
-        int endPage = count / 9;
-        if (count % 9 != 0) {
-            endPage++;
+        if (request.getAttribute("list") == null) {
+            ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
+            request.setAttribute("list", list);
+        } else {
+            ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
+            request.setAttribute("list", list);
         }
-        if(index==null){
-            index="1";
-            if (request.getAttribute("list") == null) {
-                ArrayList<Listings> list = DAO.ListingsDAL.getAllListings(Integer.parseInt(index));
-                request.setAttribute("list", list);
-            }else {
-                ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
-                request.setAttribute("list", list);
-            }
-        }else{
-            if (request.getAttribute("list") == null) {
-                ArrayList<Listings> list = DAO.ListingsDAL.getAllListings(Integer.parseInt(index));
-                request.setAttribute("list", list);
-            }else {
-                ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
-                request.setAttribute("list", list);
-            }
-        }
-//        if (request.getAttribute("list") == null) {
-//            ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
-//            request.setAttribute("list", list);
-//        } else {
-//            ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
-//            request.setAttribute("list", list);
-//        }
-        request.setAttribute("endP", endPage);
         HttpSession session = request.getSession();
         try {
             User u = (User) session.getAttribute("loggedInUser");
@@ -94,38 +69,13 @@ public class ListingsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String index = request.getParameter("index");
-        int count = DAO.ListingsDAL.getTotalListings();
-        int endPage = count / 9;
-        if (count % 9 != 0) {
-            endPage++;
+        if (request.getAttribute("list") == null) {
+            ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
+            request.setAttribute("list", list);
+        } else {
+            ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
+            request.setAttribute("list", list);
         }
-        if(index==null){
-            index="1";
-            if (request.getAttribute("list") == null) {
-                ArrayList<Listings> list = DAO.ListingsDAL.getAllListings(Integer.parseInt(index));
-                request.setAttribute("list", list);
-            }else {
-                ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
-                request.setAttribute("list", list);
-            }
-        }else{
-            if (request.getAttribute("list") == null) {
-                ArrayList<Listings> list = DAO.ListingsDAL.getAllListings(Integer.parseInt(index));
-                request.setAttribute("list", list);
-            }else {
-                ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
-                request.setAttribute("list", list);
-            }
-        }
-//        if (request.getAttribute("list") == null) {
-//            ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
-//            request.setAttribute("list", list);
-//        } else {
-//            ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
-//            request.setAttribute("list", list);
-//        }
-        request.setAttribute("endP", endPage);
         HttpSession session = request.getSession();
         try {
             User u = (User) session.getAttribute("loggedInUser");

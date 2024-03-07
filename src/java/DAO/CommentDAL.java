@@ -18,10 +18,9 @@ import java.util.ArrayList;
  * @author admin
  */
 public class CommentDAL {
-    private static final String GETCOMMENTBYLISTINGID="SELECT Comments.*,Users.Username,Users.imgsrc from Comments join Users on Users.UserID = Comments.UserID where ListingID = ? order by CommentedAt desc offset ? rows fetch next 3 rows only;";
+    private static final String GETCOMMENTBYLISTINGID="SELECT Comments.*,Users.Username,Users.imgsrc from Comments join Users on Users.UserID = Comments.UserID Where ListingID=?;";
     private static final String INSERTCOMMENT="INSERT INTO Comments (UserID,ListingID,Comment,CommentedAt) Values(?,?,?,?)";
-     private static final String GETTOTALCOMMENTS="SELECT count(*) from Comments where ListingID=?";
-    public static ArrayList<Comment> getCommentbyID(int listingsID,int index) {
+    public static ArrayList<Comment> getCommentbyID(int listingsID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         ArrayList<Comment> commentList = new ArrayList<>();
@@ -29,7 +28,6 @@ public class CommentDAL {
             if (con != null) {
                 ptm = con.prepareStatement(GETCOMMENTBYLISTINGID);
                 ptm.setInt(1, listingsID);
-                ptm.setInt(2, index);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     Comment c = new Comment();
@@ -63,23 +61,6 @@ public class CommentDAL {
         } catch (Exception e) {
         }
         return false;
-    }
-    public static int getTotalListings(int listingID) {
-        PreparedStatement ptm = null;
-        ResultSet rs = null;
-        try ( Connection con = DBconnection.getConnection()) {
-            if (con != null) {
-                ptm = con.prepareStatement(GETTOTALCOMMENTS);
-                ptm.setInt(1, listingID);
-                rs = ptm.executeQuery();
-                while (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
     public static void main(String[] args) {
         long createdAt = System.currentTimeMillis();

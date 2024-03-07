@@ -124,6 +124,26 @@
         <servlet-name>NewPassword</servlet-name>
         <servlet-class>Controller.NewPassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>Controller.AdminServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostServlet</servlet-name>
+        <servlet-class>Controller.PostServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportServlet</servlet-name>
+        <servlet-class>Controller.ReportServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteListingServlet</servlet-name>
+        <servlet-class>Controller.DeleteListingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CancelReportServlet</servlet-name>
+        <servlet-class>Controller.CancelReportServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -247,6 +267,26 @@
     <servlet-mapping>
         <servlet-name>NewPassword</servlet-name>
         <url-pattern>/NewPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/AdminServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostServlet</servlet-name>
+        <url-pattern>/PostServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportServlet</servlet-name>
+        <url-pattern>/ReportServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteListingServlet</servlet-name>
+        <url-pattern>/DeleteListingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CancelReportServlet</servlet-name>
+        <url-pattern>/CancelReportServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

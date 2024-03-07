@@ -84,6 +84,8 @@ public class Constract {
         this.tenantId = tenantId;
     }
 
+
+
     public String getStatus() {
         return status;
     }

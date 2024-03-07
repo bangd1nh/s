@@ -167,7 +167,7 @@ public class ConstractDAL {
                     c.setConstractId(rs.getInt("ContractID"));
                     c.setPropertyId(rs.getInt("PropertyID"));
                     c.setTenantId(rs.getInt("TenantID"));
-                    c.setStatus(rs.getString("Status"));
+                    c.setStartDate(rs.getTimestamp("StartDate"));
                     c.setStartDate(rs.getDate("StartDate"));
                     c.setEndDate(rs.getDate("EndDate"));
                     c.setLandLordId(rs.getInt("LandlordID"));
