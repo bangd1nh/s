@@ -78,14 +78,7 @@ public class UpdateDepositStatus extends HttpServlet {
                 request.setAttribute("message", "gui phan hoi that bai");
             }
             request.getRequestDispatcher("ViewDepositServlet").forward(request, response);
-        } else {
-            double price = Double.parseDouble(request.getParameter("price"));
-            request.setAttribute("amount", price);
-            int propertyID = Integer.parseInt(request.getParameter("propertyID"));
-            request.setAttribute("propertyID", propertyID);
-//            request.getRequestDispatcher("vnpayajax").forward(request, response);
         }
-        request.getRequestDispatcher("ViewDepositServlet").forward(request, response);
     }
 
     /**

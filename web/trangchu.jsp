@@ -95,6 +95,13 @@
                     </c:if>
                 </div>
             </div>
+            <div class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <c:forEach begin="1" end="${endP}" var="index">
+                        <li class="page-item"><a class="page-link" href="ListingsServlet?index=${index}">${index}</a></li>
+                        </c:forEach>
+                </ul>
+            </div>
         </section>
         <div id="myModal" class="overlay">
             <div class="modal">

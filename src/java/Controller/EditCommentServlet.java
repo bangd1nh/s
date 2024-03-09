@@ -4,20 +4,18 @@
  */
 package Controller;
 
-import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author admin
  */
-public class RatingServlet extends HttpServlet {
+public class EditCommentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +34,10 @@ public class RatingServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RatingServlet</title>");
+            out.println("<title>Servlet EditCommentServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RatingServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditCommentServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -71,41 +69,18 @@ public class RatingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String ratingStr = request.getParameter("rating");
-        if (ratingStr == null) {
-            ratingStr = "0";
-        }
-        int rating = Integer.parseInt(ratingStr);
-        HttpSession session = request.getSession();
-        User u = (User) session.getAttribute("loggedInUser");
-        int listingID = Integer.parseInt(request.getParameter("listingID"));
-        int userID = u.getUserID();
-        if (!DAO.RatingDAL.checkUser(userID, listingID)) {
-            if (rating > 0) {
-                if (DAO.RatingDAL.insertRating(userID, listingID, rating)) {
-                    request.setAttribute("message", "danh gia thanh cong");
-                } else {
-                    request.setAttribute("message", "danh gai that bai");
-                }
-            }else{
-                request.setAttribute("message", "ban khong the danh gai 0 sao cho bai viet nay");
+        int commentId = Integer.parseInt(request.getParameter("commentId"));
+        String editedComment = request.getParameter("editedComment");
+        String action = request.getParameter("action");
+        if (action.equalsIgnoreCase("edit")) {
+            if (DAO.CommentDAL.updateComment(commentId, editedComment)) {
+                request.setAttribute("message", "chinh sua thanh cong");
             }
-        } else {
-            if (rating > 0) {
-                if (DAO.RatingDAL.updateRating(listingID, userID, rating)) {
-                    request.setAttribute("message", "danh gia thanh cong");
-                } else {
-                    request.setAttribute("message", "danh gia that bai");
-                }
-            } else {
-                if (DAO.RatingDAL.deleteComment(listingID, userID)) {
-                    request.setAttribute("message", "huy danh gia thanh cong");
-                } else {
-                    request.setAttribute("message", "huy danh gia that bai");
-                }
+        }else if(action.equalsIgnoreCase("delete")){
+            if(DAO.CommentDAL.deleteComment(commentId)){
+                request.setAttribute("message", "xoa thanh cong");
             }
         }
-        request.getRequestDispatcher("Listingdetail").forward(request, response);
     }
 
     /**

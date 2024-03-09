@@ -19,9 +19,7 @@ import java.sql.Timestamp;
 public class ListingsDAL {
 
     private static final String GETSAVELISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where Listings.ListingID=?";
-    private static final String GETALLLISTINGS = "SELECT *\n"
-            + "FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID\n"
-            + "ORDER By CreatedAt DESC;";
+    private static final String GETALLLISTINGS = "SELECT * FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID ORDER By CreatedAt DESC offset ? rows fetch next 9 rows only;";
     private static final String GETLISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where ListingID=?";
     private static final String UPLOADLISTING = "INSERT INTO Listings (LandlordID,ContactEmail,ContactPhone,CreatedAt,Title,imgsrc,Location,Descriptions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String GETALLLISTINGSBYUSERID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where UserID=?";
@@ -106,13 +104,39 @@ public class ListingsDAL {
         }
         return totalTenant;
     }
-    public static ArrayList<Listings> getAllListings() {
+    public static ArrayList<Listings> getAllListings(int index) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         ArrayList<Listings> list = new ArrayList<>();
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement(GETALLLISTINGS);
+                ptm.setInt(1, (index-1)*9);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    Listings l = new Listings();
+                    l.setListingID(rs.getInt("ListingID"));
+                    l.setCreateAt(rs.getTimestamp("CreatedAt"));
+                    l.setTitle(rs.getString("Title"));
+                    l.setImgsrc(rs.getString("imgsrc"));
+                    l.setLocation(rs.getString("Location"));
+                    l.setLandlordID(rs.getInt("LandlordID"));
+                    l.setUsername(rs.getString("UserName"));
+                    list.add(l);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public static ArrayList<Listings> getAllListings() {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        ArrayList<Listings> list = new ArrayList<>();
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement("SELECT *FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID ORDER By CreatedAt DESC;");
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     Listings l = new Listings();

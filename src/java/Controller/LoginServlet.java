@@ -79,7 +79,7 @@ public class LoginServlet extends HttpServlet {
         String type = loggedInUser.getUserType();
         if (loggedInUser != null) {
             
-            if(type.equals("admin")){
+            if(type.equalsIgnoreCase("admin")){
             session.setAttribute("loggedInUser", loggedInUser);
             response.sendRedirect("AdminServlet");
             }

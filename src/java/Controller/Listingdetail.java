@@ -39,7 +39,18 @@ public class Listingdetail extends HttpServlet {
         request.setAttribute("listingDetail", l);
         ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
         request.setAttribute("appList", appList);
-        ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID);
+        int count = DAO.CommentDAL.getTotalComment(listingID);
+        int endPage = count / 3;
+        if(count %3 !=0){
+            endPage++;
+        }
+        request.setAttribute("endP", endPage);
+        String index = request.getParameter("index");
+        if(index == null){
+            index="1";
+        }
+        int indexPage = Integer.parseInt(index);
+        ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID,indexPage);
         request.setAttribute("commentList", commentList);
         ArrayList<Integer> ratingList = DAO.RatingDAL.getAllRating(listingID);
         double average = averageRating(ratingList);
@@ -64,22 +75,7 @@ public class Listingdetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int listingID = Integer.parseInt(request.getParameter("listingID"));
-        Listings l = DAO.ListingsDAL.getListingsByID(listingID);
-        request.setAttribute("listingDetail", l);
-        ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
-        request.setAttribute("appList", appList);
-        ArrayList<Comment> commentList = DAO.CommentDAL.getCommentbyID(listingID);
-        request.setAttribute("commentList", commentList);
-        ArrayList<Integer> ratingList = DAO.RatingDAL.getAllRating(listingID);
-        double average = averageRating(ratingList);
-        request.setAttribute("average", average);
-        HttpSession session = request.getSession();
-        if(session.getAttribute("loggedInUser")!=null){
-        User u = (User) session.getAttribute("loggedInUser");
-        request.setAttribute("userRating", DAO.RatingDAL.getUserRating(u.getUserID(),listingID));
-        }
-        request.getRequestDispatcher("detail.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

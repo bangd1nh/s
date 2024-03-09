@@ -39,21 +39,21 @@
                                         <p class="card-text">Tinh tran dat coc: ${l.getStatus()}</p>
                                         <c:choose>
                                             <c:when test="${sessionScope.loggedInUser.getUserType() eq 'Landlord'}">
-                                                
+
                                                 <p class="card-text">ID nguoi thue: ${l.getTenantId()}</p>
-                                                <c:if test="${l.getStatus() eq 'Aproved'}">
-                                                <form action="UpdateDepositStatus" method="post">
-                                                    <input type="hidden" name="constractID" value="${l.getConstractId()}">
-                                                    <button type="submit" class="btn btn-success" name="status" value="Aproved">Accept</button>
-                                                    <button type="submit" class="btn btn-danger" name="status" value="Cancelled">Cancel</button>
-                                                </form>
+                                                <c:if test="${l.getStatus() eq 'Pendding'}">
+                                                    <form action="UpdateDepositStatus" method="post">
+                                                        <input type="hidden" name="constractID" value="${l.getConstractId()}">
+                                                        <button type="submit" class="btn btn-success" name="status" value="Aproved">Accept</button>
+                                                        <button type="submit" class="btn btn-danger" name="status" value="Cancelled">Cancel</button>
+                                                    </form>
                                                 </c:if>
                                                 <c:if test="${l.getStatus() eq 'ByCash' or l.getStatus()eq 'VnPay'}">
                                                     <form action="UpdateDepositStatus" method="post">
-                                                    <input type="hidden" name="constractID" value="${l.getConstractId()}">
-                                                    <button type="submit" class="btn btn-success" name="status" value="Active">da nhan tien</button>
-                                                    <button type="submit" class="btn btn-danger" name="status" value="Cancelled">chua nhan tien</button>
-                                                </form>
+                                                        <input type="hidden" name="constractID" value="${l.getConstractId()}">
+                                                        <button type="submit" class="btn btn-success" name="status" value="Active">da nhan tien</button>
+                                                        <button type="submit" class="btn btn-danger" name="status" value="Cancelled">chua nhan tien</button>
+                                                    </form>
                                                 </c:if>
                                             </c:when>
                                             <c:otherwise>
@@ -66,6 +66,41 @@
                                                         <!--<button type="submit" class="btn btn-success" name="status" value="ByCash">Tien mat</button>-->
                                                         <button type="submit" class="btn btn-success" name="status" >VnPay</button>
                                                     </form>
+                                                    <form action="UpdateDepositStatus" method="post">
+                                                        <input type="hidden" name="constractID" value="${l.getConstractId()}">
+                                                        <input type="hidden" name="price" value="${l.getPrice()}">
+                                                        <input type="hidden" name="propertyID" value="${l.getPropertyId()}">
+                                                        <button type="submit" class="btn btn-success" name="status" value="ByCash">Tien mat</button>
+                                                        <!--<button type="submit" class="btn btn-success" name="status" >VnPay</button>-->
+                                                    </form>
+                                                    <script type="text/javascript">
+                                                        $("#frmCreateOrder").submit(function () {
+                                                            //var price = "${constractList.getPrice()}";
+                                                            var amount = parseInt("${l.getPrice()}");
+                                                            var listingId = "${l.getPropertyId()}";
+                                                            var postData = "amount=" + amount + "&propertyId=" + listingId;
+                                                            var submitUrl = $("#frmCreateOrder").attr("action");
+                                                            $.ajax({
+                                                                type: "POST",
+                                                                url: submitUrl,
+                                                                data: postData,
+                                                                dataType: 'JSON',
+                                                                success: function (x) {
+                                                                    if (x.code === '00') {
+                                                                        if (window.vnpay) {
+                                                                            vnpay.open({width: 768, height: 600, url: x.data});
+                                                                        } else {
+                                                                            location.href = x.data;
+                                                                        }
+                                                                        return false;
+                                                                    } else {
+                                                                        alert(x.Message);
+                                                                    }
+                                                                }
+                                                            });
+                                                            return false;
+                                                        });
+                                                    </script>
                                                 </c:if>
 
                                             </c:otherwise>
@@ -83,38 +118,7 @@
                 </div>
             </div>
         </section>
-
-
-
         <footer><%@include file="footer.jsp" %></footer>
     </body>
-    <script type="text/javascript">
-        $("#frmCreateOrder").submit(function () {
-            //var price = "${constractList.getPrice()}";
-            var amount = parseInt("${l.getPrice()}");
-            var listingId = "${l.getPropertyId()}";
-            var postData = "amount=" + amount + "&propertyId=" + listingId;
-            var submitUrl = $("#frmCreateOrder").attr("action");
-            $.ajax({
-                type: "POST",
-                url: submitUrl,
-                data: postData,
-                dataType: 'JSON',
-                success: function (x) {
-                    if (x.code === '00') {
-                        if (window.vnpay) {
-                            vnpay.open({width: 768, height: 600, url: x.data});
-                        } else {
-                            location.href = x.data;
-                        }
-                        return false;
-                    } else {
-                        alert(x.Message);
-                    }
-                }
-            });
-            return false;
-        });
-    </script> 
-    
+
 </html>

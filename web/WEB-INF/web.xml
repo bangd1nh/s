@@ -144,6 +144,10 @@
         <servlet-name>CancelReportServlet</servlet-name>
         <servlet-class>Controller.CancelReportServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditCommentServlet</servlet-name>
+        <servlet-class>Controller.EditCommentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -287,6 +291,10 @@
     <servlet-mapping>
         <servlet-name>CancelReportServlet</servlet-name>
         <url-pattern>/CancelReportServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditCommentServlet</servlet-name>
+        <url-pattern>/EditCommentServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

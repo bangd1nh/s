@@ -170,30 +170,51 @@
             <div class="container mt-5">
                 <div class="d-flex justify-content-center row">
                     <div class="col-md-8">
-                        <div class="d-flex flex-column comment-section border rounded border-dark">
+                        <div class="d-flex flex-column comment-section">
                             <c:if test="empty commentList">
                                 NO COMMENT!
                             </c:if>
-                            Comment:
+                            <div class="d-flex justify-content-center">
+                                <h2 class="text-uppercase">Comment</h2>
+                            </div>
                             <c:if test="${not empty commentList}">
                                 <c:forEach var="i" begin="0" end="${commentList.size()-1}">
-                                    <div class="bg-white p-2">
+                                    <div class="bg-white p-1 rounded">
                                         <div class="d-flex flex-row user-info">
                                             <img class="rounded-circle" src="${commentList.get(i).getUserImgsrc()}" width="40" height="40" style="object-fit: cover;">
                                             <div class="d-flex flex-column justify-content-start ml-2">
                                                 <span class="d-block font-weight-bold name">${commentList.get(i).getUserName()}</span>
-                                                <span class="date text-black-50">${commentList.get(i).getCommentedAt()}</span>
+                                                <span class="date text-muted">${commentList.get(i).getCommentedAt()}</span>
                                             </div>
                                         </div>
                                         <div class="mt-2 row">
                                             <p class="comment-text col-8">${commentList.get(i).getComment()}</p>
                                             <c:if test="${commentList.get(i).getUserID() eq sessionScope.loggedInUser.getUserID()}">
-                                                <button class="btn btn-outline-dark col" type="submit" value="editcomment">sua binh luan</button>
-                                                <button class="btn btn-danger col" type="submit" value="deletecomment">xoa binh luan</button>
+                                                <button class="btn btn-outline-dark col" type="button" onclick="showEditForm(${i})">sua binh luan</button>
+                                                <button class="btn btn-danger col" type="button" onclick="saveChanges(${i}, 'delete')">xoa binh luan</button>
                                             </c:if>
                                         </div>
+                                        <div id="editForm${i}" style="display: none;" class="mt-3">
+                                            <!-- Biểu mẫu chỉnh sửa -->
+                                            <form action="EditCommentServlet" method="post" class="border p-3 rounded">
+                                                <input type="hidden" name="commentId" value="${commentList.get(i).getCommentID()}">
+                                                <input type="hidden" name="action" value="edit">
+                                                <div class="form-group">
+                                                    <label for="editedComment">chinh sua comment tai day</label>
+                                                    <textarea name="editedComment" id="editedComment" class="form-control" rows="4">${commentList.get(i).getComment()}</textarea>
+                                                </div>
+                                                <button type="button" onclick="saveChanges(${i}, 'edit')" class="btn btn-primary">luu</button>
+                                            </form>
+                                        </div>                                   
                                     </div>
                                 </c:forEach>
+                                <div class="d-flex justify-content-center">
+                                    <ul class="pagination">
+                                        <c:forEach begin="1" end="${endP}" var="index">
+                                            <li class="page-item"><a class="page-link" href="Listingdetail?index=${index}&listingID=${requestScope.listingDetail.getListingID()}">${index}</a></li>
+                                            </c:forEach>
+                                    </ul>
+                                </div>
                             </c:if>
                             <c:if test="${not empty sessionScope.loggedInUser}">
                                 <form action="CreateCommentServlet" method="post">
@@ -242,6 +263,49 @@
         function thuephongclick() {
             window.location.href = "ConstractServlet?listingId=" + ${requestScope.listingDetail.getListingID()} + "&aprtementID=" +${appList.get(i).getApartmentID()};
 //            window.location.href = "constractdetail.jsp?listingId="+${requestScope.listingDetail.getListingID()};
+        }
+        function showEditForm(index) {
+            // Ẩn tất cả các biểu mẫu chỉnh sửa
+            hideAllEditForms();
+
+            // Hiển thị biểu mẫu chỉnh sửa của bình luận được chọn
+            document.getElementById("editForm" + index).style.display = "block";
+        }
+
+        function hideAllEditForms() {
+            // Ẩn tất cả các biểu mẫu chỉnh sửa
+        <c:forEach var="i" begin="0" end="${commentList.size()-1}">
+            document.getElementById("editForm${i}").style.display = "none";
+        </c:forEach>
+        }
+        function saveChanges(index, action) {
+            var commentId = document.getElementsByName("commentId")[0].value;
+            var editedComment = document.getElementsByName("editedComment")[0].value;
+
+            // Sử dụng Ajax để gửi dữ liệu chỉnh sửa đến máy chủ
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "EditCommentServlet", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Sau khi cập nhật thành công, cập nhật trực tiếp trên trang
+                    document.getElementsByClassName("comment-text")[index].innerHTML = editedComment;
+
+                    // Ẩn biểu mẫu chỉnh sửa và hiển thị lại nội dung bình luận
+                    hideAllEditForms();
+                    document.getElementsByClassName("comment-text")[index].style.display = "block";
+                    if (action === "delete") {
+                        // Nếu action là "delete", thì reload trang
+                        location.reload();
+                    } else {
+                        // Nếu action là "edit", cập nhật trực tiếp trên trang và ẩn biểu mẫu chỉnh sửa
+                        document.getElementsByClassName("comment-text")[index].innerHTML = editedComment;
+                        hideAllEditForms();
+                        document.getElementsByClassName("comment-text")[index].style.display = "block";
+                    }
+                }
+            };
+            xhr.send("commentId=" + commentId + "&editedComment=" + editedComment + "&action=" + action);
         }
     </script>
 </html>

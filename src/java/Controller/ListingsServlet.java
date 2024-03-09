@@ -32,8 +32,19 @@ public class ListingsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int count = DAO.ListingsDAL.getTotalListings();
+        int endPage = count / 9;
+        if(count % 9 != 0){
+            endPage ++;
+        }
+        request.setAttribute("endP", endPage);
+        String index = request.getParameter("index");
+        if(index == null){
+            index = "1";
+        }
+        int indexPage = Integer.parseInt(index);
         if (request.getAttribute("list") == null) {
-            ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
+            ArrayList<Listings> list = DAO.ListingsDAL.getAllListings(indexPage);
             request.setAttribute("list", list);
         } else {
             ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
@@ -69,29 +80,7 @@ public class ListingsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getAttribute("list") == null) {
-            ArrayList<Listings> list = DAO.ListingsDAL.getAllListings();
-            request.setAttribute("list", list);
-        } else {
-            ArrayList<Listings> list = (ArrayList) request.getAttribute("list");
-            request.setAttribute("list", list);
-        }
-        HttpSession session = request.getSession();
-        try {
-            User u = (User) session.getAttribute("loggedInUser");
-            if (u != null) {
-                ArrayList<Appointments> aList = new ArrayList<>();
-                if (u.getUserType().equals("Landlord")) {
-                    aList = DAO.AppointmentDAL.getAllApointmentByLandlordID(u.getUserID());
-                }
-                if (u.getUserType().equals("Tenant")) {
-                    aList = DAO.AppointmentDAL.getAllApointmentByTenantID(u.getUserID());
-                }
-                session.setAttribute("aList", aList);
-            }
-        } catch (Exception e) {
-        }
-        request.getRequestDispatcher("trangchu.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
