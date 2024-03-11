@@ -37,6 +37,7 @@
                                         <p class="card-text">Ngay bat dau Thue: ${l.getStartDate()}</p>
                                         <p class="card-text">Han thue: ${l.getEndDate()}</p>
                                         <p class="card-text">Tinh tran dat coc: ${l.getStatus()}</p>
+                                        <p class="card-text"><a href="ViewConstractDetail?conID=${l.getConstractId()}">xem chi tiet hop dong</a></p>
                                         <c:choose>
                                             <c:when test="${sessionScope.loggedInUser.getUserType() eq 'Landlord'}">
 

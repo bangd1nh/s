@@ -172,8 +172,7 @@
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
-                            <%int totalListing = (int) request.getAttribute("TotalListing");%>
-                            <h3 class="card-title">Danh sách Bài Đăng: <strong style="color:red;"><%= totalListing%> </strong>bài đăng</h3>
+                            <h3 class="card-title">Danh sách giao dich: <strong style="color:red;">${totalPayment} </strong>giao dich </h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -189,59 +188,46 @@
                             <table class="table table-striped projects" >
                                 <thead>
                                     <tr>
-                                        <th style="width: 1%">
+                                        <th style="width: 1%" >
                                             ID
                                         </th>
                                         <th style="width: 20%">
-                                            Người đăng
+                                            Người giao dich
                                         </th>
-                                        <th style="width: 30%">
-                                            Tiêu Đề
+                                        <th style="width: 40%">
+                                            ID hop dong
                                         </th>
-                                        <th>
-                                            Địa Chỉ
+                                        <th style="width: 3%">
+                                            Thoi gian
                                         </th>
                                         <th style="width: 8%" class="text-center">
-                                            Thời gian
+                                            ID phong
                                         </th>
                                         <th style="width: 20%">
+                                            Trang thai
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach var="i" begin="0" end="${list.size()-1}" varStatus="loop">
-                                        <tr>
-
-                                            <td>
-                                                ${list.get(i).getListingID()}    
-                                            </td>
-                                            <td>
-                                                ${list.get(i).getUsername()}
-                                            </td>
-                                            <td>
-                                                ${list.get(i).getTitle()}
-                                            </td>
-                                            <td>
-
-                                                ${list.get(i).getLocation()}
-                                            </td>
-                                            <td class="project-state">
-                                                <span class="badge badge-success">${list.get(i).getCreateAt()}</span>
-                                            </td>
-                                            <td class="project-actions text-right">
-                                                <a class="btn btn-primary btn-sm" href="Listingdetail?listingID=${list.get(i).getListingID()}"
-                                                   <i class="fas fa-folder">
-                                                    </i>
-                                                    Chi tiết
-                                                </a>
-                                                <button class="btn btn-danger btn-sm"   onclick="remove('${list.get(i).getListingID()}')">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                    Xóa bài đăng
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
+                                    <c:if test="${empty requestScope.payList}">
+                                        empty
+                                    </c:if>
+                                    <c:if test="${not empty requestScope.payList}">
+                                        <c:forEach var="p" items="${requestScope.payList}">
+                                            <tr>
+                                                <td>${p.getTransactionID()}</td>
+                                                <td>${p.getUserID()}</td>
+                                                <td>${p.getConstractID()}</td>
+                                                <td class="project-state">
+                                                    <span class="badge badge-success">${p.getTransactionDate()}</span>
+                                                </td>
+                                                <td>${p.getApartmentID()}</td>
+                                                <td class="project-actions text-right">
+                                                    ${p.getStatus()}
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:if>
                                 </tbody>
                             </table>
                         </div>
@@ -281,41 +267,41 @@
         <!-- jQuery Mapael -->
 
         <script type="text/javascript">
-                                      function remove(id) {
-                                          console.log("aaa", id);
-                                          swal({
-                                              title: "Bạn có chắc chắn xóa bài đăng?",
-                                              text: "Hãy chắc chắn với quyết định của mình !",
-                                              icon: "warning",
-                                              buttons: true,
-                                              dangerMode: true,
-                                          })
-                                                  .then((willDelete) => {
-                                                      if (willDelete) {
-                                                          $.ajax({
-                                                              type: "POST",
-                                                              url: "/WebApplication1/DeleteListingServlet?ListingID=" + id,
-                                                              success: function (response) {
-                                                                  swal("Bạn đã xóa bài đăng thành công", {
-                                                                      icon: "success",
-                                                                  }).then(function () {
-                                                                      window.location.href = "/WebApplication1/PostServlet"
-                                                                  });
+            function remove(id) {
+                console.log("aaa", id);
+                swal({
+                    title: "Bạn có chắc chắn xóa bài đăng?",
+                    text: "Hãy chắc chắn với quyết định của mình !",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/WebApplication1/DeleteListingServlet?ListingID=" + id,
+                                    success: function (response) {
+                                        swal("Bạn đã xóa bài đăng thành công", {
+                                            icon: "success",
+                                        }).then(function () {
+                                            window.location.href = "/WebApplication1/PostServlet"
+                                        });
 
-                                                              },
-                                                              failure: function (response) {
-                                                                  alert(response.responseText);
-                                                              },
-                                                              error: function (response) {
-                                                                  alert(response.responseText);
-                                                              }
-                                                          });
+                                    },
+                                    failure: function (response) {
+                                        alert(response.responseText);
+                                    },
+                                    error: function (response) {
+                                        alert(response.responseText);
+                                    }
+                                });
 
-                                                      } else {
-                                                          swal("Trở về quản lí báo cáo");
-                                                      }
-                                                  });
-                                      }
+                            } else {
+                                swal("Trở về quản lí báo cáo");
+                            }
+                        });
+            }
 
         </script>
         <script src="/WebApplication1/assets/admin/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>

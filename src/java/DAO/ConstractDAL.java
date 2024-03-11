@@ -19,18 +19,21 @@ import java.util.ArrayList;
  */
 public class ConstractDAL {
 
-    private static final String GETINFORLANDLORD = "select Listings.LandlordID,Listings.Listingid,Listings.Location, Users.Firstname,Users.ContactPhone, Users.Lastname,ApartmentInfo.Price,ApartmentInfo.area,ApartmentInfo.bedrooms,ApartmentInfo.bathrooms,ApartmentInfo.ApartmentID  \n"
+    private static final String GETINFORLANDLORD = "select Listings.LandlordID,Listings.Listingid,Listings.Location, Users.Firstname,Users.ContactPhone, Users.Lastname,ApartmentInfo.Price,ApartmentInfo.area,ApartmentInfo.bedrooms,ApartmentInfo.bathrooms,ApartmentInfo.ApartmentID,ApartmentInfo.Description  \n"
             + "from Listings INNER JOIN Users ON Users.UserID = Listings.LandlordID\n"
             + "INNER JOIN Apartmentinfo on Apartmentinfo.Listingid = Listings.Listingid\n"
             + "WHERE Listings.ListingID =? AND ApartmentInfo.ApartmentID=?;";
     private static final String GETINFOR = "select Listings.LandlordID,ApartmentInfo.ApartmentID From Listings INNER JOIN Apartmentinfo on Apartmentinfo.Listingid = Listings.Listingid\n"
             + "WHERE Listings.ListingID =?;";
     private static final String GETCONTRACTINFO = "Select * from Contracts";
-    private static final String INSERTDEPOSIT="INSERT INTO Contracts (PropertyID,TenantID,StartDate,EndDate,Status,LandlordID) VALUES (?,?,?,?,?,?) ";
-    private static final String GETCONTRACTINFOBYLANDLORDID="Select ApartmentInfo.Price,Contracts.* from Contracts join ApartmentInfo on Contracts.PropertyID = ApartmentInfo.ApartmentID where Contracts.LandlordID=?";
-    private static final String GETCONTRACTINFOBYTENANTID="Select ApartmentInfo.Price,Contracts.* from Contracts join ApartmentInfo on Contracts.PropertyID = ApartmentInfo.ApartmentID where Contracts.TenantID=?";
-    private static final String UPDATECONTRACTSTATUS="Update Contracts SET Status=? where ContractID=?";
-    private static final String UPDATECONTRACTSTATUSBYPROPERTYID="Update Contracts SET Status=? where PropertyID=?";
+    private static final String INSERTDEPOSIT = "INSERT INTO Contracts (PropertyID,TenantID,StartDate,EndDate,Status,LandlordID) VALUES (?,?,?,?,?,?) ";
+    private static final String GETCONTRACTINFOBYLANDLORDID = "Select ApartmentInfo.Price,Contracts.* from Contracts join ApartmentInfo on Contracts.PropertyID = ApartmentInfo.ApartmentID where Contracts.LandlordID=?";
+    private static final String GETCONTRACTINFOBYTENANTID = "Select ApartmentInfo.Price,Contracts.* from Contracts join ApartmentInfo on Contracts.PropertyID = ApartmentInfo.ApartmentID where Contracts.TenantID=?";
+    private static final String UPDATECONTRACTSTATUS = "Update Contracts SET Status=? where ContractID=?";
+    private static final String UPDATECONTRACTSTATUSBYPROPERTYID = "Update Contracts SET Status=? where PropertyID=?";
+    private static final String GETCONSTRACTDETAL = "select Contracts.*,Users.LastName,Users.FirstName,Users.ContactPhone,ApartmentInfo.ApartmentID,ApartmentInfo.Area,ApartmentInfo.Description,ApartmentInfo.Bathrooms,Listings.Location,ApartmentInfo.Price,ApartmentInfo.Bedrooms\n"
+            + "from Contracts join Users on Contracts.LandlordID = Users.UserID join ApartmentInfo on ApartmentInfo.ApartmentID = Contracts.PropertyID join Listings on Listings.ListingID = ApartmentInfo.ListingID\n"
+            + "where ContractID = ?";
 
     public static ConstractInfor getInforLandLord(int listingid, int apartmentid) {
         PreparedStatement ptm = null;
@@ -54,6 +57,7 @@ public class ConstractDAL {
                     app.setBathrooms(rs.getInt("bathrooms"));
                     app.setAparmentId(rs.getInt("ApartmentID"));
                     app.setLandlordId(rs.getInt("LandlordID"));
+                    app.setDescrpition(rs.getString("Description"));
                 }
             }
         } catch (Exception e) {
@@ -81,6 +85,7 @@ public class ConstractDAL {
         }
         return constractList1;
     }
+
     public static ArrayList<Constract> getContract() {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -107,7 +112,8 @@ public class ConstractDAL {
         return conList;
     }
 //    chua hoan thanh
-    public static boolean insertContract(int propetyID,int tennantID,Date startDate, Date endDate,int landlordID) {
+
+    public static boolean insertContract(int propetyID, int tennantID, Date startDate, Date endDate, int landlordID) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -126,7 +132,8 @@ public class ConstractDAL {
         }
         return false;
     }
-    public static ArrayList<Constract> getContractByLandLordID(int landlordID){
+
+    public static ArrayList<Constract> getContractByLandLordID(int landlordID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         ArrayList<Constract> conList = new ArrayList<>();
@@ -134,8 +141,8 @@ public class ConstractDAL {
             if (con != null) {
                 ptm = con.prepareStatement(GETCONTRACTINFOBYLANDLORDID);
                 ptm.setInt(1, landlordID);
-                rs= ptm.executeQuery();
-                while (rs.next()){
+                rs = ptm.executeQuery();
+                while (rs.next()) {
                     Constract c = new Constract();
                     c.setConstractId(rs.getInt("ContractID"));
                     c.setPropertyId(rs.getInt("PropertyID"));
@@ -153,7 +160,8 @@ public class ConstractDAL {
         }
         return conList;
     }
-    public static ArrayList<Constract> getContractByTenantID(int tenantID){
+
+    public static ArrayList<Constract> getContractByTenantID(int tenantID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         ArrayList<Constract> conList = new ArrayList<>();
@@ -161,8 +169,8 @@ public class ConstractDAL {
             if (con != null) {
                 ptm = con.prepareStatement(GETCONTRACTINFOBYTENANTID);
                 ptm.setInt(1, tenantID);
-                rs= ptm.executeQuery();
-                while (rs.next()){
+                rs = ptm.executeQuery();
+                while (rs.next()) {
                     Constract c = new Constract();
                     c.setConstractId(rs.getInt("ContractID"));
                     c.setPropertyId(rs.getInt("PropertyID"));
@@ -181,7 +189,8 @@ public class ConstractDAL {
         }
         return conList;
     }
-    public static boolean updateStatusContract(String status,int constractID){
+
+    public static boolean updateStatusContract(String status, int constractID) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -189,14 +198,15 @@ public class ConstractDAL {
                 ptm.setString(1, status);
                 ptm.setInt(2, constractID);
                 int rowAffected = ptm.executeUpdate();
-                return rowAffected >0;
+                return rowAffected > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
-    public static boolean updateStatusContractByPID(String status,int propertyID){
+
+    public static boolean updateStatusContractByPID(String status, int propertyID) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -204,11 +214,47 @@ public class ConstractDAL {
                 ptm.setString(1, status);
                 ptm.setInt(2, propertyID);
                 int rowAffected = ptm.executeUpdate();
-                return rowAffected >0;
+                return rowAffected > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static ConstractInfor getConstractInfo(int constractID) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        ConstractInfor app = new ConstractInfor();
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETCONSTRACTDETAL);
+                ptm.setInt(1, constractID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    app.setLocation(rs.getString("Location"));
+                    app.setFirstName(rs.getString("Firstname"));
+                    app.setLastName(rs.getString("Lastname"));
+                    app.setPrice(rs.getString("Price"));
+                    app.setContactPhone(rs.getString("ContactPhone"));
+                    app.setArea(rs.getInt("area"));
+                    app.setBedrooms(rs.getInt("bedrooms"));
+                    app.setBathrooms(rs.getInt("bathrooms"));
+                    app.setAparmentId(rs.getInt("ApartmentID"));
+                    app.setLandlordId(rs.getInt("LandlordID"));
+                    app.setDescrpition(rs.getString("Description"));
+                    app.setStartDate(rs.getDate("StartDate"));
+                    app.setEndDate(rs.getDate("EndDate"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return app;
+    }
+
+    public static void main(String[] args) {
+        ConstractInfor con = getConstractInfo(4);
+        System.out.println(con.toString());
     }
 }

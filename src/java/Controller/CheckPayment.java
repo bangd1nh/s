@@ -65,18 +65,29 @@ public class CheckPayment extends HttpServlet {
                 if (checkAmount) {
                     if (checkOrderStatus) {
                         if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
-
+                            HttpSession session = request.getSession();
+                            User u = (User) session.getAttribute("loggedInUser");
                             int propertyID = Integer.parseInt(request.getParameter("vnp_OrderInfo"));
-                            if (DAO.ConstractDAL.updateStatusContractByPID("Active", propertyID)) {
-                                DAO.ApartmentInfoDAL.updatestatus(propertyID);
-                                request.setAttribute("message", "thanh toan thanh cong");
-                            } else {
-                                request.setAttribute("message", "thanh toan that bai");
+                            int conID = DAO.PaymentDAL.getConstractID(propertyID);
+                            long createdAt = System.currentTimeMillis();
+                            Timestamp transactionDate = new Timestamp(createdAt);
+                            if (DAO.PaymentDAL.InsertPayment(u.getUserID(), conID, transactionDate, propertyID, "VnpayAdmin")) {
+                                if (DAO.ConstractDAL.updateStatusContractByPID("Active", propertyID)) {
+                                    DAO.ApartmentInfoDAL.updatestatus(propertyID);
+
+                                    request.setAttribute("message", "thanh toan thanh cong");
+                                } else {
+                                    request.setAttribute("message", "");
+                                }
+                            }else{
+                                request.setAttribute("message", "");
                             }
                             request.getRequestDispatcher("ListingsServlet").forward(request, response);
                         } else {
                             //Xử lý/Cập nhật tình trạng giao dịch thanh toán "Không thành công"
                             //  out.print("GD Khong thanh cong");
+                            request.setAttribute("message", "thanh toan that bai");
+                            request.getRequestDispatcher("ListingsServlet").forward(request, response);
                         }
                     } else {
                         //Trạng thái giao dịch đã được cập nhật trước đó

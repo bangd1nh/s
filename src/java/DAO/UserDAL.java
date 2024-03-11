@@ -18,7 +18,7 @@ public class UserDAL {
 
     private static final String LOGIN = "SELECT * FROM.[Users] where Email=? and Password=?";
     private static final String GETUSERNAMEBYID = "SELECT Username FROM.[Users] Where UserID=?";
-    private static final String INSERTUSER = "INSERT INTO Users (Username, Email, FirstName, LastName, Password, UserType) VALUES (?,?,?,?,?,?);";
+    private static final String INSERTUSER = "INSERT INTO Users (Username, Email, FirstName, LastName, Password, UserType,imgsrc) VALUES (?,?,?,?,?,?,?);";
     private static final String GETUSERIDBYNAME = "SELECT UserID From.[Users] where Username=?";
     private static final String UPDATEUSERINFO = "UPDATE Users Set Email=?,FirstName=?,LastName=?,ContactPhone=?,imgsrc=? where UserID=?";
     private static final String GETUSER = "SELECT * FROM.[Users] where UserID =?";
@@ -77,7 +77,6 @@ public class UserDAL {
 
     public static boolean InsertUser(User user) {
         PreparedStatement ptm = null;
-        ResultSet rs = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement(INSERTUSER);
@@ -87,6 +86,7 @@ public class UserDAL {
                 ptm.setString(4, user.getLastName());
                 ptm.setString(5, user.getPassword());
                 ptm.setString(6, user.getUserType());
+                ptm.setString(7, user.getImgsrc());
                 int rowsAffected = ptm.executeUpdate();
                 return rowsAffected > 0;
             }

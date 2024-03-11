@@ -148,6 +148,14 @@
         <servlet-name>EditCommentServlet</servlet-name>
         <servlet-class>Controller.EditCommentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewConstractDetail</servlet-name>
+        <servlet-class>Controller.ViewConstractDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewPayment</servlet-name>
+        <servlet-class>Controller.ViewPayment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -295,6 +303,14 @@
     <servlet-mapping>
         <servlet-name>EditCommentServlet</servlet-name>
         <url-pattern>/EditCommentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewConstractDetail</servlet-name>
+        <url-pattern>/ViewConstractDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPayment</servlet-name>
+        <url-pattern>/ViewPayment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

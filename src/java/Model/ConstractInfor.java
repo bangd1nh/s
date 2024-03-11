@@ -4,6 +4,7 @@
  */
 package Model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -22,11 +23,14 @@ public class ConstractInfor {
     private int area;
     private int bedrooms;
     private int bathrooms;
+    private String descrpition;
+    private Date startDate;
+    private Date endDate;
 
     public ConstractInfor() {
     }
 
-    public ConstractInfor(int Listingid, int LandlordId, int AparmentId, String Location, String Price, String FirstName, String LastName, String ContactPhone, int area, int bedrooms, int bathrooms) {
+    public ConstractInfor(int Listingid, int LandlordId, int AparmentId, String Location, String Price, String FirstName, String LastName, String ContactPhone, int area, int bedrooms, int bathrooms, String descrpition) {
         this.Listingid = Listingid;
         this.LandlordId = LandlordId;
         this.AparmentId = AparmentId;
@@ -38,6 +42,32 @@ public class ConstractInfor {
         this.area = area;
         this.bedrooms = bedrooms;
         this.bathrooms = bathrooms;
+        this.descrpition = descrpition;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+    
+
+    public String getDescrpition() {
+        return descrpition;
+    }
+
+    public void setDescrpition(String descrpition) {
+        this.descrpition = descrpition;
     }
 
     public int getListingid() {

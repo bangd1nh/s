@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <input type="hidden" value="${constractList.getAparmentId()}" name="apartmentID">
-                    <input type="hidenn" value="${constractList.getListingid()}" name="listingID">
+                    <input type="hidden" value="${constractList.getListingid()}" name="listingID">
                     <input type="hidden" value="${sessionScope.loggedInUser.getUserID()}" name="tennantID">
                     <input type="hidden" value="${constractList.getLandlordId()}" name="landlordID">
 
@@ -123,7 +123,7 @@
                         <div class="section-title">ĐIỀU 1: NHÀ CHO THUÊ</div>
                         <div class="section-content">
                             <p>Bên A đồng ý cho Bên B thuê nhà <strong>${constractList.getLocation()}</strong>, thành phố Đà Nẵng; theo Giấy chứng nhận quyền sở hữu nhà ở và quyền sử dụng đất số 1258 do Ủy ban nhân dân thành phố Đà Nẵng cấp ngày 20/10/2008</p>
-                            <p>Vị trí và diện tích thuê: <strong>${constractList.getArea()}</strong>m2 bao gồm <strong>${constractList.getBedrooms()}</strong> phòng ngủ và <strong>${constractList.getBathrooms()}</strong> phòng tắm</p>
+                            <p>Vị trí và diện tích thuê: phong so: ${constractList.getDescrpition()} dien tich: <strong>${constractList.getArea()}</strong>m2 bao gồm <strong>${constractList.getBedrooms()}</strong> phòng ngủ và <strong>${constractList.getBathrooms()}</strong> phòng tắm</p>
 
                         </div>
                     </div>
@@ -144,10 +144,24 @@
                                     <%= formattedDate7DaysLater%>
                                 </strong>  thì bên B phải chịu đền bù gấp đôi  số tiền đặt cọc </p> 
                             <p>Giá cọc nhà là ${constractList.getPrice()} VNĐ</p>
-                            <p>Bên B thanh toán cho Bên A tiền cọc. Thời gian đến thuê phòng là từ <strong>ngày 
-                                    <input type="date" name="startdate">
+                            <p>Bên B thanh toán cho Bên A tiền cọc. Thời gian đến thuê phòng là từ <strong>ngày
+                                    <c:choose>
+                                        <c:when test="${constractList.getStartDate() eq null}">
+                                            <input type="date" name="startdate">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <strong>${constractList.getStartDate()}</strong>
+                                        </c:otherwise>
+                                    </c:choose>
                                     đến
-                                    <input type="date" name="enddate">
+                                    <c:choose>
+                                        <c:when test="${constractList.getEndDate() eq null}">
+                                            <input type="date" name="enddate">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <strong>${constractList.getEndDate()}</strong>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </strong>.</p>
                             <p>Nếu đến hạn <strong>ngày 
                                     <%= formattedDate7DaysLater%>
@@ -155,10 +169,12 @@
                             <p>Bên B sau khi thanh toán sẽ chịu mọi trách nhiệm nếu có việc gì xảy ra.</p>
                         </div>
                     </div>
-                    <div style="text-align: center;">
-                        <button class="btn btn-success" type="submit" style="margin-right: 40px; font-size: 20px;">Đặt Cọc Phòng</button>
-                        <button type="button" class="btn btn-secondary"onclick="dongclick()"  style="font-size: 20px;">Đóng</button>
-                    </div>
+                    <c:if test="${constractList.getEndDate() eq null}">
+                        <div style="text-align: center;">
+                            <button class="btn btn-success" type="submit" style="margin-right: 40px; font-size: 20px;">Đặt Cọc Phòng</button>
+                            <button type="button" class="btn btn-secondary"onclick="dongclick()"  style="font-size: 20px;">Đóng</button>
+                        </div>
+                    </c:if>
                 </form>
             </div> 
 

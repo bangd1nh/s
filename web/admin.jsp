@@ -124,14 +124,14 @@
                                 </p>
                             </a>
                         </li>
-<!--                        <li class="nav-item">
-                            <a asp-controller="Admin" asp-action="getAllJob" class="nav-link">
+                        <li class="nav-item">
+                            <a asp-controller="Admin" asp-action="getAllJob" class="nav-link" href="ViewPayment">
                                 <i class="nav-icon fas fa-briefcase"></i>
                                 <p>
-                                    Đơn tuyển dụng(JOB)
+                                    Lich su giao dich
                                 </p>
                             </a>
-                        </li>
+                        </li><!--
                         <li class="nav-item">
                             <a asp-controller="Admin" asp-action="getAllCV" class="nav-link">
                                 <i class="nav-icon fas fa-id-card"></i>
@@ -166,7 +166,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="AdminServlet">Home</a></li>
               <li class="breadcrumb-item active">FPT House</li>
             </ol>
           </div><!-- /.col -->

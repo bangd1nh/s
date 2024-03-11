@@ -76,18 +76,16 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("pass");
         User loggedInUser = UserDAL.userLogin(email, password);
-        String type = loggedInUser.getUserType();
         if (loggedInUser != null) {
-            
-            if(type.equalsIgnoreCase("admin")){
-            session.setAttribute("loggedInUser", loggedInUser);
-            response.sendRedirect("AdminServlet");
+            String type = loggedInUser.getUserType();
+            if (type.equalsIgnoreCase("admin")) {
+                session.setAttribute("loggedInUser", loggedInUser);
+                response.sendRedirect("AdminServlet");
+            } else {
+                session.setAttribute("loggedInUser", loggedInUser);
+                response.sendRedirect("ListingsServlet");
             }
-            else{
-            session.setAttribute("loggedInUser", loggedInUser);
-            response.sendRedirect("ListingsServlet");
-            }
-        } else{
+        } else {
             request.setAttribute("loginMessage", "sai tai khoang");
             request.getRequestDispatcher("loginform.jsp").forward(request, response);
         }
