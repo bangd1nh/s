@@ -7,11 +7,14 @@ package Controller;
 import Model.Report;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,10 +33,10 @@ public class ReportServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                int TotalReport = DAO.ReportDAL.getTotalReport(); 
+        int TotalReport = DAO.ReportDAL.getTotalReport();
         ArrayList<Report> report = DAO.ReportDAL.getAllReport();
-            request.setAttribute("report", report);
-            request.setAttribute("TotalReport", TotalReport);
+        request.setAttribute("report", report);
+        request.setAttribute("TotalReport", TotalReport);
         request.getRequestDispatcher("quanlireport.jsp").forward(request, response);
     }
 
@@ -63,7 +66,18 @@ public class ReportServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String descrpition = request.getParameter("description");
+        int listingID = Integer.parseInt(request.getParameter("listingID"));
+        LocalDate currentDate = LocalDate.now();
+        // Chuyển đổi sang kiểu java.sql.Date
+        Date sqlDate = Date.valueOf(currentDate);
+        int userID = Integer.parseInt(request.getParameter("userID"));
+        if (DAO.ReportDAL.insertReport(userID, listingID, sqlDate, descrpition)) {
+            request.setAttribute("message", "gui bao cao thanh cong");
+        } else {
+            request.setAttribute("message", "gui bao cao that bai");
+        }
+        request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 
     /**

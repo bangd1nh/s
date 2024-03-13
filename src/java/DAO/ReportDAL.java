@@ -8,6 +8,7 @@ import DBConnect.DBconnection;
 import Model.Report;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class ReportDAL {
     private static final String DELETELISTING = "DELETE FROM Listings WHERE ListingID=?";
     private static final String DELETERATING = "DELETE FROM Ratings WHERE ListingID=?";
     private static final String UPDATESTATUSREPORT = "UPDATE Report SET Status=? WHERE ListingID=?";
+    private static final String INSERTREPORT = "INSERT INTO Report (UserID,ListingID,CreateAt,Description,Status) Values (?,?,?,?,?)";
 
     public static ArrayList<Report> getAllReport() {
         PreparedStatement ptm = null;
@@ -210,5 +212,23 @@ public class ReportDAL {
             e.printStackTrace();
         }
         return statusReport;
+    }
+    public static boolean insertReport(int userID, int listingID, Date createAt,String description) {
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(INSERTREPORT);
+                ptm.setInt(1, userID);
+                ptm.setInt(2, listingID);
+                ptm.setDate(3, createAt);
+                ptm.setString(4, description);
+                ptm.setString(5, "Pending");
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

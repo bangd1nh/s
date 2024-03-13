@@ -255,6 +255,7 @@
                                                 <c:choose>
                                                     <c:when test="${report.get(i).getStatus() == 'Approved' || report.get(i).getStatus() == 'Cancel'}">
                                                         <!-- Trạng thái là 'Approved' hoặc 'Cancel' -->
+                                                        <i class="">${report.get(i).getStatus()}</i>
                                                         <!-- Không hiển thị nút 'Hủy Báo Cáo' và nút 'Xóa bài đăng' -->
                                                     </c:when>
                                                     <c:otherwise>

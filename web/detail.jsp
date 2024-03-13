@@ -89,14 +89,37 @@
                                 <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
                                 <c:if test="${sessionScope.loggedInUser.getUserID() != null}"><input type="submit" value="Rate" class="btn btn-outline-dark"></c:if>
                                 </form>
-                            </div>
+                            <c:if test="${sessionScope.loggedInUser.getUserID() != null}">
+                                <button onclick="toggleReportForm()" class="btn btn-outline-dark mt-2">Report</button>
+                            </c:if>
+                            <form id="reportForm" action="ReportServlet" method="post" style="display: none;">
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea class="form-control" name="description" id="description"></textarea>
+                                </div>
+                                <input type="hidden" value="${requestScope.listingDetail.getListingID()}" name="listingID">
+                                <input type="hidden" value="${sessionScope.loggedInUser.getUserID()}" name="userID">
+                                <button type="button" class="btn btn-outline-dark" onclick="submitReportForm()">Report</button>
+                            </form>
+
+                            <script>
+                                function toggleReportForm() {
+                                    var form = document.getElementById("reportForm");
+                                    form.style.display = (form.style.display === "none") ? "block" : "none";
+                                }
+
+                                function submitReportForm() {
+                                    document.getElementById("reportForm").submit();
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section class="py-5 bg-light">
-                <div class="container px-4 px-lg-5 mt-5">
-                    <h2 class="fw-bolder mb-4">Danh sach phong</h2>
+            </div>
+        </section>
+        <section class="py-5 bg-light">
+            <div class="container px-4 px-lg-5 mt-5">
+                <h2 class="fw-bolder mb-4">Danh sach phong</h2>
 
                 <c:if test="${empty appList}">
                     <p>empty</p>
