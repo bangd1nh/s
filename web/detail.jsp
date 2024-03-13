@@ -171,7 +171,7 @@
                 <div class="d-flex justify-content-center row">
                     <div class="col-md-8">
                         <div class="d-flex flex-column comment-section">
-                            <c:if test="empty commentList">
+                            <c:if test="${empty commentList}">
                                 NO COMMENT!
                             </c:if>
                             <div class="d-flex justify-content-center">
@@ -261,8 +261,10 @@
             window.location.href = "SaveListingServlet?listingID=" + listingID + "&userID=" + ${sessionScope.loggedInUser.getUserID()};
         }
         function thuephongclick() {
+        <c:if test="${not empty listingDetail && not empty appList}">
             window.location.href = "ConstractServlet?listingId=" + ${requestScope.listingDetail.getListingID()} + "&aprtementID=" +${appList.get(i).getApartmentID()};
 //            window.location.href = "constractdetail.jsp?listingId="+${requestScope.listingDetail.getListingID()};
+        </c:if>
         }
         function showEditForm(index) {
             // Ẩn tất cả các biểu mẫu chỉnh sửa
@@ -274,9 +276,11 @@
 
         function hideAllEditForms() {
             // Ẩn tất cả các biểu mẫu chỉnh sửa
-        <c:forEach var="i" begin="0" end="${commentList.size()-1}">
+        <c:if test="${not empty commentList}">
+            <c:forEach var="i" begin="0" end="${commentList.size()-1}">
             document.getElementById("editForm${i}").style.display = "none";
-        </c:forEach>
+            </c:forEach>
+        </c:if>
         }
         function saveChanges(index, action) {
             var commentId = document.getElementsByName("commentId")[0].value;

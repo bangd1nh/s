@@ -17,13 +17,16 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class ReportDAL {
+
     private static final String GETALLREPORT = "SELECT * FROM Report ORDER By CreateAt DESC;";
     private static final String TOTALREPORT = "SELECT COUNT(*) AS total_report FROM Report";
     private static final String DELETECOMMENT = "DELETE FROM Comments WHERE ListingID=?";
     private static final String DELETEAPARTMENT = "DELETE FROM ApartmentInfo WHERE ListingID=?";
     private static final String DELETEAPOINTMENT = "DELETE FROM Appointments WHERE ListingID=?";
     private static final String DELETELISTING = "DELETE FROM Listings WHERE ListingID=?";
+    private static final String DELETERATING = "DELETE FROM Ratings WHERE ListingID=?";
     private static final String UPDATESTATUSREPORT = "UPDATE Report SET Status=? WHERE ListingID=?";
+
     public static ArrayList<Report> getAllReport() {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -47,11 +50,12 @@ public class ReportDAL {
         }
         return reports;
     }
+
     public static int getTotalReport() {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         int totalReport = 0;
-        try (Connection con = DBconnection.getConnection()) {
+        try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement(TOTALREPORT);
                 rs = ptm.executeQuery();
@@ -64,90 +68,116 @@ public class ReportDAL {
         }
         return totalReport;
     }
+
     public void deleteCommentByListingID(int listingID) {
-    PreparedStatement ptm = null;
-    try (Connection con = DBconnection.getConnection()) {
-        if (con != null) {
-            ptm = con.prepareStatement(DELETECOMMENT);
-            ptm.setInt(1, listingID);
-            ptm.executeUpdate();
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        if (ptm != null) {
-            try {
-                ptm.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(DELETECOMMENT);
+                ptm.setInt(1, listingID);
+                ptm.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                try {
+                    ptm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
-    }
+
     public void deleteApartmentByListingID(int listingID) {
-    PreparedStatement ptm = null;
-    try (Connection con = DBconnection.getConnection()) {
-        if (con != null) {
-            ptm = con.prepareStatement(DELETEAPARTMENT);
-            ptm.setInt(1, listingID);
-            ptm.executeUpdate();
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        if (ptm != null) {
-            try {
-                ptm.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(DELETEAPARTMENT);
+                ptm.setInt(1, listingID);
+                ptm.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                try {
+                    ptm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
     }
-    
-}
+
     public void deleteApointmentByListingID(int listingID) {
-    PreparedStatement ptm = null;
-    try (Connection con = DBconnection.getConnection()) {
-        if (con != null) {
-            ptm = con.prepareStatement(DELETEAPOINTMENT);
-            ptm.setInt(1, listingID);
-            ptm.executeUpdate();
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        if (ptm != null) {
-            try {
-                ptm.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(DELETEAPOINTMENT);
+                ptm.setInt(1, listingID);
+                ptm.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                try {
+                    ptm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
     }
-    
-}
-        public void deleteListingByListingID(int listingID) {
-    PreparedStatement ptm = null;
-    try (Connection con = DBconnection.getConnection()) {
-        if (con != null) {
-            ptm = con.prepareStatement(DELETELISTING);
-            ptm.setInt(1, listingID);
-            ptm.executeUpdate();
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        if (ptm != null) {
-            try {
-                ptm.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+
+    public void deleteListingByListingID(int listingID) {
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(DELETELISTING);
+                ptm.setInt(1, listingID);
+                ptm.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                try {
+                    ptm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
     }
-    
-}
-         public static boolean UpdateReport(String Status, int listingsID) {
+        public void deleteRatingByListingID(int listingID) {
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(DELETERATING);
+                ptm.setInt(1, listingID);
+                ptm.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                try {
+                    ptm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    public static boolean UpdateReport(String Status, int listingsID) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -162,11 +192,12 @@ public class ReportDAL {
         }
         return false;
     }
-        public int getStatusReport(int listingsID) {
+
+    public int getStatusReport(int listingsID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         int statusReport = 0;
-        try (Connection con = DBconnection.getConnection()) {
+        try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement("SELECT Status FROM Report WHERE listingsID = ?");
                 ptm.setInt(1, listingsID);
@@ -181,4 +212,3 @@ public class ReportDAL {
         return statusReport;
     }
 }
-

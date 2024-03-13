@@ -27,6 +27,7 @@
                         <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="${requestScope.listingDetail.getImgsrc()}" alt="..." /></div>
                         <div class="col-md-6">
                             <div class="small mb-1">Listing ID: <input class="hiding" type="number" name="listingID" value="${requestScope.listingDetail.getListingID()}" readonly></div>
+                            <div class="small mb-1">Status: ${requestScope.listingDetail.getStatus()}</div>
                             <h1 class="display-5 fw-bolder">Title: <input class="form-control-lg" type="text" value="${requestScope.listingDetail.getTitle()}" name="title"></h1>
                             <div class="fs-5 mb-5">
                                 <span>location:<input class="form-control" type="text" value=" ${requestScope.listingDetail.getLocation()}" name="location"></span><br>

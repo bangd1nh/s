@@ -59,17 +59,25 @@ public class DeleteListingServlet extends HttpServlet {
             throws ServletException, IOException {
         String listingIDParam = request.getParameter("ListingID");
         int listingID = Integer.parseInt(listingIDParam);
+        String action = request.getParameter("action");
         ReportDAL ReportDAL = new ReportDAL();
-        ReportDAL.deleteCommentByListingID(listingID);
-        ReportDAL.deleteApartmentByListingID(listingID);
-        ReportDAL.deleteApointmentByListingID(listingID);
-        ReportDAL.deleteListingByListingID(listingID);
-        ReportDAL.UpdateReport("Approved", listingID);
+        if (action.equalsIgnoreCase("delete")) {
+            ReportDAL.deleteCommentByListingID(listingID);
+            ReportDAL.deleteApartmentByListingID(listingID);
+            ReportDAL.deleteApointmentByListingID(listingID);
+            ReportDAL.deleteListingByListingID(listingID);
+            ReportDAL.deleteRatingByListingID(listingID);
+            ReportDAL.UpdateReport("Approved", listingID);
+        }
+        if (action.equalsIgnoreCase("update")) {
+            String value = request.getParameter("value");
+            DAO.ListingsDAL.UpdateStatus(listingID, value);
+        }
     }
+
     @Override
     public String getServletInfo() {
         return "Short description";
     }
 
 }
-

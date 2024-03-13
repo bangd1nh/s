@@ -132,6 +132,14 @@
                                     </p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a asp-controller="Admin" asp-action="getAllJob" class="nav-link" href="ViewPayment">
+                                    <i class="nav-icon fas fa-briefcase"></i>
+                                    <p>
+                                        Lich su giao dich
+                                    </p>
+                                </a>
+                            </li>
                             <!--                        <li class="nav-item">
                                                         <a asp-controller="Admin" asp-action="getAllJob" class="nav-link">
                                                             <i class="nav-icon fas fa-briefcase"></i>
@@ -224,9 +232,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:if test="${empty report}"> empty</c:if>
+                                    <c:if test="${not empty report}">
                                     <c:forEach var="i" begin="0" end="${report.size()-1}" varStatus="loop">
                                         <tr>
-
                                             <td>
                                                 <a class="btn btn-primary btn-sm" href="Listingdetail?listingID=${report.get(i).getListingID()}"> ${report.get(i).getListingID()}</a>
                                             </td>
@@ -237,7 +246,6 @@
                                                 ${report.get(i).getDescription()}
                                             </td>
                                             <td>
-
                                                 ${report.get(i).getStatus()}
                                             </td>
                                             <td class="project-state">
@@ -262,6 +270,7 @@
                                             </td>
                                         </tr>
                                     </c:forEach>
+                                        </c:if>
                                 </tbody>
                             </table>
                         </div>

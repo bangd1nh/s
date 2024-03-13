@@ -78,7 +78,7 @@ public class CreateListingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String uploadPath = "D:\\swpp\\WebApplication1\\web\\uploads";
+        String uploadPath = "D:\\swpp\\bbb\\web\\uploads";
 
         // Tạo thư mục lưu trữ nếu nó không tồn tại
         File uploadDir = new File(uploadPath);
@@ -109,7 +109,6 @@ public class CreateListingServlet extends HttpServlet {
             if (DAO.ListingsDAL.saveToDatabase(relativePath, title, location, contactPhone, contactEmail, landlordID, description, timestamp)) {
                 request.setAttribute("message", "tao bai viet thanh cong");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("message", "tao bai viet that bai");

@@ -22,7 +22,8 @@ public class Listings {
     private String location;
     private String description;
     private String username;
-
+    private String status;
+    
     public Listings() {
     }
 
@@ -39,6 +40,15 @@ public class Listings {
         this.username = username;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    
     @Override
     public String toString() {
         return "Listings{" + "listingID=" + listingID + ", landlordID=" + landlordID + ", contactEmail=" + contactEmail + ", contactPhone=" + contactPhone + ", createAt=" + createAt + ", title=" + title + ", imgsrc=" + imgsrc + ", location=" + location + ", description=" + description + '}';

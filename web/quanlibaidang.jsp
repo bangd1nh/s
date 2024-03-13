@@ -133,6 +133,14 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a asp-controller="Admin" asp-action="getAllJob" class="nav-link" href="ViewPayment">
+                                    <i class="nav-icon fas fa-briefcase"></i>
+                                    <p>
+                                        Lich su giao dich
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="logoutServlet" class="nav-link">
                                     <i class="nav-icon fas fa-columns"></i>
                                     <p>
@@ -201,6 +209,9 @@
                                         <th>
                                             Địa Chỉ
                                         </th>
+                                        <th>
+                                            Trang thai
+                                        </th>
                                         <th style="width: 8%" class="text-center">
                                             Thời gian
                                         </th>
@@ -225,6 +236,10 @@
 
                                                 ${list.get(i).getLocation()}
                                             </td>
+                                            <td>
+
+                                                ${list.get(i).getStatus()}
+                                            </td>
                                             <td class="project-state">
                                                 <span class="badge badge-success">${list.get(i).getCreateAt()}</span>
                                             </td>
@@ -234,11 +249,24 @@
                                                     </i>
                                                     Chi tiết
                                                 </a>
-                                                <button class="btn btn-danger btn-sm"   onclick="remove('${list.get(i).getListingID()}')">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                    Xóa bài đăng
-                                                </button>
+                                                <c:if test="${list.get(i).getStatus() eq 'Approved'}">
+                                                    <button class="btn btn-danger btn-sm"   onclick="remove('${list.get(i).getListingID()}')">
+                                                        <i class="fas fa-trash">
+                                                        </i>
+                                                        Xóa bài đăng
+                                                    </button>
+                                                </c:if>
+                                                <c:if test="${list.get(i).getStatus() eq 'Pending'}">
+                                                    <button class="btn btn-success btn-sm"  onclick="accept('${list.get(i).getListingID()}','Approved')">
+                                                        <i class="">
+                                                        </i>
+                                                        Chap nhan
+                                                    </button><button class="btn btn-danger btn-sm"  onclick="accept('${list.get(i).getListingID()}','Cancled')">
+                                                        <i class="">
+                                                        </i>
+                                                        khong chap nhan
+                                                    </button>
+                                                </c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -281,42 +309,76 @@
         <!-- jQuery Mapael -->
 
         <script type="text/javascript">
-                                      function remove(id) {
-                                          console.log("aaa", id);
-                                          swal({
-                                              title: "Bạn có chắc chắn xóa bài đăng?",
-                                              text: "Hãy chắc chắn với quyết định của mình !",
-                                              icon: "warning",
-                                              buttons: true,
-                                              dangerMode: true,
-                                          })
-                                                  .then((willDelete) => {
-                                                      if (willDelete) {
-                                                          $.ajax({
-                                                              type: "POST",
-                                                              url: "/WebApplication1/DeleteListingServlet?ListingID=" + id,
-                                                              success: function (response) {
-                                                                  swal("Bạn đã xóa bài đăng thành công", {
-                                                                      icon: "success",
-                                                                  }).then(function () {
-                                                                      window.location.href = "/WebApplication1/PostServlet"
-                                                                  });
+                                                        function remove(id) {
+                                                            console.log("aaa", id);
+                                                            swal({
+                                                                title: "Bạn có chắc chắn xóa bài đăng?",
+                                                                text: "Hãy chắc chắn với quyết định của mình !",
+                                                                icon: "warning",
+                                                                buttons: true,
+                                                                dangerMode: true,
+                                                            })
+                                                                    .then((willDelete) => {
+                                                                        if (willDelete) {
+                                                                            $.ajax({
+                                                                                type: "POST",
+                                                                                url: "/WebApplication1/DeleteListingServlet?ListingID=" + id+"&action=delete",
+                                                                                success: function (response) {
+                                                                                    swal("Bạn đã xóa bài đăng thành công", {
+                                                                                        icon: "success",
+                                                                                    }).then(function () {
+                                                                                        window.location.href = "/WebApplication1/PostServlet"
+                                                                                    });
 
-                                                              },
-                                                              failure: function (response) {
-                                                                  alert(response.responseText);
-                                                              },
-                                                              error: function (response) {
-                                                                  alert(response.responseText);
-                                                              }
-                                                          });
+                                                                                },
+                                                                                failure: function (response) {
+                                                                                    alert(response.responseText);
+                                                                                },
+                                                                                error: function (response) {
+                                                                                    alert(response.responseText);
+                                                                                }
+                                                                            });
 
-                                                      } else {
-                                                          swal("Trở về quản lí báo cáo");
-                                                      }
-                                                  });
-                                      }
+                                                                        } else {
+                                                                            swal("Trở về quản lí báo cáo");
+                                                                        }
+                                                                    });
+                                                        }
+                                                        function accept(id,value) {
+                                                            console.log("aaa", id);
+                                                            swal({
+                                                                title: "Bạn có chắc chắn dang bai viet nay khog?",
+                                                                text: "Hãy chắc chắn với quyết định của mình !",
+                                                                icon: "warning",
+                                                                buttons: true,
+                                                                dangerMode: true,
+                                                            })
+                                                                    .then((willDelete) => {
+                                                                        if (willDelete) {
+                                                                            $.ajax({
+                                                                                type: "POST",
+                                                                                url: "/WebApplication1/DeleteListingServlet?ListingID=" + id +"&action=update"+"&value="+value,
+                                                                                success: function (response) {
+                                                                                    swal("Bạn đã cap nhat thành công", {
+                                                                                        icon: "success",
+                                                                                    }).then(function () {
+                                                                                        window.location.href = "/WebApplication1/PostServlet"
+                                                                                    });
 
+                                                                                },
+                                                                                failure: function (response) {
+                                                                                    alert(response.responseText);
+                                                                                },
+                                                                                error: function (response) {
+                                                                                    alert(response.responseText);
+                                                                                }
+                                                                            });
+
+                                                                        } else {
+                                                                            swal("Trở về quản lí báo cáo");
+                                                                        }
+                                                                    });
+                                                        }
         </script>
         <script src="/WebApplication1/assets/admin/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
         <script src="/WebApplication1/assets/admin/plugins/raphael/raphael.min.js"></script>

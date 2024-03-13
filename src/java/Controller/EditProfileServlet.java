@@ -77,7 +77,7 @@ public class EditProfileServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Lấy đường dẫn tuyệt đối tới thư mục uploads
-        String uploadPath = "D:\\swpp\\s\\web\\uploads";
+        String uploadPath = "D:\\swpp\\bbb\\web\\uploads";
         HttpSession session = request.getSession();
 
         // Tạo thư mục lưu trữ nếu nó không tồn tại

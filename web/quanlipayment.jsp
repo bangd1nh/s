@@ -133,6 +133,14 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a asp-controller="Admin" asp-action="getAllJob" class="nav-link" href="ViewPayment">
+                                    <i class="nav-icon fas fa-briefcase"></i>
+                                    <p>
+                                        Lich su giao dich
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="logoutServlet" class="nav-link">
                                     <i class="nav-icon fas fa-columns"></i>
                                     <p>

@@ -19,15 +19,16 @@ import java.sql.Timestamp;
 public class ListingsDAL {
 
     private static final String GETSAVELISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where Listings.ListingID=?";
-    private static final String GETALLLISTINGS = "SELECT * FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID ORDER By CreatedAt DESC offset ? rows fetch next 9 rows only;";
+    private static final String GETALLLISTINGS = "SELECT * FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where Status = 'Approved' ORDER By CreatedAt DESC offset ? rows fetch next 9 rows only;";
     private static final String GETLISTINGSBYID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where ListingID=?";
-    private static final String UPLOADLISTING = "INSERT INTO Listings (LandlordID,ContactEmail,ContactPhone,CreatedAt,Title,imgsrc,Location,Descriptions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPLOADLISTING = "INSERT INTO Listings (LandlordID,ContactEmail,ContactPhone,CreatedAt,Title,imgsrc,Location,Descriptions,Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
     private static final String GETALLLISTINGSBYUSERID = "SELECT Listings.*, Users.UserName FROM Listings JOIN Users ON Listings.LandlordID = Users.UserID where UserID=?";
     private static final String UPDATELISTING = "UPDATE Listings SET Title = ?,Location = ?,ContactPhone = ?,ContactEmail = ?,Descriptions = ? WHERE ListingID = ?";
     private static final String TOTALLISTING = "SELECT COUNT(*) AS total_listings FROM listings";
     private static final String TOTALUSER = "SELECT COUNT(*) AS total_users FROM Users";
     private static final String TOTALLOARD= "SELECT COUNT(*) AS total_loard FROM Users WHERE UserType = 'Landlord'";
     private static final String TOTALTENNANT= "SELECT COUNT(*) AS total_tenant FROM Users WHERE UserType = 'Tenant'";
+    private static final String UPDATESTATUS="Update Listings set Status = ? WHERE ListingID = ?";
     public static int getTotalListings(){
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -147,6 +148,7 @@ public class ListingsDAL {
                     l.setLocation(rs.getString("Location"));
                     l.setLandlordID(rs.getInt("LandlordID"));
                     l.setUsername(rs.getString("UserName"));
+                    l.setStatus(rs.getString("Status"));
                     list.add(l);
                 }
             }
@@ -176,6 +178,7 @@ public class ListingsDAL {
                     l.setLocation(rs.getString("Location"));
                     l.setDescription(rs.getString("Descriptions"));
                     l.setUsername(rs.getString("UserName"));
+                    l.setStatus(rs.getString("Status"));
                 }
             }
         } catch (Exception e) {
@@ -198,6 +201,7 @@ public class ListingsDAL {
                 ptm.setString(6, imagePath);
                 ptm.setString(7, location);
                 ptm.setString(8, description);
+                ptm.setString(9, "Pending");
                 int rowsAffected = ptm.executeUpdate();
                 return rowsAffected > 0;
             }
@@ -245,6 +249,21 @@ public class ListingsDAL {
                 ptm.setString(4, contactEmail);
                 ptm.setString(5, description);
                 ptm.setInt(6, listingsID);
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static boolean UpdateStatus(int listingID, String status) {
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(UPDATESTATUS);
+                ptm.setString(1, status);
+                ptm.setInt(2, listingID);
                 int rowsAffected = ptm.executeUpdate();
                 return rowsAffected > 0;
             }
