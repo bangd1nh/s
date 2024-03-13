@@ -77,7 +77,7 @@
                                             <button type="button" class="btn btn-primary" id="showModalBtn">
                                                 Edit User Information
                                             </button>
-                                            <button class="btn btn-primary ml-1">Add funds</button>
+                                            <button class="btn btn-primary ml-1">Rut tien qua momo</button>
                                         </div>
                                     </div>
                                 </div>

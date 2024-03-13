@@ -18,12 +18,13 @@ import java.util.ArrayList;
  */
 public class PaymentDAL {
 
-    private static final String INSERTCONTRACT = "INSERT INTO Contracts (UserID, ContractID, TransactionDate, ApartmentID, Status) VALUES (?,?,?,?,?);";
+    private static final String INSERTCONTRACT = "INSERT INTO Transactions (UserID, ContractID, TransactionDate, ApartmentID, Status,Ammount) VALUES (?,?,?,?,?,?);";
     private static final String GETCONTRACTID = "Select Contracts.ContractID from Contracts join Users on Users.UserID = Contracts.TenantID where PropertyID = ?";
     private static final String GETALLPAYMENT = "select * from Transactions";
     private static final String GETTOTALPAYMENT = "select COUNT(*) from Transactions";
+    private static final String GETAMMOUNT = "Select Price from ApartmentInfo where ApartmentID = ?";
 
-    public static boolean InsertPayment(int userID, int consctractID, Timestamp transactionDate, int apartmentID, String status) {
+    public static boolean InsertPayment(int userID, int consctractID, Timestamp transactionDate, int apartmentID, String status,double ammount) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -33,6 +34,7 @@ public class PaymentDAL {
                 ptm.setTimestamp(3, transactionDate);
                 ptm.setInt(4, apartmentID);
                 ptm.setString(5, status);
+                ptm.setDouble(6,ammount);
                 int rowsAffected = ptm.executeUpdate();
                 return rowsAffected > 0;
             }
@@ -75,6 +77,7 @@ public class PaymentDAL {
                     p.setTransactionDate(rs.getTimestamp("TransactionDate"));
                     p.setApartmentID(rs.getInt("ApartmentID"));
                     p.setStatus(rs.getString("Status"));
+                    p.setAmmount(rs.getDouble("Ammount"));
                     payList.add(p);
                 }
             }
@@ -90,6 +93,23 @@ public class PaymentDAL {
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement(GETTOTALPAYMENT);
+                rs = ptm.executeQuery();
+                if (rs.next()){
+                    count = rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    } 
+    public static double getAmmount(int appID){
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        int count= 0 ;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETAMMOUNT);
                 rs = ptm.executeQuery();
                 if (rs.next()){
                     count = rs.getInt(1);

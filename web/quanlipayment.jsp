@@ -211,7 +211,11 @@
                                         <th style="width: 8%" class="text-center">
                                             ID phong
                                         </th>
-                                        <th style="width: 20%">
+                                        <th style="width: 10%">
+                                            So tien
+                                        </th>
+                                        
+                                        <th style="width: 20%" class="text-right">
                                             Trang thai
                                         </th>
                                     </tr>
@@ -230,6 +234,7 @@
                                                     <span class="badge badge-success">${p.getTransactionDate()}</span>
                                                 </td>
                                                 <td>${p.getApartmentID()}</td>
+                                                <td>${p.getAmmount()}</td>
                                                 <td class="project-actions text-right">
                                                     ${p.getStatus()}
                                                 </td>

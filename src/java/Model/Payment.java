@@ -17,6 +17,7 @@ public class Payment {
     private Timestamp TransactionDate;
     private int apartmentID;
     private String status;
+    private double ammount;
 
     public Payment() {
     }
@@ -30,6 +31,14 @@ public class Payment {
         this.status = status;
     }
 
+    public double getAmmount() {
+        return ammount;
+    }
+
+    public void setAmmount(double ammount) {
+        this.ammount = ammount;
+    }
+    
     public int getTransactionID() {
         return transactionID;
     }

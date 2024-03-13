@@ -26,6 +26,7 @@ public class UserDAL {
     private static final String LOGINEMAIL = "INSERT INTO Users (Email,Username) Values(?,?)";
     private static final String LOGINWITHEMAIL = "SELECT * FROM.[Users] where Email=?";
     private static final String UPDATEPASSWORD = "UPDATE Users Set Password=? where Email=?";
+    private static final String UPDATEBALANCE = "UPDATE Users Set Balance = ? where UserID = ?";
 
     public static User userLogin(String email, String password) {
         PreparedStatement ptm = null;
@@ -236,6 +237,21 @@ public class UserDAL {
                 ptm = con.prepareStatement(UPDATEPASSWORD);
                 ptm.setString(1, Password);
                 ptm.setString(2, Email);
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static boolean updateBalance(int userID, double ammount) {
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(UPDATEBALANCE);
+                ptm.setDouble(1, ammount);
+                ptm.setInt(2, userID);
                 int rowsAffected = ptm.executeUpdate();
                 return rowsAffected > 0;
             }
