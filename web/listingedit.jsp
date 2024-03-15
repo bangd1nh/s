@@ -26,17 +26,17 @@
                     <div class="row gx-4 gx-lg-5 align-items-center">
                         <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="${requestScope.listingDetail.getImgsrc()}" alt="..." /></div>
                         <div class="col-md-6">
-                            <div class="small mb-1">Listing ID: <input class="hiding" type="number" name="listingID" value="${requestScope.listingDetail.getListingID()}" readonly></div>
-                            <div class="small mb-1">Status: ${requestScope.listingDetail.getStatus()}</div>
-                            <h1 class="display-5 fw-bolder">Title: <input class="form-control-lg" type="text" value="${requestScope.listingDetail.getTitle()}" name="title"></h1>
+                            <div class="small mb-1">ID bài viết: <input class="hiding" type="number" name="listingID" value="${requestScope.listingDetail.getListingID()}" readonly></div>
+                            <div class="small mb-1">Trạng thái: ${requestScope.listingDetail.getStatus()}</div>
+                            <h1 class="display-5 fw-bolder">Tiêu đề: <input class="form-control-lg" type="text" value="${requestScope.listingDetail.getTitle()}" name="title"></h1>
                             <div class="fs-5 mb-5">
-                                <span>location:<input class="form-control" type="text" value=" ${requestScope.listingDetail.getLocation()}" name="location"></span><br>
-                                <span>contact phone:<input class="form-control" type="tel" value=" ${requestScope.listingDetail.getContactPhone()}" name="contactphone"></span><br>
-                                <span>contact email:<input class="form-control" type="text" value="${requestScope.listingDetail.getContactEmail()}" name="contactemail"> </span><br>
-                                <span>Landlord Name: ${requestScope.listingDetail.getUsername()} </span><br>
+                                <span>Địa chỉ:<input class="form-control" type="text" value=" ${requestScope.listingDetail.getLocation()}" name="location"></span><br>
+                                <span>số điện thoại liên hệ:<input class="form-control" type="tel" value=" ${requestScope.listingDetail.getContactPhone()}" name="contactphone"></span><br>
+                                <span>địa chỉ email liên lạc:<input class="form-control" type="text" value="${requestScope.listingDetail.getContactEmail()}" name="contactemail"> </span><br>
+                                <span>Tên người cho thuê: ${requestScope.listingDetail.getUsername()} </span><br>
                             </div>
                             <textarea class="form-control" name="description" rows="4" placeholder="${requestScope.listingDetail.getDescription()}"></textarea>
-                            <input type="submit" value="Update Litsing" class="btn btn-outline-dark btn-lg btn-group-sm ">
+                            <input type="submit" value="Cập nhật bài viết" class="btn btn-outline-dark btn-lg btn-group-sm ">
                         </div>
                     </div>
                 </div>
@@ -47,9 +47,9 @@
         </section>
         <section class="py-5 bg-light">
             <div class="container px-4 px-lg-5 mt-5">
-                <h2 class="fw-bolder mb-4">Danh sach phong</h2>
+                <h2 class="fw-bolder mb-4">Danh sách phòng</h2>
                 <c:if test="${empty appList}">
-                    <p>empty</p>
+                    <p>trống</p>
                 </c:if>
                 <c:if test="${not empty appList}">
                     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -94,11 +94,11 @@
                                                     <!-- Phần thông tin bên phải -->
                                                     <div class="col-md-8">
                                                         <p>${appList.get(i).getDescription()}</p>
-                                                        <p>Location: ${appList.get(i).getLocation()}</p>
-                                                        <p>Price: ${appList.get(i).getPrice()}</p>
-                                                        <p>Bed rooms: ${appList.get(i).getBedRooms()}</p>
-                                                        <p>Bath rooms: ${appList.get(i).getBathRooms()}</p>
-                                                        <p>Area : ${appList.get(i).getArea()}</p>
+                                                        <p>Địa chỉ: ${appList.get(i).getLocation()}</p>
+                                                        <p>Giá thuê: ${appList.get(i).getPrice()}</p>
+                                                        <p>Số phòng ngủ: ${appList.get(i).getBedRooms()}</p>
+                                                        <p>Số nhà vệ sinh: ${appList.get(i).getBathRooms()}</p>
+                                                        <p>Diện tích : ${appList.get(i).getArea()} m2</p>
                                                         <!-- Thêm các dòng thông tin khác tại đây -->
                                                     </div>
                                                 </div>
@@ -124,14 +124,14 @@
                             <div class="card-body p-4">
                                 <div class="text-center">
                                     <!-- Product name-->
-                                    <h5 class="fw-bolder">Title</h5>
-                                    <h6 class="fw-bolder">Room number</h6>
+                                    <h5 class="fw-bolder">Tiêu đề</h5>
+                                    <h6 class="fw-bolder">Số phòng</h6>
                                 </div>
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center"><button type="button" class="btn btn-outline-dark mt-auto" data-toggle="modal" data-target="#addroominfoModal" data-imgsrc="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
-                                        add room information
+                                        Thêm phòng mới
                                     </button>
                                 </div>
                             </div>
@@ -150,7 +150,7 @@
                             <div class="modal-header">
                                 <h4 class="modal-title" id="myModalLabel">
                                     <div class="form-group">
-                                        <label for="Title">Title</label>
+                                        <label for="Title">Tiêu đề</label>
                                         <input type="text" name="title" value="${requestScope.listingDetail.getTitle()}" class="form-control">
                                     </div>
                                 </h4>
@@ -162,7 +162,7 @@
                                         <!-- Image Upload on the left -->
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="image">Select Image:</label>
+                                                <label for="image">Chọn ảnh:</label>
                                                 <input type="file" class="form-control" name="image" accept="image/*" required="required" onchange="previewImage(event)">
                                                 <!-- Image preview -->
                                                 <img id="imagePreview" class="mt-2" style="max-width: 100%; max-height: 300px;">
@@ -171,27 +171,27 @@
                                         <!-- Additional Information on the right -->
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <label for="description">Room no:</label>
+                                                <label for="description">Số :</label>
                                                 <input type="text" name="description" class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label for="location">Location:</label>
+                                                <label for="location">Địa chỉ:</label>
                                                 <input type="text" name="location" class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label for="Price">Price:</label>
+                                                <label for="Price">Giá thuê:</label>
                                                 <input type="text" name="price" class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label for="bedrooms">Bed rooms:</label>
+                                                <label for="bedrooms">Số phòng ngủ:</label>
                                                 <input type="number" name="bedrooms" class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label for="bathrooms">Bath rooms:</label>
+                                                <label for="bathrooms">số nhà vệ sinh:</label>
                                                 <input type="number" name="bathrooms" class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label for="bathrooms">Area:</label>
+                                                <label for="bathrooms">Diện tích:</label>
                                                 <input type="number" name="area" class="form-control">
                                             </div>
                                             <!-- Add additional input fields as needed -->
@@ -201,7 +201,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                <input type="submit" value="submit" class="btn btn-secondary">
+                                <input type="submit" value="Tạo phòng" class="btn btn-secondary">
                             </div>
 
                         </form>

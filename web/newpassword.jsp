@@ -43,7 +43,7 @@
                             <!-- Main Heading -->
                             <div class="row justify-content-center align-items-center pt-3">
                                 <h1>
-                                    <strong>Reset Password</strong>
+                                    <strong>Reset mật khẩu</strong>
                                 </h1>
                             </div>
                             <div class="pt-3 pb-3">
@@ -51,7 +51,7 @@
                                     <!-- User Name Input -->
                                     <div class="form-group row justify-content-center px-3">
                                         <div class="col-9 px-0">
-                                            <input type="text" name="password" placeholder="&#xf084; &nbsp; New Password"
+                                            <input type="text" name="password" placeholder="&#xf084; &nbsp; mật khẩu mới"
                                                    class="form-control border-info placeicon">
                                         </div>
                                     </div>
@@ -59,7 +59,7 @@
                                     <div class="form-group row justify-content-center px-3">
                                         <div class="col-9 px-0">
                                             <input type="password" name="confPassword"
-                                                   placeholder="&#xf084; &nbsp; Confirm New Password"
+                                                   placeholder="&#xf084; &nbsp; xác nhận mật khẩu"
                                                    class="form-control border-info placeicon">
                                         </div>
                                     </div>
@@ -74,28 +74,6 @@
                                 </form>
                             </div>
                             <!-- Alternative Login -->
-                            <div class="mx-0 px-0 bg-light">
-
-                                <!-- Horizontal Line -->
-                                <div class="px-4 pt-5">
-                                    <hr>
-                                </div>
-                                <!-- Register Now -->
-                                <div class="pt-2">
-                                    <div class="row justify-content-center">
-                                        <h5>
-                                            Don't have an Account?<span><a href="#"
-                                                                           class="text-danger"> Register Now!</a></span>
-                                        </h5>
-                                    </div>
-                                    <div
-                                        class="row justify-content-center align-items-center pt-4 pb-5">
-                                        <div class="col-4">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

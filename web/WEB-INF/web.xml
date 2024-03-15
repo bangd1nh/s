@@ -156,6 +156,14 @@
         <servlet-name>ViewPayment</servlet-name>
         <servlet-class>Controller.ViewPayment</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>viewPaymentServlet</servlet-name>
+        <servlet-class>Controller.viewPaymentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>withdrawServlet</servlet-name>
+        <servlet-class>Controller.withdrawServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -311,6 +319,14 @@
     <servlet-mapping>
         <servlet-name>ViewPayment</servlet-name>
         <url-pattern>/ViewPayment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewPaymentServlet</servlet-name>
+        <url-pattern>/viewPaymentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>withdrawServlet</servlet-name>
+        <url-pattern>/withdrawServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

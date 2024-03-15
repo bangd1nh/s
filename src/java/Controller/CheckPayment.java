@@ -71,7 +71,7 @@ public class CheckPayment extends HttpServlet {
                             int conID = DAO.PaymentDAL.getConstractID(propertyID);
                             long createdAt = System.currentTimeMillis();
                             Timestamp transactionDate = new Timestamp(createdAt);
-                            if (DAO.PaymentDAL.InsertPayment(u.getUserID(), conID, transactionDate, propertyID, "VnpayAdmin", DAO.PaymentDAL.getAmmount(propertyID))) {
+                            if (DAO.PaymentDAL.InsertPayment(u.getUserID(), conID, transactionDate, propertyID, "success", DAO.PaymentDAL.getAmmount(propertyID),"VnPayAdmin")) {
                                 if (DAO.ConstractDAL.updateStatusContractByPID("Active", propertyID)) {
                                     DAO.ApartmentInfoDAL.updatestatus(propertyID);
                                     DAO.UserDAL.updateBalance(u.getUserID(), DAO.PaymentDAL.getAmmount(propertyID));

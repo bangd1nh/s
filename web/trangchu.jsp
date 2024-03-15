@@ -51,13 +51,13 @@
                     <div>
                         <form action="SearchListingsServlet" method="post">
                             <div class="input-group">
-                                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="searchTerm"/>
-                                <button type="submit" class="btn btn btn-outline-dark mt-auto" data-mdb-ripple-init>search</button>
+                                <input type="search" class="form-control rounded" placeholder="Tìm kiếm" aria-label="Search" aria-describedby="search-addon" name="searchTerm"/>
+                                <button type="submit" class="btn btn btn-outline-dark mt-auto" data-mdb-ripple-init>Tìm kiếm</button>
                             </div>
                         </form>
                     </div>
                     <div class="justify-content-end d-flex mt-3">
-                        <button class="btn btn-outline-dark" onclick="redirectBaivietyeuthich()">bai viet yeu thich</button>
+                        <button class="btn btn-outline-dark" onclick="redirectBaivietyeuthich()">Bài viết đã lưu</button>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                                 <div class="card h-100 shadow border-0">
                                     <img class="custom-size img-fluid" src="${list.get(i).getImgsrc()}" alt="..." />
                                     <div class="card-body p-4">
-                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">Listing ID:${list.get(i).getListingID()}</div>
+                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">ID Bài viết:${list.get(i).getListingID()}</div>
                                         <a class="text-decoration-none link-dark stretched-link" href="Listingdetail?listingID=${list.get(i).getListingID()}"><h5 class="card-title mb-3">${list.get(i).getTitle()}</h5></a>
                                         <p class="card-text mb-0">${list.get(i).getLocation()}</p>
                                     </div>
@@ -84,7 +84,8 @@
                                                     <div class="fw-bold">
                                                         ${list.get(i).getUsername()}
                                                     </div>
-                                                    <div class="text-muted">${list.get(i).getCreateAt()}</div>
+                                                    <fmt:formatDate value="${list.get(i).getCreateAt()}" pattern="dd-MM-yyyy HH:mm" var="formattedDate" />
+                                                    <div class="text-muted">${formattedDate}</div>
                                                 </div>
                                             </div>
                                         </div>

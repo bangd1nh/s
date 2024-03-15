@@ -46,24 +46,24 @@
                                                 <p class="text-muted">${requestScope.viewUser.getEmail()}</p>
                                             </div>
                                             <div class="col-6 mb-3">
-                                                <h6>Phone</h6>
+                                                <h6>Số điện thoại</h6>
                                                 <p class="text-muted">${requestScope.viewUser.getContactPhone()}</p>
                                             </div>
                                         </div>
                                         <hr class="mt-0 mb-4">
                                         <div class="row pt-1">
                                             <div class="col-6 mb-3">
-                                                <h6>Balance</h6>
+                                                <h6>Số dư ví</h6>
                                                 <p class="text-muted">${requestScope.viewUser.getBalance()}</p>
                                             </div>
                                             <div class="col-6 mb-3 row">
-                                                <h6>Full Name</h6>
+                                                <h6>Họ và tên</h6>
                                                 <p class="text-muted col">${requestScope.viewUser.getFristName()}</p>
                                                 <p class="text-muted col">${requestScope.viewUser.getLastName()}</p>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start">
-                                            <button class="btn btn-primary ml-1">chat</button>
+                                            <button class="btn btn-primary ml-1">liên hệ</button>
                                         </div>
                                     </div>
                                 </div>

@@ -26,14 +26,14 @@
                     <div class="col-12 col-lg-9 col-xl-7">
                         <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                             <div class="card-body p-4 p-md-5">
-                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
+                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">ĐĂNG KÝ</h3>
                                 <form action="RegisterServlet" method="post">
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
 
                                             <div class="form-outline">
                                                 <input type="text" id="firstName" class="form-control form-control-lg" name="firstname"/>
-                                                <label class="form-label" for="firstName">First Name</label>
+                                                <label class="form-label" for="firstName">Họ</label>
                                             </div>
 
                                         </div>
@@ -41,7 +41,7 @@
 
                                             <div class="form-outline">
                                                 <input type="text" id="lastName" class="form-control form-control-lg" name="lastname"/>
-                                                <label class="form-label" for="lastName">Last Name</label>
+                                                <label class="form-label" for="lastName">Tên</label>
                                             </div>
 
                                         </div>
@@ -55,16 +55,16 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-4">
-                                            <h6 class="mb-2 pb-1">USER TYPE: </h6>
+                                            <h6 class="mb-2 pb-1">Kiểu User: </h6>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="usertype" id="landlord"
                                                        value="Landlord" required="required" />
-                                                <label class="form-check-label" for="Landlord">Landlord</label>
+                                                <label class="form-check-label" for="Landlord">Người cho thuê</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="usertype" id="maleGender"
                                                        value="Tenant" />
-                                                <label class="form-check-label" for="Tenant">Tenant</label>
+                                                <label class="form-check-label" for="Tenant">Người thuê</label>
                                             </div>
                                         </div>
                                     </div>
@@ -82,13 +82,13 @@
 
                                             <div class="form-outline">
                                                 <input type="password" id="password" class="form-control form-control-lg" name="password" />
-                                                <label class="form-label" for="password">Password</label>
+                                                <label class="form-label" for="password">Mật khẩu</label>
                                             </div>
 
                                         </div>
                                     </div>
                                     <div class="mt-4 pt-2">
-                                        <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                                        <input class="btn btn-primary btn-lg" type="submit" value="Đăng ký" />
                                     </div>
                                 </form>
                             </div>

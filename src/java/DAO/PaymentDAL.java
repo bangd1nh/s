@@ -18,13 +18,16 @@ import java.util.ArrayList;
  */
 public class PaymentDAL {
 
-    private static final String INSERTCONTRACT = "INSERT INTO Transactions (UserID, ContractID, TransactionDate, ApartmentID, Status,Ammount) VALUES (?,?,?,?,?,?);";
+    private static final String INSERTCONTRACT = "INSERT INTO Transactions (UserID, ContractID, TransactionDate, ApartmentID, Status,Ammount,Description) VALUES (?,?,?,?,?,?);";
     private static final String GETCONTRACTID = "Select Contracts.ContractID from Contracts join Users on Users.UserID = Contracts.TenantID where PropertyID = ?";
     private static final String GETALLPAYMENT = "select * from Transactions";
     private static final String GETTOTALPAYMENT = "select COUNT(*) from Transactions";
     private static final String GETAMMOUNT = "Select Price from ApartmentInfo where ApartmentID = ?";
+    private static final String GETPAYMENTBYUSERID = "SELECT * from Transactions where UserID = ? ORDER BY TransactionDate DESC";
+    private static final String INSERTWITHDRAW = "INSERT INTO Transactions (UserID, TransactionDate,Status,Ammount,Description) VALUES (?,?,?,?,?);";
+    private static final String UPDATESTATUS= "Update Transactions set Status = ? where TransactionID = ?";
 
-    public static boolean InsertPayment(int userID, int consctractID, Timestamp transactionDate, int apartmentID, String status,double ammount) {
+    public static boolean InsertPayment(int userID, int consctractID, Timestamp transactionDate, int apartmentID, String status,double ammount,String description) {
         PreparedStatement ptm = null;
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
@@ -35,6 +38,7 @@ public class PaymentDAL {
                 ptm.setInt(4, apartmentID);
                 ptm.setString(5, status);
                 ptm.setDouble(6,ammount);
+                ptm.setString(7, description);
                 int rowsAffected = ptm.executeUpdate();
                 return rowsAffected > 0;
             }
@@ -78,6 +82,7 @@ public class PaymentDAL {
                     p.setApartmentID(rs.getInt("ApartmentID"));
                     p.setStatus(rs.getString("Status"));
                     p.setAmmount(rs.getDouble("Ammount"));
+                    p.setDescription(rs.getString("Description"));
                     payList.add(p);
                 }
             }
@@ -119,6 +124,66 @@ public class PaymentDAL {
             e.printStackTrace();
         }
         return count;
+    }
+    public static ArrayList<Payment> getAllPaymentByUserID(int userID){
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        ArrayList<Payment> payList = new ArrayList<>();
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETPAYMENTBYUSERID);
+                ptm.setInt(1, userID);
+                rs = ptm.executeQuery();
+                while (rs.next()){
+                    Payment p = new Payment();
+                    p.setTransactionID(rs.getInt("TransactionID"));
+                    p.setUserID(rs.getInt("UserID"));
+                    p.setConstractID(rs.getInt("ContractID"));
+                    p.setTransactionDate(rs.getTimestamp("TransactionDate"));
+                    p.setApartmentID(rs.getInt("ApartmentID"));
+                    p.setStatus(rs.getString("Status"));
+                    p.setAmmount(rs.getDouble("Ammount"));
+                    p.setDescription(rs.getString("Description"));
+                    payList.add(p);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return payList;
+    }
+    public static boolean InsertPayment(int userID, Timestamp transactionDate, String status,double ammount,String description) {
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(INSERTWITHDRAW);
+                ptm.setInt(1, userID);
+                ptm.setTimestamp(2, transactionDate);
+                ptm.setString(3, status);
+                ptm.setDouble(4,ammount);
+                ptm.setString(5, description);
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static boolean updateStatus(String status, int transactionID) {
+        PreparedStatement ptm = null;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(UPDATESTATUS);
+                ptm.setString(1, status);
+                ptm.setInt(2, transactionID);
+                int rowsAffected = ptm.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
     public static void main(String[] args) {
         ArrayList<Payment> p = new ArrayList<>();

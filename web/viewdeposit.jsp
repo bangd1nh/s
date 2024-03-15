@@ -34,8 +34,10 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">ID phong: ${l.getPropertyId()}</h5>
-                                        <p class="card-text">Ngay bat dau Thue: ${l.getStartDate()}</p>
-                                        <p class="card-text">Han thue: ${l.getEndDate()}</p>
+                                        <fmt:formatDate value="${l.getStartDate()}" pattern="dd-MM-yyyy" var="formattedDate1" />
+                                        <p class="card-text">Ngay bat dau Thue: ${formattedDate1}</p>
+                                        <fmt:formatDate value="${l.getEndDate()}" pattern="dd-MM-yyyy" var="formattedDate" />
+                                        <p class="card-text">Han thue: ${formattedDate}</p>
                                         <p class="card-text">Tinh tran dat coc: ${l.getStatus()}</p>
                                         <p class="card-text"><a href="ViewConstractDetail?conID=${l.getConstractId()}">xem chi tiet hop dong</a></p>
                                         <c:choose>

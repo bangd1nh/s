@@ -27,22 +27,24 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="ListingsServlet">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="ListingsServlet">Trang chủ</a></li>
                             <c:choose>
                                 <c:when test="${empty sessionScope.loggedInUser}">
-                                <li class="nav-item"><a class="nav-link" href="loginform.jsp">login</a></li>
-                                <li class="nav-item"><a class="nav-link" href="registerform.jsp">register</a></li>
+                                <li class="nav-item"><a class="nav-link" href="loginform.jsp">đăng nhập</a></li>
+                                <li class="nav-item"><a class="nav-link" href="registerform.jsp">đăng ký</a></li>
                                 </c:when>
                                 <c:otherwise>
                                 <li class="nav-item"><a class="nav-link" href="profile.jsp">Welcome ${sessionScope.loggedInUser.getUserName()}</a></li>
-                                <li class="nav-item"><a class="nav-link" href="">$${sessionScope.loggedInUser.getBalance()}</a></li>
-                                <li class="nav-item"><a class="nav-link" href="logoutServlet">logout</a></li>
+                                <li class="nav-item"><a class="nav-link" href="viewPaymentServlet">Lịch sử giao dịch</a></li>
+                                <li class="nav-item"><a class="nav-link" href="logoutServlet">đăng xuất</a></li>
                                     <c:if test="${sessionScope.loggedInUser.getUserType() == 'Landlord'}">
-                                    <li class="nav-item"><a class="nav-link" href="ManagerPageServlet">manager page</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="ManagerPageServlet">quản lý bài viết</a></li>
                                     </c:if>
                                 </c:otherwise>
                             </c:choose>
-                        <li class="nav-item"><a class="nav-link" href="ViewDepositServlet">Deposit</a></li>
+                                    <c:if test="${not empty sessionScope.loggedInUser}">
+                            <li class="nav-item"><a class="nav-link" href="ViewDepositServlet">Hợp đồng đặt cọc</a></li>
+                            </c:if>
                     </ul>
                     <!-- thong bao -->
                     <button class="btn btn-outline-dark bi-bell" type="button" data-bs-toggle="modal" data-bs-target="#notificationModal" id="openModalBtn">
@@ -78,21 +80,21 @@
                                                     <div class="col">
                                                         <c:choose>
                                                             <c:when test="${sessionScope.loggedInUser.getUserType() eq 'Landlord'}">
-                                                                <p>Tenant ID: <a href="ViewUserProfile?userID=${appointment.getTenantID()}">${appointment.getTenantID()}</a></p>
+                                                                <p>ID người thuê: <a href="ViewUserProfile?userID=${appointment.getTenantID()}">${appointment.getTenantID()}</a></p>
                                                                 </c:when>
                                                                 <c:otherwise>
-                                                                <p>Landlord ID:<a href="ViewUserProfile?userID=${appointment.getLandlordID()}"> ${appointment.getLandlordID()} </a></p>
+                                                                <p>ID Người cho thuê:<a href="ViewUserProfile?userID=${appointment.getLandlordID()}"> ${appointment.getLandlordID()} </a></p>
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </div>
                                                     <div class="col-3">
-                                                        <p>Appointment At: ${formattedDate}</p>
+                                                        <p>Thời điểm: ${formattedDate}</p>
                                                     </div>
                                                     <div class="col">
-                                                        <p>Listing ID: <a href="Listingdetail?listingID=${appointment.getListingID()}">${appointment.getListingID()}</a></p>
+                                                        <p>ID Bài viết: <a href="Listingdetail?listingID=${appointment.getListingID()}">${appointment.getListingID()}</a></p>
                                                     </div>
                                                     <div class="col">
-                                                        <p>Room no: ${appointment.getRoomSelected()}</p>
+                                                        <p>Phòng số: ${appointment.getRoomSelected()}</p>
                                                     </div>
                                                     <div class="col">
                                                         <c:choose>
@@ -102,7 +104,7 @@
                                                                         <button name="status" class="btn btn-outline-dark" type="submit" value="Cancelled">Cancel</button>
                                                                         <button name="status" class="btn btn-outline-dark btn-primary" type="submit" value="Approved">Approve</button>
                                                                     </c:when>
-                                                                    <c:otherwise><p>Status: ${appointment.getStatus()}</p></c:otherwise>
+                                                                    <c:otherwise><p>Trạng thái: ${appointment.getStatus()}</p></c:otherwise>
                                                                 </c:choose>
                                                             </c:when>
                                                             <c:otherwise>
@@ -137,7 +139,7 @@
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">FPT House</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Ho tro thue tro va can ho tai Da Nang</p>
+                    <p class="lead fw-normal text-white-50 mb-0">Hỗ trợ cho thuê nhà trọ và căn hộ tại Đà Nẵng</p>
                 </div>
             </div>
         </header>

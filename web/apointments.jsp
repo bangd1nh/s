@@ -25,13 +25,13 @@
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="${requestScope.listingDetail.getImgsrc()}" alt="..." /></div>
                     <div class="col-md-6">
-                        <div class="small mb-1">Listing ID: ${requestScope.listingDetail.getListingID()}</div>
+                        <div class="small mb-1">ID bài viết: ${requestScope.listingDetail.getListingID()}</div>
                         <h1 class="display-5 fw-bolder">${requestScope.listingDetail.getTitle()}</h1>
                         <div class="fs-5 mb-5">
-                            <span>location: ${requestScope.listingDetail.getLocation()}</span><br>
-                            <span>contact phone: ${requestScope.listingDetail.getContactPhone()}</span><br>
-                            <span>contact email: ${requestScope.listingDetail.getContactEmail()}</span><br>
-                            <span>Landlord Name: ${requestScope.listingDetail.getUsername()}</span><br>
+                            <span>Địa chỉ: ${requestScope.listingDetail.getLocation()}</span><br>
+                            <span>số điện thoại liên lạc: ${requestScope.listingDetail.getContactPhone()}</span><br>
+                            <span>địa chỉ email liên lạc: ${requestScope.listingDetail.getContactEmail()}</span><br>
+                            <span>Tên người cho thuê: ${requestScope.listingDetail.getUsername()}</span><br>
                         </div>
                         <p class="lead">${requestScope.listingDetail.getDescription()}</p>
                         <div class="d-flex">
@@ -50,14 +50,14 @@
                             <input type="hidden" value="${param.landlordID}" name="landlordID">
                             <div class="col-lg-6">
                                 <div class="container px-4 px-lg-5 my-5">
-                                    <h5 class="calendar-container p-3 ">Appointments</h5>
+                                    <h5 class="calendar-container p-3 ">Lịch hẹn</h5>
 
                                     <div class="mb-3">
-                                        <label for="appointmentdate" class="form-label">Appointment Date</label>
+                                        <label for="appointmentdate" class="form-label">Ngày hẹn</label>
                                         <input type="date" id="appointmentdate" name="appointmentdate" class="form-control" >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="appointmenttime" class="form-label">Appointment Time</label>
+                                        <label for="appointmenttime" class="form-label">Giờ hẹn</label>
                                         <input type="time" id="appointmenttime" name="appointmenttime" class="form-control">
                                     </div>
                                 </div>
@@ -67,18 +67,18 @@
                             <div class="col-lg-6">
                                 <div class="container px-4 px-lg-5 my-5">
                                     <div class="mb-3">
-                                        <label for="contactphone" class="form-label">Contact Phone</label>
-                                        <input type="tel" id="contactphone" name="contactphone" placeholder="Contact phone" class="form-control">
+                                        <label for="contactphone" class="form-label">số điện thoại liên lạc</label>
+                                        <input type="tel" id="contactphone" name="contactphone" placeholder="số điện thoại" class="form-control">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="username" class="form-label">User Name</label>
+                                        <label for="username" class="form-label">Tên người thuê</label>
                                         <input type="text" id="username" name="username" placeholder="User name" value="${sessionScope.loggedInUser.getUserName()}" readonly class="form-control">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="roomSelect" class="form-label">Choose Room</label>
+                                        <label for="roomSelect" class="form-label">Chọn phòng</label>
                                         <select id="roomSelect" name="roomSelect" class="form-select">
                                             <c:if test="${empty appList}">
-                                                <option>No rooms left</option>
+                                                <option>Hết phòng trống!</option>
                                             </c:if>
                                             <c:if test="${not empty appList}">
                                                 <c:forEach var="i" begin="0" end="${appList.size()-1}">
@@ -90,7 +90,7 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <input type="submit" value="Submit" class="btn btn-primary">
+                                        <input type="submit" value="Đặt lịch!" class="btn btn-primary">
                                     </div>
                                 </div>
                             </div>

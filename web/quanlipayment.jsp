@@ -5,6 +5,7 @@
 --%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -136,7 +137,7 @@
                                 <a asp-controller="Admin" asp-action="getAllJob" class="nav-link" href="ViewPayment">
                                     <i class="nav-icon fas fa-briefcase"></i>
                                     <p>
-                                        Lich su giao dich
+                                        Quản lý giao dịch
                                     </p>
                                 </a>
                             </li>
@@ -196,28 +197,32 @@
                             <table class="table table-striped projects" >
                                 <thead>
                                     <tr>
-                                        <th style="width: 1%" >
+                                        <th scope="col" >
                                             ID
                                         </th>
-                                        <th style="width: 20%">
+                                        <th scope="col">
                                             Người giao dich
                                         </th>
-                                        <th style="width: 40%">
+                                        <th scope="col">
                                             ID hop dong
                                         </th>
-                                        <th style="width: 3%">
+                                        <th scope="col">
                                             Thoi gian
                                         </th>
-                                        <th style="width: 8%" class="text-center">
+                                        <th scope="col">
                                             ID phong
                                         </th>
-                                        <th style="width: 10%">
+                                        <th scope="col">
                                             So tien
                                         </th>
-                                        
-                                        <th style="width: 20%" class="text-right">
-                                            Trang thai
+
+                                        <th scope="col">
+                                            Trạng thái
                                         </th>
+                                        <th scope="col">
+                                            Mô tả
+                                        </th>
+                                        <th scope="col">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -230,14 +235,22 @@
                                                 <td>${p.getTransactionID()}</td>
                                                 <td>${p.getUserID()}</td>
                                                 <td>${p.getConstractID()}</td>
-                                                <td class="project-state">
-                                                    <span class="badge badge-success">${p.getTransactionDate()}</span>
+                                                <fmt:formatDate value="${p.getTransactionDate()}" pattern="dd-MM-yyyy HH:mm" var="formattedDate" />
+                                                <td>
+                                                    ${formattedDate}
                                                 </td>
                                                 <td>${p.getApartmentID()}</td>
                                                 <td>${p.getAmmount()}</td>
-                                                <td class="project-actions text-right">
+                                                <td>
                                                     ${p.getStatus()}
                                                 </td>
+                                                <td>${p.getDescription()}</td>
+                                                <c:if test="${not p.getDescription().equals('VnpayAdmin') and p.getStatus().equals('pending   ')}">
+                                                    <td> 
+                                                        <button class="btn-success btn-sm btn" onclick="accept('${p.getTransactionID()}','success')">chấp nhận</button>
+                                                        <button class="btn-danger btn btn-sm" onclick="accept('${p.getTransactionID()}','cancel')">từ chối</button>
+                                                    </td>
+                                                </c:if>
                                             </tr>
                                         </c:forEach>
                                     </c:if>
@@ -280,10 +293,10 @@
         <!-- jQuery Mapael -->
 
         <script type="text/javascript">
-            function remove(id) {
+            function accept(id, value) {
                 console.log("aaa", id);
                 swal({
-                    title: "Bạn có chắc chắn xóa bài đăng?",
+                    title: "Bạn đã chắc chắn chuyển tiền chưa?",
                     text: "Hãy chắc chắn với quyết định của mình !",
                     icon: "warning",
                     buttons: true,
@@ -293,12 +306,12 @@
                             if (willDelete) {
                                 $.ajax({
                                     type: "POST",
-                                    url: "/WebApplication1/DeleteListingServlet?ListingID=" + id,
+                                    url: "/WebApplication1/withdrawServlet?transactionID=" + id + "&action=adminaction" + "&status=" + value,
                                     success: function (response) {
-                                        swal("Bạn đã xóa bài đăng thành công", {
+                                        swal("Bạn đã cap nhat thành công", {
                                             icon: "success",
                                         }).then(function () {
-                                            window.location.href = "/WebApplication1/PostServlet"
+                                            window.location.href = "/WebApplication1/ViewPayment"
                                         });
 
                                     },
@@ -311,7 +324,7 @@
                                 });
 
                             } else {
-                                swal("Trở về quản lí báo cáo");
+                                swal("Trở về quản lí thanh toán");
                             }
                         });
             }

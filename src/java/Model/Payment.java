@@ -18,6 +18,7 @@ public class Payment {
     private int apartmentID;
     private String status;
     private double ammount;
+    private String description;
 
     public Payment() {
     }
@@ -30,6 +31,15 @@ public class Payment {
         this.apartmentID = apartmentID;
         this.status = status;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
 
     public double getAmmount() {
         return ammount;

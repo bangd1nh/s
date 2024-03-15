@@ -57,27 +57,29 @@
                                                 <p class="text-muted">${sessionScope.loggedInUser.getEmail()}</p>
                                             </div>
                                             <div class="col-6 mb-3">
-                                                <h6>Phone</h6>
+                                                <h6>Số điện thoại</h6>
                                                 <p class="text-muted">${sessionScope.loggedInUser.getContactPhone()}</p>
                                             </div>
                                         </div>
                                         <hr class="mt-0 mb-4">
                                         <div class="row pt-1">
                                             <div class="col-6 mb-3">
-                                                <h6>Balance</h6>
+                                                <h6>Số dư ví</h6>
                                                 <p class="text-muted">${sessionScope.loggedInUser.getBalance()}</p>
                                             </div>
                                             <div class="col-6 mb-3 row">
-                                                <h6>Full Name</h6>
+                                                <h6>Họ và tên</h6>
                                                 <p class="text-muted col">${sessionScope.loggedInUser.getFristName()}</p>
                                                 <p class="text-muted col">${sessionScope.loggedInUser.getLastName()}</p>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start">
                                             <button type="button" class="btn btn-primary" id="showModalBtn">
-                                                Edit User Information
+                                                Chỉnh sửa thông tin
                                             </button>
-                                            <button class="btn btn-primary ml-1">Rut tien qua momo</button>
+                                            <button class="btn btn-primary ml-1" data-toggle="modal" data-target="#momoModal">
+                                                <i class="bi bi-credit-card-2-front"></i> Rút tiền qua Momo
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -87,6 +89,33 @@
                 </div>
             </div>
         </section>
+        <!-- Bắt đầu: Modal -->
+        <div class="modal fade" id="momoModal" tabindex="-1" role="dialog" aria-labelledby="momoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="momoModalLabel">Xác nhận số điện thoại Momo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="withdrawServlet" method="post">
+                        <div class="modal-body">
+                            <p>Vui lòng xác nhận lại số điện thoại gửi tiền qua Momo:</p>
+                            <input type="text" name="phonenumber" class="form-control" placeholder="Nhập số điện thoại" value="${sessionScope.loggedInUser.getContactPhone()}">
+                            <p class="mt-3">Nhập số tiền cần rút</p>
+                            <input type="number" name="ammount" class="form-control" >
+                            <input type="hidden" name="action" value="useraction">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Kết thúc: Modal -->
         <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

@@ -56,30 +56,30 @@
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0 thumnail-size" src="${requestScope.listingDetail.getImgsrc()}" alt="..." /></div>
                     <div class="col-md-6">
-                        <div class="small mb-1">Listing ID: ${requestScope.listingDetail.getListingID()}</div>
+                        <div class="small mb-1">ID bài viết: ${requestScope.listingDetail.getListingID()}</div>
                         <h1 class="display-5 fw-bolder">${requestScope.listingDetail.getTitle()}</h1>
                         <div class="fs-5 mb-5">
-                            <span>location: ${requestScope.listingDetail.getLocation()}</span><br>
-                            <span>contact phone: ${requestScope.listingDetail.getContactPhone()}</span><br>
-                            <span>contact email: ${requestScope.listingDetail.getContactEmail()}</span><br>
-                            <span>Landlord Name: ${requestScope.listingDetail.getUsername()}</span><br>
+                            <span>Địa chỉ: ${requestScope.listingDetail.getLocation()}</span><br>
+                            <span>số điện thoại liên lạc: ${requestScope.listingDetail.getContactPhone()}</span><br>
+                            <span>email liên lạc: ${requestScope.listingDetail.getContactEmail()}</span><br>
+                            <span>tên người cho thuê: ${requestScope.listingDetail.getUsername()}</span><br>
                         </div>
                         <p class="lead">${requestScope.listingDetail.getDescription()}</p>
                         <div class="d-flex">
                             <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="redirectToAppointment()">
                                 <i class="me-1"></i>
-                                Dat lich ngay
+                                Đặt lịch ngay
                             </button>
-                            <button class="btn btn-outline-dark flex-shrink-0" onclick="saveListingID()">save post</button>
+                            <button class="btn btn-outline-dark flex-shrink-0" onclick="saveListingID()">Lưu bài viết</button>
                         </div>
                         <div class="d-flex mt-1 row">
                             <div class="col">
-                                <p>Rating: ${requestScope.average}</p>
+                                <p>Đánh giá: ${requestScope.average}</p>
                             </div>
                             <div class="col">
-                                <p>Your Rating: ${requestScope.userRating}</p>
+                                <p>Đánh giá của bạn: ${requestScope.userRating}</p>
                             </div>
-                            <p>Rate this post:</p>
+                            <p>Đánh giá bài viết này:</p>
                             <form action="RatingServlet" method="post" id="ratingForm">
                                 <input type="radio" name="rating" value="1" class="star">
                                 <input type="radio" name="rating" value="2" class="star">
@@ -87,19 +87,19 @@
                                 <input type="radio" name="rating" value="4" class="star">
                                 <input type="radio" name="rating" value="5" class="star">
                                 <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
-                                <c:if test="${sessionScope.loggedInUser.getUserID() != null}"><input type="submit" value="Rate" class="btn btn-outline-dark"></c:if>
+                                <c:if test="${sessionScope.loggedInUser.getUserID() != null}"><input type="submit" value="Đánh giá" class="btn btn-outline-dark"></c:if>
                                 </form>
                             <c:if test="${sessionScope.loggedInUser.getUserID() != null}">
-                                <button onclick="toggleReportForm()" class="btn btn-outline-dark mt-2">Report</button>
+                                <button onclick="toggleReportForm()" class="btn btn-outline-dark mt-2">Báo cáo</button>
                             </c:if>
                             <form id="reportForm" action="ReportServlet" method="post" style="display: none;">
                                 <div class="form-group">
-                                    <label for="description">Description:</label>
+                                    <label for="description">Mô tả báo cáo:</label>
                                     <textarea class="form-control" name="description" id="description"></textarea>
                                 </div>
                                 <input type="hidden" value="${requestScope.listingDetail.getListingID()}" name="listingID">
                                 <input type="hidden" value="${sessionScope.loggedInUser.getUserID()}" name="userID">
-                                <button type="button" class="btn btn-outline-dark" onclick="submitReportForm()">Report</button>
+                                <button type="button" class="btn btn-outline-dark" onclick="submitReportForm()">Gửi báo cáo</button>
                             </form>
 
                             <script>
@@ -119,10 +119,10 @@
         </section>
         <section class="py-5 bg-light">
             <div class="container px-4 px-lg-5 mt-5">
-                <h2 class="fw-bolder mb-4">Danh sach phong</h2>
+                <h2 class="fw-bolder mb-4">Danh sách phòng</h2>
 
                 <c:if test="${empty appList}">
-                    <p>empty</p>
+                    <p>Trống</p>
                 </c:if>
                 <c:if test="${not empty appList}">
                     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -167,11 +167,11 @@
                                                     <!-- Phần thông tin bên phải -->
                                                     <div class="col-md-8">
                                                         <p>${appList.get(i).getDescription()}</p>
-                                                        <p>Location: ${appList.get(i).getLocation()}</p>
-                                                        <p>Price: ${appList.get(i).getPrice()}</p>
-                                                        <p>Bed rooms: ${appList.get(i).getBedRooms()}</p>
-                                                        <p>Bath rooms: ${appList.get(i).getBathRooms()}</p>
-                                                        <p>Area : ${appList.get(i).getArea()}</p>
+                                                        <p>Địac hỉ: ${appList.get(i).getLocation()}</p>
+                                                        <p>Giá thuê: ${appList.get(i).getPrice()}</p>
+                                                        <p>Số phòng ngủ: ${appList.get(i).getBedRooms()}</p>
+                                                        <p>Số nhà vệ sinh: ${appList.get(i).getBathRooms()}</p>
+                                                        <p>Diện tích : ${appList.get(i).getArea()} m2</p>
                                                         <!-- Thêm các dòng thông tin khác tại đây -->
                                                     </div>
                                                 </div>
@@ -194,12 +194,15 @@
                 <div class="d-flex justify-content-center row">
                     <div class="col-md-8">
                         <div class="d-flex flex-column comment-section">
-                            <c:if test="${empty commentList}">
-                                NO COMMENT!
-                            </c:if>
                             <div class="d-flex justify-content-center">
-                                <h2 class="text-uppercase">Comment</h2>
+                                <div class="text-center">
+                                    <h2 class="text-uppercase">Comment</h2>
+                                    <c:if test="${empty commentList}">
+                                        <p>Chưa có bình luận nào cả!</p>
+                                    </c:if>
+                                </div>
                             </div>
+
                             <c:if test="${not empty commentList}">
                                 <c:forEach var="i" begin="0" end="${commentList.size()-1}">
                                     <div class="bg-white p-1 rounded">
@@ -207,14 +210,15 @@
                                             <img class="rounded-circle" src="${commentList.get(i).getUserImgsrc()}" width="40" height="40" style="object-fit: cover;">
                                             <div class="d-flex flex-column justify-content-start ml-2">
                                                 <span class="d-block font-weight-bold name">${commentList.get(i).getUserName()}</span>
-                                                <span class="date text-muted">${commentList.get(i).getCommentedAt()}</span>
+                                                <fmt:formatDate value="${commentList.get(i).getCommentedAt()}" pattern="dd-MM-yyyy HH:mm" var="formattedDate" />
+                                                <span class="date text-muted">${formattedDate}</span>
                                             </div>
                                         </div>
                                         <div class="mt-2 row">
                                             <p class="comment-text col-8">${commentList.get(i).getComment()}</p>
                                             <c:if test="${commentList.get(i).getUserID() eq sessionScope.loggedInUser.getUserID()}">
-                                                <button class="btn btn-outline-dark col" type="button" onclick="showEditForm(${i})">sua binh luan</button>
-                                                <button class="btn btn-danger col" type="button" onclick="saveChanges(${i}, 'delete')">xoa binh luan</button>
+                                                <button class="btn btn-outline-dark col" type="button" onclick="showEditForm(${i})">sửa bình luận</button>
+                                                <button class="btn btn-danger col" type="button" onclick="saveChanges(${i}, 'delete')">xóa bình luận</button>
                                             </c:if>
                                         </div>
                                         <div id="editForm${i}" style="display: none;" class="mt-3">
@@ -223,10 +227,10 @@
                                                 <input type="hidden" name="commentId" value="${commentList.get(i).getCommentID()}">
                                                 <input type="hidden" name="action" value="edit">
                                                 <div class="form-group">
-                                                    <label for="editedComment">chinh sua comment tai day</label>
+                                                    <label for="editedComment">chỉnh sửa bình luận tại đây</label>
                                                     <textarea name="editedComment" id="editedComment" class="form-control" rows="4">${commentList.get(i).getComment()}</textarea>
                                                 </div>
-                                                <button type="button" onclick="saveChanges(${i}, 'edit')" class="btn btn-primary">luu</button>
+                                                <button type="button" onclick="saveChanges(${i}, 'edit')" class="btn btn-primary">lưu</button>
                                             </form>
                                         </div>                                   
                                     </div>
@@ -249,7 +253,7 @@
                                         <input type="hidden" name="userID" value="${sessionScope.loggedInUser.getUserID()}">
                                         <input type="hidden" name="listingID" value="${requestScope.listingDetail.getListingID()}">
                                         <div class="mt-2 text-right">
-                                            <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                                            <button class="btn btn-primary btn-sm shadow-none" type="submit">đăng bình luận</button>
                                         </div>
                                     </div>
                                 </form>

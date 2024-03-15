@@ -136,7 +136,7 @@
                                 <a asp-controller="Admin" asp-action="getAllJob" class="nav-link" href="ViewPayment">
                                     <i class="nav-icon fas fa-briefcase"></i>
                                     <p>
-                                        Lich su giao dich
+                                        Quản lý giao dịch
                                     </p>
                                 </a>
                             </li>

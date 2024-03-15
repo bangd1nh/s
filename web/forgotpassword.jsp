@@ -63,32 +63,25 @@ body {
 		<div class="row justify-content-center">
 			<div class="col-lg-8 col-md-10">
 				<div class="forgot">
-					<h2>Forgot your password?</h2>
-					<p>Change your password in three easy steps. This will help you
-						to secure your password!</p>
+					<h2>Quên mật khẩu ?</h2>
+					<p>Thay đổi mật khẩu của bạn trong ba bước đơn giản. Điều này sẽ giúp bạn bảo mật mật khẩu của mình!</p>
 					<ol class="list-unstyled">
-						<li><span class="text-primary text-medium">1. </span>Enter
-							your email address below.</li>
-						<li><span class="text-primary text-medium">2. </span>Our
-							system will send you an OTP to your email</li>
-						<li><span class="text-primary text-medium">3. </span>Enter the OTP on the 
-						next page</li>
+						<li><span class="text-primary text-medium">1. </span>Nhập địa chỉ email ở dưới.</li>
+						<li><span class="text-primary text-medium">2. </span>Hệ thống của chúng tôi sẽ gửi một mã OTP đến email của bạn</li>
+						<li><span class="text-primary text-medium">3. </span>Nhập mã OTP ở trang tiếp theo</li>
 					</ol>
 				</div>
 				<form class="card mt-4" action="ForgotPasswordServlet" method="POST">
 					<div class="card-body">
 						<div class="form-group">
-							<label for="email-for-pass">Enter your email address</label> <input
+							<label for="email-for-pass">Nhập địa chỉ Email</label> <input
 								class="form-control" type="text" name="email" id="email-for-pass" required=""><small
-								class="form-text text-muted">Enter the registered email address . Then we'll
-								email a OTP to this address.</small>
+								class="form-text text-muted">Nhập email đã đăng kí và chúng tôi sẽ gửi mã OTP đến email đó.</small>
 						</div>
 					</div>
 					<div class="card-footer">
-						<button class="btn btn-success" type="submit">Get New
-							Password</button>
-						<button class="btn btn-danger" type="submit">Back to
-							Login</button>
+						<button class="btn btn-success" type="submit">Lấy mật khẩu mới</button>
+						<button class="btn btn-danger" type="submit">quay lại trang đăng nhập</button>
 					</div>
 				</form>
 			</div>

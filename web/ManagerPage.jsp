@@ -43,8 +43,8 @@
     <body>
         <header><%@include file="header.jsp" %></header>
         <section>
-            <h1>Listing manger</h1>
             <div class="container px-4 px-lg-5 mt-5">
+                <h1 class="text-center m-3">Quản lý bài đăng</h1>
                 <div class="row gx-5">
                     <c:if test="${empty list}">
                         <p>empty</p>
@@ -55,7 +55,7 @@
                                 <div class="card h-100 shadow border-0">
                                     <img class=" custom-size img-fluid" src="${list.get(i).getImgsrc()}" alt="..." />
                                     <div class="card-body p-4">
-                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">Listing ID:${list.get(i).getListingID()}</div>
+                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">ID bài viết:${list.get(i).getListingID()}</div>
                                         <a class="text-decoration-none link-dark stretched-link" href="EditServlet?listingID=${list.get(i).getListingID()}&username=${list.get(i).getUsername()}"><h5 class="card-title mb-3">${list.get(i).getTitle()}</h5></a>
                                         <p class="card-text mb-0">${list.get(i).getLocation()}</p>
                                     </div>
@@ -67,7 +67,8 @@
                                                     <div class="fw-bold">
                                                         ${list.get(i).getUsername()}
                                                     </div>
-                                                    <div class="text-muted">${list.get(i).getCreateAt()}</div>
+                                                    <fmt:formatDate value="${list.get(i).getCreateAt()}" pattern="dd-MM-yyyy HH:mm" var="formattedDate" />
+                                                    <div class="text-muted">${formattedDate}</div>
                                                 </div>
                                             </div>
                                         </div>
