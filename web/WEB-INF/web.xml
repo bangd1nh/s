@@ -164,6 +164,10 @@
         <servlet-name>withdrawServlet</servlet-name>
         <servlet-class>Controller.withdrawServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConfirmEmailServlet</servlet-name>
+        <servlet-class>Controller.ConfirmEmailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -327,6 +331,10 @@
     <servlet-mapping>
         <servlet-name>withdrawServlet</servlet-name>
         <url-pattern>/withdrawServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmEmailServlet</servlet-name>
+        <url-pattern>/ConfirmEmailServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -7,7 +7,6 @@ package Controller;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-public class withdrawServlet extends HttpServlet {
+public class ConfirmEmailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +36,10 @@ public class withdrawServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet withdrawServlet</title>");
+            out.println("<title>Servlet ConfirmEmailServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet withdrawServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ConfirmEmailServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -72,40 +71,21 @@ public class withdrawServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
-        if (action.equalsIgnoreCase("useraction")) {
-            HttpSession session = request.getSession();
-            User u = (User) session.getAttribute("loggedInUser");
-            int userID = u.getUserID();
-            double userammount = u.getBalance();
-            String phonenumber = request.getParameter("phonenumber");
-            double ammount = Double.parseDouble(request.getParameter("ammount"));
-            long createdAt = System.currentTimeMillis();
-            Timestamp transactionDate = new Timestamp(createdAt);
-            if (DAO.PaymentDAL.InsertPayment(userID, transactionDate, "pending", ammount, "withdraw_" + phonenumber)) {
-                if (DAO.UserDAL.updateBalance(userID, userammount - ammount)) {
-                    request.setAttribute("message", "tạo đơn rút tiền thành công");
-                } else {
-                    request.setAttribute("message", "trừ tiền thất bại");
-                }
-            } else {
-                request.setAttribute("message", "tạo đơn rút tiền thất bại");
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("tk");
+        int otpEmail = (int) session.getAttribute("otp");
+        int otp = Integer.parseInt(request.getParameter("verificationCode"));
+        if (otpEmail == otp) {
+            if (DAO.UserDAL.InsertUser(u)) {
+                request.setAttribute("message", "đăng ký thàn công");
+            }else{
+                request.setAttribute("message", "đăng ký thất bại");
             }
             request.getRequestDispatcher("ListingsServlet").forward(request, response);
-        } else if (action.equalsIgnoreCase("adminaction")) {
-            String status = request.getParameter("status");
-            int transactionID = Integer.parseInt(request.getParameter("transactionID"));
-            if(status.equalsIgnoreCase("cancel")){
-                int userID = DAO.PaymentDAL.getUserID(transactionID);
-                double userBalance = DAO.UserDAL.getUserBalance(userID);
-                double ammount = DAO.PaymentDAL.getAmmountByID(transactionID);
-                DAO.UserDAL.updateBalance(userID, userBalance+ammount);
-                DAO.PaymentDAL.updateStatus(status, transactionID);
-            }else{
-                DAO.PaymentDAL.updateStatus(status, transactionID);
-            }
+        }else{
+            request.setAttribute("message","wrong otp");
+            request.getRequestDispatcher("ListingsServlet").forward(request, response);
         }
-
     }
 
     /**

@@ -27,6 +27,8 @@ public class UserDAL {
     private static final String LOGINWITHEMAIL = "SELECT * FROM.[Users] where Email=?";
     private static final String UPDATEPASSWORD = "UPDATE Users Set Password=? where Email=?";
     private static final String UPDATEBALANCE = "UPDATE Users Set Balance = ? where UserID = ?";
+    private static final String GETUSERBALANCE = "Select Balance from Users where UserID = ?";
+    private static final String CHECKEMAIL = "Select Email from Users where Email = ?";
 
     public static User userLogin(String email, String password) {
         PreparedStatement ptm = null;
@@ -260,7 +262,42 @@ public class UserDAL {
         }
         return false;
     }
-
+    public static double getUserBalance(int userID) {
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        double userName = 0;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETUSERBALANCE);
+                ptm.setInt(1, userID);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    userName = rs.getDouble("Balance");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userName;
+    }
+    
+    public static boolean checkExistedEmail(String email){
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try(Connection con = DBconnection.getConnection()){
+            if(con!=null){
+                ptm = con.prepareStatement(CHECKEMAIL);
+                ptm.setString(1, email);
+                rs = ptm.executeQuery();
+                if(rs.next()){
+                    return true;
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
     public static void main(String[] args) {
         User resultList = getUser(31);
         System.out.println("failed" + resultList.toString());
