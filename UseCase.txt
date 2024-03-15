@@ -1,0 +1,22 @@
+(User)
+Login,Login với google,quên mật khẩu
+đăng ký,verify email, logout
+xem,sửa profile
+xem lịch sử giao dịch
+yêu cầu rút tiền
+báo cáo bài viết
+crud comment
+đánh giá
+lưu bài viết
+search
+(thuê)
+tạo,xem hợp đồng đặt cọc
+thanh toán hợp đồng bằng vnpay
+đặt lịch hẹn
+(Cho thuê)
+crud bài viết
+crud phòng trọ
+(Admin)
+quản lý bài viết
+quản lý thanh toán
+quản lý báo cáo
