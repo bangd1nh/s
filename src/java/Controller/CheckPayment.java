@@ -74,7 +74,7 @@ public class CheckPayment extends HttpServlet {
                             if (DAO.PaymentDAL.InsertPayment(u.getUserID(), conID, transactionDate, propertyID, "success", DAO.PaymentDAL.getAmmount(propertyID),"VnPayAdmin")) {
                                 if (DAO.ConstractDAL.updateStatusContractByPID("Active", propertyID)) {
                                     DAO.ApartmentInfoDAL.updatestatus(propertyID);
-                                    DAO.UserDAL.updateBalance(u.getUserID(), DAO.PaymentDAL.getAmmount(propertyID));
+                                    DAO.UserDAL.updateBalance(DAO.ApartmentInfoDAL.getUserIDByPropertyID(propertyID), DAO.PaymentDAL.getAmmount(propertyID));
                                     request.setAttribute("message", "thanh toan thanh cong");
                                 } else {
                                     request.setAttribute("message", "insert hop dong taht bai");

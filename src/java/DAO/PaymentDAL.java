@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class PaymentDAL {
 
-    private static final String INSERTCONTRACT = "INSERT INTO Transactions (UserID, ContractID, TransactionDate, ApartmentID, Status,Ammount,Description) VALUES (?,?,?,?,?,?);";
+    private static final String INSERTCONTRACT = "INSERT INTO Transactions (UserID, ContractID, TransactionDate, ApartmentID, Status,Ammount,Description) VALUES (?,?,?,?,?,?,?);";
     private static final String GETCONTRACTID = "Select Contracts.ContractID from Contracts join Users on Users.UserID = Contracts.TenantID where PropertyID = ?";
     private static final String GETALLPAYMENT = "select * from Transactions";
     private static final String GETTOTALPAYMENT = "select COUNT(*) from Transactions";
@@ -121,6 +121,7 @@ public class PaymentDAL {
         try ( Connection con = DBconnection.getConnection()) {
             if (con != null) {
                 ptm = con.prepareStatement(GETAMMOUNT);
+                ptm.setInt(1, appID);
                 rs = ptm.executeQuery();
                 if (rs.next()) {
                     count = rs.getInt(1);

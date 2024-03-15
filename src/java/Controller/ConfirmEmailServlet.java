@@ -84,7 +84,7 @@ public class ConfirmEmailServlet extends HttpServlet {
             request.getRequestDispatcher("ListingsServlet").forward(request, response);
         }else{
             request.setAttribute("message","wrong otp");
-            request.getRequestDispatcher("ListingsServlet").forward(request, response);
+            request.getRequestDispatcher("verify.jsp").forward(request, response);
         }
     }
 

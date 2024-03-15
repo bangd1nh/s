@@ -21,6 +21,8 @@ public class ApartmentInfoDAL {
     private static final String UPDATESTATUS="UPDATE Apartmentinfo SET Status = ? where ListingID=? and ApartmentID=?;";
     private static final String UPLOADAPARTMENTINFO = "INSERT INTO Apartmentinfo (Title,Description,Location,Price,Area,Bedrooms,Bathrooms,LandlordID,ListingID,imgsrc,Status) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
     private static final String UPDATESTATUSBYPID="UPDATE Apartmentinfo SET Status = ? where ApartmentID=?;";
+    private static final String GETUSERIDBYPROPERTYID = "Select LandlordID from ApartmentInfo where ApartmentID = ?";
+    
     public static ArrayList<ApartmentInfo> getApartmentInfobyID(int listingsID) {
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -106,6 +108,25 @@ public class ApartmentInfoDAL {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public static int getUserIDByPropertyID(int ApartmentID){
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        int userID = 0;
+        try ( Connection con = DBconnection.getConnection()) {
+            if (con != null) {
+                ptm = con.prepareStatement(GETUSERIDBYPROPERTYID);
+                ptm.setInt(1, ApartmentID);
+                rs = ptm.executeQuery();
+                if(rs.next()){
+                    userID = rs.getInt("LandlordID");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userID;
     }
     
     public static void main(String[] args) {

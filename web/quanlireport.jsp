@@ -324,7 +324,7 @@
                                                           if (willDelete) {
                                                               $.ajax({
                                                                   type: "POST",
-                                                                  url: "/WebApplication1/DeleteListingServlet?ListingID=" + id,
+                                                                  url: "/WebApplication1/DeleteListingServlet?ListingID=" + id +"&action=delete",
                                                                   success: function (response) {
                                                                       swal("Bạn đã xóa bài đăng thành công", {
                                                                           icon: "success",

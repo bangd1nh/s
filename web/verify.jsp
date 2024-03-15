@@ -18,23 +18,37 @@
         <!-- Thư viện Bootstrap CSS (đặt trong thẻ head) -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href="styles.css" rel="stylesheet" />
+        <script type="text/javascript">
+            // Hàm kiểm tra và hiển thị popup
+            function showPopup() {
+                var message = '<%= request.getAttribute("message")%>';
+                if (message && message !== 'null') {
+                    alert(message);
+                }
+            }
+
+            // Gọi hàm showPopup khi trang JSP được tải
+            window.onload = function () {
+                showPopup();
+            };
+        </script>
     </head>
     <body>
+
         <section>
             <div class="container">
-                <form action="ConfirmEmailServlet" method="post">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="verificationCode" placeholder="Email" name="email" value="${tk.getEmail()}" readlonly>
-                        <label for="verificationCode">Email</label>
+                <form action="ConfirmEmailServlet" method="post" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Email" name="email" value="${sessionScope.tk.getEmail()}" readonly required>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="verificationCode" placeholder="Mã xác nhận" name="verificationCode">
-                        <label for="verificationCode">Mã xác nhận</label>
+                    <div class="mb-3">
+                        <label for="verificationCode" class="form-label">Mã xác nhận</label>
+                        <input type="text" class="form-control" id="verificationCode" placeholder="Mã xác nhận" name="verificationCode" required>
                     </div>
-                    <div class="d-grid">
-                        <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Xác nhận</button>
-                    </div>
+                    <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Xác nhận</button>
                 </form>
+                    <a href="ListingsServlet">trở lại trang chủ</a>
             </div>
         </section>
 
