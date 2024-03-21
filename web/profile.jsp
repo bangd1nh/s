@@ -42,14 +42,14 @@
                                 <div class="col-md-4 gradient-custom text-center text-white"
                                      style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                                     <img src="${sessionScope.loggedInUser.getImgsrc()}"
-                                         alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                                         alt="Avatar" class="img-fluid my-5 rounded" style="width: 150px; height: 150px; object-fit: cover" />
                                     <h5>${sessionScope.loggedInUser.getUserName()}</h5>
                                     <p>${sessionScope.loggedInUser.getUserType()}</p>
                                     <i class="far fa-edit mb-5"></i>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body p-4">
-                                        <h6>Information</h6>
+                                        <h6>Thông tin cá nhân</h6>
                                         <hr class="mt-0 mb-4">
                                         <div class="row pt-1">
                                             <div class="col-6 mb-3">
@@ -102,7 +102,7 @@
                     <form action="withdrawServlet" method="post">
                         <div class="modal-body">
                             <p>Vui lòng xác nhận lại số điện thoại gửi tiền qua Momo:</p>
-                            <input type="text" name="phonenumber" class="form-control" placeholder="Nhập số điện thoại" value="${sessionScope.loggedInUser.getContactPhone()}">
+                            <input type="text" name="phonenumber" class="form-control" placeholder="Nhập số điện thoại" value="${sessionScope.loggedInUser.getContactPhone()}" readonly>
                             <p class="mt-3">Nhập số tiền cần rút</p>
                             <input type="number" name="ammount" class="form-control" >
                             <input type="hidden" name="action" value="useraction">
@@ -120,7 +120,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editUserModalLabel">Edit User Information</h5>
+                        <h5 class="modal-title" id="editUserModalLabel">Chỉnh sửa thông tin cá nhân</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -136,23 +136,23 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email:</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="${sessionScope.loggedInUser.getEmail()}">
+                                    <input type="email" class="form-control" id="email" name="email" value="${sessionScope.loggedInUser.getEmail()}" readonly>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="contactPhone" class="form-label">Contact Phone:</label>
+                                    <label for="contactPhone" class="form-label">Số điện thoại:</label>
                                     <input type="text" class="form-control" id="contactPhone" name="contactPhone" value="${sessionScope.loggedInUser.getContactPhone()}">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="firstName" class="form-label">First Name:</label>
-                                    <input type="text" class="form-control" id="firstName" name="firstName" value="${sessionScope.loggedInUser.getFristName()}">
+                                    <label for="firstName" class="form-label">Họ:</label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" value="${sessionScope.loggedInUser.getFristName()}" readonly>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="lastName" class="form-label">Last Name:</label>
-                                    <input type="text" class="form-control" id="lastName" name="lastName" value="${sessionScope.loggedInUser.getLastName()}">
+                                    <label for="lastName" class="form-label">Tên:</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" value="${sessionScope.loggedInUser.getLastName()}" readonly>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="submit" class="btn btn-primary">Lưu chỉnh sửa</button>
                             </div>
                         </form>
                     </div>

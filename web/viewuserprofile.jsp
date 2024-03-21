@@ -18,7 +18,18 @@
         <!-- Thư viện Bootstrap CSS (đặt trong thẻ head) -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href="styles.css" rel="stylesheet" />
+        <style>
+            .gradient-custom {
+                /* fallback for old browsers */
+                background: #f6d365;
 
+                /* Chrome 10-25, Safari 5.1-6 */
+                background: -webkit-linear-gradient(to right bottom, rgba(32, 117, 217, 1), rgba(32, 117, 217, 1));
+
+                /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                background: linear-gradient(to right bottom, rgba(32, 117, 217, 1), rgba(10, 60, 117, 1))
+            }
+        </style>
     </head>
     <body>
         <header> <%@include file="header.jsp"%></header>
@@ -31,7 +42,7 @@
                                 <div class="col-md-4 gradient-custom text-center text-white"
                                      style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                                     <img src="${requestScope.viewUser.getImgsrc()}"
-                                         alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                                         alt="Avatar" class="img-fluid my-5 rounded" style="width: 150px; height: 150px;object-fit: cover" />
                                     <h5>${requestScope.viewUser.getUserName()}</h5>
                                     <p>${requestScope.viewUser.getUserType()}</p>
                                     <i class="far fa-edit mb-5"></i>
@@ -54,7 +65,7 @@
                                         <div class="row pt-1">
                                             <div class="col-6 mb-3">
                                                 <h6>Số dư ví</h6>
-                                                <p class="text-muted">${requestScope.viewUser.getBalance()}</p>
+                                                <p class="text-muted">######</p>
                                             </div>
                                             <div class="col-6 mb-3 row">
                                                 <h6>Họ và tên</h6>

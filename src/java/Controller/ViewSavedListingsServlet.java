@@ -7,8 +7,8 @@ package Controller;
 import Model.Listings;
 import Model.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -33,29 +33,6 @@ public class ViewSavedListingsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User u = (User) session.getAttribute("loggedInUser");
-        Cookie[] cookies = request.getCookies();
-        int userID = u.getUserID();
-        String[] savedListings = new String[99];
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("c_"+userID)) {
-                    // Parse the value of the "savedListings" cookie
-                    savedListings = cookie.getValue().split(":");
-                }
-            }
-        }
-
-        // Add your logic here for further processing
-            ArrayList<Listings> l = new ArrayList<>();
-            for(String s : savedListings){
-                l.add(DAO.ListingsDAL.getSavedListingsByID(Integer.parseInt(s)));
-            }
-            request.setAttribute("list", l);
-            request.setAttribute("message", l.toString());
-        // Send a response if needed
-        request.getRequestDispatcher("ListingsServlet").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -71,27 +48,29 @@ public class ViewSavedListingsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if(session.getAttribute("loggedInUser")!=null){
-        User u = (User) session.getAttribute("loggedInUser");
-        Cookie[] cookies = request.getCookies();
-        int userID = u.getUserID();
-        String[] savedListings = new String[99];
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("c_"+userID)) {
-                    // Parse the value of the "savedListings" cookie
-                    savedListings = cookie.getValue().split(":");
+        if (session.getAttribute("loggedInUser") != null) {
+            User u = (User) session.getAttribute("loggedInUser");
+            Cookie[] cookies = request.getCookies();
+            int userID = u.getUserID();
+            String[] savedListings = new String[99];
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("c_" + userID)) {
+                        // Parse the value of the "savedListings" cookie
+                        savedListings = cookie.getValue().split(":");
+                    }
+                }
+                if (!Arrays.asList(savedListings).contains(null)) {
+                    ArrayList<Listings> l = new ArrayList<>();
+                    for (String s : savedListings) {
+                        l.add(DAO.ListingsDAL.getSavedListingsByID(Integer.parseInt(s)));
+                    }
+                    request.setAttribute("list", l);
+                }else{
+                    request.setAttribute("message", "bạn chưa lưu bài viết nào");
                 }
             }
-        }
-
-        // Add your logic here for further processing
-            ArrayList<Listings> l = new ArrayList<>();
-            for(String s : savedListings){
-                l.add(DAO.ListingsDAL.getSavedListingsByID(Integer.parseInt(s)));
-            }
-            request.setAttribute("list", l);
-        }else{
+        } else {
             request.setAttribute("message", "vui long dang nhap");
         }
         // Send a response if needed

@@ -77,13 +77,12 @@ public class withdrawServlet extends HttpServlet {
             HttpSession session = request.getSession();
             User u = (User) session.getAttribute("loggedInUser");
             int userID = u.getUserID();
-            double userammount = u.getBalance();
             String phonenumber = request.getParameter("phonenumber");
             double ammount = Double.parseDouble(request.getParameter("ammount"));
             long createdAt = System.currentTimeMillis();
             Timestamp transactionDate = new Timestamp(createdAt);
             if (DAO.PaymentDAL.InsertPayment(userID, transactionDate, "pending", ammount, "withdraw_" + phonenumber)) {
-                if (DAO.UserDAL.updateBalance(userID, userammount - ammount)) {
+                if (DAO.UserDAL.updateBalance(userID, - ammount)) {
                     request.setAttribute("message", "tạo đơn rút tiền thành công");
                 } else {
                     request.setAttribute("message", "trừ tiền thất bại");

@@ -6,6 +6,7 @@ package Controller;
 
 import Model.ApartmentInfo;
 import Model.Listings;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -16,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -50,10 +52,20 @@ public class AppointmentServlet extends HttpServlet {
             throws ServletException, IOException {
         int listingID = Integer.parseInt(request.getParameter("listingID"));
         Listings l = DAO.ListingsDAL.getListingsByID(listingID);
-        request.setAttribute("listingDetail", l);
-        ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
-        request.setAttribute("appList", appList);
-        request.getRequestDispatcher("apointments.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("loggedInUser");
+        if (u.getUserType().equalsIgnoreCase("Tenant")) {
+            request.setAttribute("listingDetail", l);
+            ArrayList<ApartmentInfo> appList = DAO.ApartmentInfoDAL.getApartmentInfobyID(listingID);
+            request.setAttribute("appList", appList);
+            request.getRequestDispatcher("apointments.jsp").forward(request, response);
+        }else if(u.getUserType().equalsIgnoreCase("Landlord")){
+            request.setAttribute("message", "tính năng này chỉ được hỗ trợ cho người thuê");
+            request.getRequestDispatcher("ListingsServlet").forward(request, response);
+        }else{
+            request.setAttribute("message", "vui lòng đăng nhập");
+            request.getRequestDispatcher("loginform.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -67,7 +79,7 @@ public class AppointmentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int listingID =Integer.parseInt(request.getParameter("listingID"));
+        int listingID = Integer.parseInt(request.getParameter("listingID"));
         String appointmentDate = request.getParameter("appointmentdate");
         String appointmentTime = request.getParameter("appointmenttime");
         String dateTimeString = appointmentDate + " " + appointmentTime;
@@ -79,9 +91,9 @@ public class AppointmentServlet extends HttpServlet {
         String roomSelect = request.getParameter("roomSelect");
         int landLordID = Integer.parseInt(request.getParameter("landlordID"));
         int userID = DAO.UserDAL.getUserIDByname(userName);
-        if(DAO.AppointmentDAL.insertAppointment(listingID, userID, timestamp, contactPhone,roomSelect,landLordID)){
+        if (DAO.AppointmentDAL.insertAppointment(listingID, userID, timestamp, contactPhone, roomSelect, landLordID)) {
             request.setAttribute("message", "dat lich hen thanh cong");
-        }else{
+        } else {
             request.setAttribute("messagae", "dat lich hen that bai");
         }
         request.getRequestDispatcher("ListingsServlet").forward(request, response);

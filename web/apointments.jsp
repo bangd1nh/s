@@ -68,7 +68,7 @@
                                 <div class="container px-4 px-lg-5 my-5">
                                     <div class="mb-3">
                                         <label for="contactphone" class="form-label">số điện thoại liên lạc</label>
-                                        <input type="tel" id="contactphone" name="contactphone" placeholder="số điện thoại" class="form-control">
+                                        <input type="tel" id="contactphone" name="contactphone" placeholder="số điện thoại" class="form-control" value="${sessionScope.loggedInUser.getContactPhone()}" readonly>
                                     </div>
                                     <div class="mb-3">
                                         <label for="username" class="form-label">Tên người thuê</label>

@@ -19,9 +19,6 @@ public class LoginGoogleServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    public LoginGoogleServlet() {
-        super();
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

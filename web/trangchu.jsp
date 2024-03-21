@@ -79,7 +79,7 @@
                                     <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                                         <div class="d-flex align-items-end justify-content-between">
                                             <div class="d-flex align-items-center">
-                                                <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
+                                                <img class="rounded-circle me-3" src="${list.get(i).getAvatar()}" style="height: 40px;width: 40px;object-fit: cover;" alt="..." />
                                                 <div class="small">
                                                     <div class="fw-bold">
                                                         ${list.get(i).getUsername()}

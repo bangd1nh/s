@@ -66,8 +66,7 @@
                         </div>
                         <p class="lead">${requestScope.listingDetail.getDescription()}</p>
                         <div class="d-flex">
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="redirectToAppointment()">
-                                <i class="me-1"></i>
+                            <button class="btn btn-outline-dark flex-shrink-0"onclick="redirectToAppointment()">
                                 Đặt lịch ngay
                             </button>
                             <button class="btn btn-outline-dark flex-shrink-0" onclick="saveListingID()">Lưu bài viết</button>
@@ -178,7 +177,9 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" id="thuephong" class="btn btn-success" onclick="thuephongclick()" data-dismiss="modal" >Thuê Phòng</button>
+                                            <c:if test="${appList.get(i).getStatus() == 'Rentable' && sessionScope.loggedInUser.getUserType() == 'Tenant'}">
+                                                <button type="button" id="thuephong" class="btn btn-success" onclick="thuephongclick(${appList.get(i).getApartmentID()})" data-dismiss="modal" >Thuê Phòng</button>
+                                            </c:if>
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                         </div>
                                     </div>
@@ -287,10 +288,9 @@
             // Gọi servlet để lưu cookie
             window.location.href = "SaveListingServlet?listingID=" + listingID + "&userID=" + ${sessionScope.loggedInUser.getUserID()};
         }
-        function thuephongclick() {
+        function thuephongclick(apartmentID) {
         <c:if test="${not empty listingDetail && not empty appList}">
-            window.location.href = "ConstractServlet?listingId=" + ${requestScope.listingDetail.getListingID()} + "&aprtementID=" +${appList.get(i).getApartmentID()};
-//            window.location.href = "constractdetail.jsp?listingId="+${requestScope.listingDetail.getListingID()};
+            window.location.href = "ConstractServlet?listingId=" + ${requestScope.listingDetail.getListingID()} + "&aprtementID=" + apartmentID;
         </c:if>
         }
         function showEditForm(index) {

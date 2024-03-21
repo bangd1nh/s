@@ -26,7 +26,7 @@ public class UserDAL {
     private static final String LOGINEMAIL = "INSERT INTO Users (Email,Username) Values(?,?)";
     private static final String LOGINWITHEMAIL = "SELECT * FROM.[Users] where Email=?";
     private static final String UPDATEPASSWORD = "UPDATE Users Set Password=? where Email=?";
-    private static final String UPDATEBALANCE = "UPDATE Users Set Balance = ? where UserID = ?";
+    private static final String UPDATEBALANCE = "UPDATE Users Set Balance = Balance + ? where UserID = ?";
     private static final String GETUSERBALANCE = "Select Balance from Users where UserID = ?";
     private static final String CHECKEMAIL = "Select Email from Users where Email = ?";
 

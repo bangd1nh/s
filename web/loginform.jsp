@@ -45,7 +45,7 @@
                                 <hr class="my-4">
                                 <div class="d-grid mb-2">
                                     <button class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
-                                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/WebApplication1/login-google&response_type=code&client_id=578581362821-kej6i0hgbl4987ff6ip8dkbmlatur1f3.apps.googleusercontent.com&approval_prompt=force"> Đăng nhập bằng GOOGLE </a>
+                                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/WebApplication1/login-google&response_type=code&client_id=657318176100-qm7k7idfmntt7vvqa59nve0ntaue4db3.apps.googleusercontent.com&approval_prompt=force"> Đăng nhập bằng GOOGLE </a>
                                     </button>
                                 </div>
                                 ${requestScope.loginMessage}

@@ -123,6 +123,7 @@ public class ListingsDAL {
                     l.setLocation(rs.getString("Location"));
                     l.setLandlordID(rs.getInt("LandlordID"));
                     l.setUsername(rs.getString("UserName"));
+                    l.setAvatar(rs.getString(20));
                     list.add(l);
                 }
             }

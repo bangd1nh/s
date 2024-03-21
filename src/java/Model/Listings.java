@@ -23,6 +23,7 @@ public class Listings {
     private String description;
     private String username;
     private String status;
+    private String avatar;
     
     public Listings() {
     }
@@ -40,6 +41,14 @@ public class Listings {
         this.username = username;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+    
     public String getStatus() {
         return status;
     }

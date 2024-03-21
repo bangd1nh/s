@@ -71,9 +71,12 @@ public class UpdateDepositStatus extends HttpServlet {
             throws ServletException, IOException {
         int constractID = Integer.parseInt(request.getParameter("constractID"));
         String status = request.getParameter("status");
+        int propertyID = Integer.parseInt(request.getParameter("propertyID"));
         if (!status.equalsIgnoreCase("VnPay")) {
             if (DAO.ConstractDAL.updateStatusContract(status, constractID)) {
-                request.setAttribute("message", "da gui phan hoi");
+                if(DAO.ApartmentInfoDAL.updatestatus(propertyID)){
+                    request.setAttribute("message", "da gui phan hoi");
+                }
             } else {
                 request.setAttribute("message", "gui phan hoi that bai");
             }
